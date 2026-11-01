@@ -27,6 +27,7 @@ import {
   type ShortcutProviderProps,
 } from "@/components/ui/shortcuts";
 import { HamburgerMenuIcon } from "@/components/ui/icons/hamburger-menu";
+import { CrossIcon } from "@/components/ui/icons/cross";
 import { SearchIcon } from "@/components/ui/icons/search";
 import {
   useControllableState,
@@ -87,6 +88,8 @@ interface DeskShellLabels {
   goTo: string;
   /** Accessible name of the `DeskTabs` landmark. */
   tabs: string;
+  /** Builds the accessible name of a tab's ✕ from its label. */
+  closeTab: string;
 }
 
 const DEFAULT_LABELS: DeskShellLabels = {
@@ -96,6 +99,7 @@ const DEFAULT_LABELS: DeskShellLabels = {
   search: "Search…",
   goTo: "Go to {label}",
   tabs: "Section tabs",
+  closeTab: "Close {label}",
 };
 
 interface DeskShellContextValue {
@@ -576,9 +580,16 @@ interface DeskTabProps extends useRender.ComponentProps<"a"> {
   commandTitle?: string;
   /** Extra palette search terms. */
   keywords?: string[];
+  /** Shows a ✕ after the tab that calls this, for tabs the officer opened and can close. */
+  onClose?: ComponentProps<"button">["onClick"];
+  /** Accessible name of the ✕. Defaults to "Close {label}" (`labels.closeTab` on `DeskShell`). */
+  closeLabel?: string;
 }
 
-/** One tab. Renders an `<a>`; pass `render` for your router's link. */
+/**
+ * One tab. Renders an `<a>`; pass `render` for your router's link.
+ * With `onClose` the link and its ✕ sit side by side in a wrapper that carries the underline.
+ */
 const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
   (
     {
@@ -589,11 +600,14 @@ const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
       combo,
       commandTitle,
       keywords,
+      onClose,
+      closeLabel,
       children,
       ...props
     },
     forwardedRef,
   ) => {
+    const labels = useContext(DeskShellContext)?.labels ?? DEFAULT_LABELS;
     const innerRef = useRef<HTMLAnchorElement>(null);
     const ref = useMergedRefs(innerRef, forwardedRef);
     const label = labelProp ?? (typeof children === "string" ? children : "");
@@ -607,10 +621,14 @@ const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
       props: mergeProps<"a">(
         {
           className: clx(
-            "flex shrink-0 items-center border-b-2 border-transparent px-2 no-underline",
+            "flex shrink-0 items-center px-2 no-underline",
             "text-txt-black-700 text-label-md font-medium whitespace-nowrap",
             "hover:text-txt-black-900 transition-colors duration-150 motion-reduce:transition-none focus-ring",
-            "data-[active]:border-txt-primary data-[active]:text-txt-primary",
+            "data-[active]:text-txt-primary",
+            // The wrapper carries the underline when there is a ✕
+            onClose
+              ? "self-stretch pr-1"
+              : "border-b-2 border-transparent data-[active]:border-txt-primary",
             className,
           ),
           ...(isActive && {
@@ -623,11 +641,33 @@ const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
       ),
     });
 
-    if (!combo) return element;
-    return (
+    const link = combo ? (
       <ShortcutTooltip label={label || children} combo={combo} side="bottom">
         {element}
       </ShortcutTooltip>
+    ) : (
+      element
+    );
+    if (!onClose) return link;
+
+    return (
+      <span
+        data-active={isActive ? "" : undefined}
+        className="data-[active]:border-txt-primary flex shrink-0 items-center border-b-2 border-transparent pr-1"
+      >
+        {link}
+        <button
+          type="button"
+          aria-label={
+            closeLabel ??
+            (label ? labels.closeTab.replace("{label}", label) : "Close")
+          }
+          className="text-txt-black-500 hover:text-txt-black-900 hover:bg-bg-washed-active focus-ring inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-sm transition-colors duration-150 motion-reduce:transition-none"
+          onClick={onClose}
+        >
+          <CrossIcon className="size-3.5" aria-hidden />
+        </button>
+      </span>
     );
   },
 );
