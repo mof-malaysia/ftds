@@ -146,6 +146,45 @@ export function SettingsTabs({ current }: { current: string }) {
 }
 ```
 
+Tabs the officer opens and closes, such as open cases, take an `onClose`: it shows a ✕ after the tab, named "Close {label}" (`labels.closeTab`, or `closeLabel` on the tab). After closing the active tab, move to a neighbour.
+
+```tsx
+import { DeskTab, DeskTabs } from "@/components/ui/desk-shell";
+
+type OpenCase = { id: string; ref: string };
+
+export function OpenCaseTabs({
+  cases,
+  current,
+  onSelect,
+  onClose,
+}: {
+  cases: OpenCase[];
+  current: string;
+  onSelect: (id: string) => void;
+  onClose: (id: string) => void;
+}) {
+  return (
+    <DeskTabs aria-label="Open cases">
+      {cases.map((item) => (
+        <DeskTab
+          key={item.id}
+          href={`/cases/${item.id}`}
+          isActive={current === item.id}
+          onClick={(event) => {
+            event.preventDefault();
+            onSelect(item.id);
+          }}
+          onClose={() => onClose(item.id)}
+        >
+          {item.ref}
+        </DeskTab>
+      ))}
+    </DeskTabs>
+  );
+}
+```
+
 A rail item can also run an action instead of navigating. Hooks such as `useShortcutActions` need the shortcut layer, so call them in a component rendered inside `DeskShell`:
 
 ```tsx
@@ -172,5 +211,5 @@ export function ShortcutsRailItem() {
 - Don't give two items the same `combo`, and don't use a combo that starts another (`g` and `g c`): a sequence fires as soon as it matches.
 - Below `mobileBreakpoint` (768px by default) the rail becomes a left drawer with labelled rows; `DeskRailTrigger` opens it and renders nothing on wide screens. Control the drawer with `railOpen` and `onRailOpenChange`.
 - `DeskSearchTrigger` opens the command palette (⌘K on macOS, Ctrl K elsewhere). `DeskStatusItem` is static text; pass `render={<button type="button" />}` to make it act, or use it as a `MenuTrigger`'s `render` to open a menu. `tone` adds a status dot; `warning` and `danger` also colour the text.
-- Translate the shell's text with `labels` (`rail`, `openNavigation`, `navigationGroup`, `search`, `goTo`, where `goTo` keeps the `{label}` placeholder, for example `"Pergi ke {label}"`). Translate the palette and cheat sheet with `shortcuts={{ labels: { ... } }}`.
+- Translate the shell's text with `labels` (`rail`, `openNavigation`, `navigationGroup`, `search`, `goTo`, `tabs`, `closeTab`, where `goTo` and `closeTab` keep the `{label}` placeholder, for example `"Pergi ke {label}"` and `"Tutup {label}"`). Translate the palette and cheat sheet with `shortcuts={{ labels: { ... } }}`.
 - `useDeskShell()` reads the shell's state (`isMobile`, `railOpen`, `setRailOpen`) and throws outside `DeskShell`.

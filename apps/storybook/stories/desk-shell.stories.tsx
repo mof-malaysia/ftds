@@ -442,6 +442,81 @@ export const Default = createRender(() => <Demo />);
 /** Section tabs in the top bar, each with its own `g`-sequence. */
 export const WithTabs = createRender(() => <Demo initialSection="settings" />);
 
+const OPEN_CASES = [
+  { id: "c-1042", ref: "KES-1042" },
+  { id: "c-1057", ref: "KES-1057" },
+  { id: "c-1063", ref: "KES-1063" },
+  { id: "c-1071", ref: "KES-1071" },
+];
+
+const ClosableTabsDemo = () => {
+  const [cases, setCases] = React.useState(OPEN_CASES);
+  const [current, setCurrent] = React.useState(OPEN_CASES[0].id);
+
+  const close = (id: string) => {
+    const index = cases.findIndex((item) => item.id === id);
+    const next = cases.filter((item) => item.id !== id);
+    setCases(next);
+    if (id === current && next.length > 0)
+      setCurrent(next[Math.min(index, next.length - 1)].id);
+  };
+
+  const open = cases.find((item) => item.id === current);
+
+  return (
+    <DeskShell className="h-[560px]">
+      <DeskRail>
+        <DeskRailBrand>F</DeskRailBrand>
+        <DeskRailItem label="Cases" isActive>
+          <FolderIcon />
+        </DeskRailItem>
+      </DeskRail>
+      <DeskTopBar>
+        <DeskRailTrigger />
+        <DeskTabs aria-label="Open cases">
+          {cases.map((item) => (
+            <DeskTab
+              key={item.id}
+              href={`#${item.id}`}
+              isActive={current === item.id}
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrent(item.id);
+              }}
+              onClose={() => close(item.id)}
+            >
+              {item.ref}
+            </DeskTab>
+          ))}
+        </DeskTabs>
+        <DeskSpacer />
+        <DeskSearchTrigger />
+      </DeskTopBar>
+      <DeskPage>
+        {open ? (
+          <Placeholder title={open.ref} />
+        ) : (
+          <Placeholder title="No open cases">
+            <Button
+              variant="default-outline"
+              size="small"
+              onClick={() => {
+                setCases(OPEN_CASES);
+                setCurrent(OPEN_CASES[0].id);
+              }}
+            >
+              Reopen all
+            </Button>
+          </Placeholder>
+        )}
+      </DeskPage>
+    </DeskShell>
+  );
+};
+
+/** Tabs the officer opens and closes, such as open cases. `onClose` adds a ✕; closing the active tab moves to its neighbour. */
+export const ClosableTabs = createRender(() => <ClosableTabsDemo />);
+
 /**
  * A list | detail screen in a `SplitPane`. The screen registers its own commands
  * (`c`, `i`, `⇧A`) and scoped list keys (`j`/`k`); open the palette or the cheat sheet
