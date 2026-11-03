@@ -79,7 +79,9 @@ export function BudgetHero({ onDownload }: { onDownload: () => void }) {
 
 - `title` is the page's only `h1`; the section is labelled by it. Don't add another `h1` to the page.
 - A string `eyebrow` renders a primary `Tag`. Keep it to a few words; pass a node for anything else.
-- Without `media` the text column is capped at 760px and left aligned. With `media`, text and media sit side by side from the `lg` breakpoint and stack below it, media last. Give decorative images `alt=""`.
+- Without `media` the hero is `stacked`: the text column is capped at 760px, left aligned, or centred with `align="center"`. With `media` it defaults to `split`: text and media side by side from the `lg` breakpoint (`mediaPosition` picks the side), stacked below it, media last. Give decorative images `alt=""`.
+- `layout="image"` fills the band with the media and puts the text on a solid panel over it from `lg`; on smaller screens the picture is a 16:9 band above the text. Pass an `<img>` (or `<picture>`); it is cropped to cover, so keep faces and text in the picture away from the edges.
+- `tone` sets the band: Paper (default), Well, or `primary`, the primary wash, as on `CtaBand`. On `image` it sets the panel: Sheet, or the wash.
 - One filled blue button: the primary action. If you pass your own node as `secondaryAction`, make it `default-outline` or a ghost variant, never `primary-fill`.
-- The background is Paper (`bg-bg-gray-50`) with no gradient. Don't add a gradient, a dark background or a full-bleed photo behind the text.
+- No gradients, no dark or solid-blue band (the One Blue Rule), and no text straight on a photo: `layout="image"` keeps the text on its panel, so its contrast never depends on the picture.
 - Put the reassurance a nervous user needs (how long it takes, what to have ready) in `footnote`.

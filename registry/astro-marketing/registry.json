@@ -316,6 +316,29 @@
       ]
     },
     {
+      "name": "astro-figure",
+      "title": "Figure (Astro)",
+      "description": "Figure is a picture on its own in a page: a photo, chart or diagram, with an optional caption and its credit under it.",
+      "categories": [
+        "astro",
+        "blocks"
+      ],
+      "type": "registry:block",
+      "dependencies": [],
+      "registryDependencies": [
+        "mof-malaysia/ftds/astro-i18n",
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-section"
+      ],
+      "files": [
+        {
+          "path": "components/blocks/figure.astro",
+          "type": "registry:component",
+          "target": "components/blocks/figure.astro"
+        }
+      ]
+    },
+    {
       "name": "astro-hero",
       "title": "Hero (Astro)",
       "description": "The opening section of an agency or landing page, with the page's only h1, supporting text, up to two actions and optional media beside the text.",
@@ -328,7 +351,8 @@
       "registryDependencies": [
         "mof-malaysia/ftds/astro-button",
         "mof-malaysia/ftds/astro-tag",
-        "mof-malaysia/ftds/utils"
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-hero"
       ],
       "files": [
         {
@@ -359,6 +383,32 @@
           "path": "components/blocks/impact-stats.astro",
           "type": "registry:component",
           "target": "components/blocks/impact-stats.astro"
+        }
+      ]
+    },
+    {
+      "name": "astro-link-list",
+      "title": "Link List (Astro)",
+      "description": "LinkList points people to related pages, services and other websites: one row per link with its label, an optional line on what they'll find there, and an arrow.",
+      "categories": [
+        "astro",
+        "blocks"
+      ],
+      "type": "registry:block",
+      "dependencies": [],
+      "registryDependencies": [
+        "mof-malaysia/ftds/astro-i18n",
+        "mof-malaysia/ftds/astro-icon-arrow-forward",
+        "mof-malaysia/ftds/astro-icon-arrow-outgoing",
+        "mof-malaysia/ftds/astro-section",
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-section"
+      ],
+      "files": [
+        {
+          "path": "components/blocks/link-list.astro",
+          "type": "registry:component",
+          "target": "components/blocks/link-list.astro"
         }
       ]
     },

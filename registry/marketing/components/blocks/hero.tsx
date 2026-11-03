@@ -10,12 +10,27 @@ import {
 import { clx } from "@/lib/ftds/utils";
 import { Tag } from "@/components/ui/tag";
 import { renderAction, type BlockAction } from "@/components/ui/section-heading";
+import {
+  actions_cva,
+  band_cva,
+  container_cva,
+  content_cva,
+  media_cva,
+  secondary_action_cva,
+} from "@/components/ui/hero.variants";
 
 /**
  * Hero is the opening section of an agency or landing page: an optional
  * eyebrow tag, the page's single h1, supporting text, a primary and a
- * secondary action, and an optional media slot that sits beside the text on
- * desktop. Paper background, no gradient.
+ * secondary action, and optional media.
+ *
+ * Layouts: `stacked` (text only; the default without media), `split` (text
+ * beside the media on desktop; the default with media, `mediaPosition` picks
+ * the side) and `image` (the media fills the band and the text sits on a
+ * solid panel over it, so it stays readable on any photo; on mobile the
+ * picture is above the text). `align="center"` centres a stacked hero.
+ * `tone` sets the band: Paper (default), Well, or `primary`, the primary
+ * wash. No gradients.
  *
  * Actions accept `{ label, href }` (rendered as links styled as buttons) or
  * any node, such as your own `<Button>`.
@@ -41,10 +56,18 @@ interface HeroProps extends Omit<ComponentProps<"section">, "title"> {
   description?: ReactNode;
   primaryAction?: HeroAction;
   secondaryAction?: HeroAction;
-  /** Image or illustration; beside the text on desktop, below on mobile. */
+  /** Image or illustration: beside the text (`split`) or behind it (`image`). */
   media?: ReactNode;
   /** Extra content under the actions, e.g. a short reassurance line. */
   footnote?: ReactNode;
+  /** Defaults to `"split"` with media, `"stacked"` without. */
+  layout?: "stacked" | "split" | "image";
+  /** Text alignment of a stacked hero. Defaults to `"start"`. */
+  align?: "start" | "center";
+  /** Side of the media in a split hero on desktop. Defaults to `"right"`. */
+  mediaPosition?: "left" | "right";
+  /** Band: Paper (default), Well, or the primary wash. On `image`, the panel's colour. */
+  tone?: "paper" | "well" | "primary";
 }
 
 const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
@@ -58,6 +81,10 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
         secondaryAction,
         media,
         footnote,
+        layout: layoutProp,
+        align: alignProp = "start",
+        mediaPosition = "right",
+        tone = "paper",
         className,
         children,
         ...props
@@ -66,25 +93,20 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
     ) => {
       const titleId = useId();
       const hasMedia = Boolean(media);
+      // Without media a split or image hero has nothing to show beside the text
+      const layout = hasMedia ? (layoutProp ?? "split") : "stacked";
+      const align = layout === "stacked" ? alignProp : "start";
 
       return (
         <section
           ref={ref}
           aria-labelledby={titleId}
-          className={clx("bg-bg-gray-50 font-body w-full", className)}
+          className={clx(band_cva({ tone, layout }), className)}
           {...props}
         >
-          <div
-            className={clx(
-              "mx-auto grid w-full max-w-[1280px] items-center gap-10 px-4 py-12 md:px-6 md:py-16 lg:py-24",
-              hasMedia && "lg:grid-cols-12 lg:gap-12",
-            )}
-          >
+          <div className={container_cva({ layout })}>
             <div
-              className={clx(
-                "flex flex-col items-start gap-6",
-                hasMedia ? "lg:col-span-6" : "max-w-[760px]",
-              )}
+              className={content_cva({ layout, align, mediaPosition, tone })}
             >
               {eyebrow &&
                 (typeof eyebrow === "string" ? (
@@ -102,16 +124,25 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
                   {title}
                 </h1>
                 {description && (
-                  <p className="text-txt-black-700 text-body-lg md:text-body-xl max-w-[60ch]">
+                  <p
+                    className={clx(
+                      "text-txt-black-700 text-body-lg md:text-body-xl max-w-[60ch]",
+                      align === "center" && "mx-auto",
+                    )}
+                  >
                     {description}
                   </p>
                 )}
               </div>
               {(primaryAction || secondaryAction) && (
-                <div className="flex flex-wrap items-center gap-3">
+                <div className={actions_cva({ align })}>
                   {primaryAction && renderAction(primaryAction, "primary-fill")}
                   {secondaryAction &&
-                    renderAction(secondaryAction, "default-outline")}
+                    renderAction(
+                      secondaryAction,
+                      "default-outline",
+                      secondary_action_cva({ tone, layout }),
+                    )}
                 </div>
               )}
               {footnote && (
@@ -119,11 +150,7 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
               )}
               {children}
             </div>
-            {hasMedia && (
-              <div className="overflow-hidden rounded-lg lg:col-span-6">
-                {media}
-              </div>
-            )}
+            {hasMedia && <div className={media_cva({ layout })}>{media}</div>}
           </div>
         </section>
       );

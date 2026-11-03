@@ -255,6 +255,25 @@
       ]
     },
     {
+      "name": "variants-hero",
+      "title": "Hero variants",
+      "description": "The cva classes the React and Astro hero components share, installed to components/ui/hero.variants.ts.",
+      "categories": [
+        "utilities"
+      ],
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/hero.variants.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "variants-link",
       "title": "Link variants",
       "description": "The cva classes the React and Astro link components share, installed to components/ui/link.variants.ts.",
