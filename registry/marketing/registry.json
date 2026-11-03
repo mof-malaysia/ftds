@@ -150,7 +150,9 @@
       "registryDependencies": [
         "mof-malaysia/ftds/section-heading",
         "mof-malaysia/ftds/tag",
-        "mof-malaysia/ftds/utils"
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-hero",
+        "mof-malaysia/ftds/variants-section"
       ],
       "files": [
         {

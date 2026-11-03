@@ -1,0 +1,124 @@
+---
+// registry:block — composed page section, installs to components/blocks
+import type { HTMLAttributes } from "astro/types";
+import { clx, uniqueId } from "@/lib/ftds/utils";
+import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
+import Section from "@/components/ui/section.astro";
+import {
+  link_chip_class,
+  link_item_cva,
+  link_list_cva,
+  linked_item_class,
+  stretched_link_class,
+} from "@/components/ui/section.variants";
+import ArrowForwardIcon from "@/components/ui/icons/arrow-forward.astro";
+import ArrowOutgoingIcon from "@/components/ui/icons/arrow-outgoing.astro";
+
+/**
+ * LinkList points people to related pages, services and other websites: one
+ * row per link with its label, an optional line on what they'll find there,
+ * and an arrow. Use it for "Pautan berkaitan", a service's other pages, or a
+ * list of agencies; use DownloadList for files, so people see type and size.
+ *
+ * Each row is one link (the label, stretched over the row). An `external`
+ * link gets an outgoing arrow and "(laman web luar)" in its accessible name,
+ * and opens in the same tab. `layout="cards"` sets the links in a grid of
+ * Sheet cards. Slots: `title`, `description`, and the default slot under the
+ * links.
+ *
+ * @example
+ * <LinkList
+ *   title="Pautan berkaitan"
+ *   links={[
+ *     { label: "Semak status permohonan", href: "/semak", description: "Dengan nombor rujukan anda." },
+ *     { label: "Portal MyGov", href: "https://www.malaysia.gov.my", external: true },
+ *   ]}
+ * />
+ */
+interface LinkItem {
+  label: string;
+  href: string;
+  /** One line on what people will find there. */
+  description?: string;
+  /** Another website: an outgoing arrow, and said in the link's name. */
+  external?: boolean;
+}
+
+type Props = Omit<HTMLAttributes<"section">, "class" | "title"> & {
+  title?: string;
+  description?: string;
+  links: LinkItem[];
+  /** `list` rows (default) or a grid of `cards`. */
+  layout?: "list" | "cards";
+  /** Section band: Paper (default) or Well. */
+  tone?: "paper" | "well";
+  /** `article` narrows the column to a reading width, under an article. */
+  width?: "wide" | "article";
+  /** Drop the band and its padding, e.g. inside a tab panel. */
+  flush?: boolean;
+  lang?: Lang;
+  /** `id` for the h2. Generated when unset. */
+  titleId?: string;
+  class?: string;
+};
+
+const {
+  title,
+  description,
+  links,
+  layout = "list",
+  tone = "paper",
+  width,
+  flush,
+  lang: langProp,
+  titleId = uniqueId("link-list"),
+  class: className,
+  ...props
+} = Astro.props;
+
+const lang = resolveLang(langProp, Astro.currentLocale);
+---
+
+<Section
+  tone={tone}
+  width={width}
+  flush={flush}
+  title={title}
+  description={description}
+  titleId={titleId}
+  class={className}
+  {...props}
+>
+  <slot name="title" slot="title" />
+  <slot name="description" slot="description" />
+  <ul class={link_list_cva({ layout })}>
+    {
+      links.map((link) => {
+        const Icon = link.external ? ArrowOutgoingIcon : ArrowForwardIcon;
+        return (
+          <li class={clx(linked_item_class, link_item_cva({ layout }), "items-start")}>
+            <div class="flex min-w-0 flex-1 flex-col gap-1.5">
+              <a
+                href={link.href}
+                class={clx(
+                  stretched_link_class,
+                  "text-txt-primary text-body-lg font-medium text-pretty",
+                )}
+              >
+                {link.label}
+                {link.external && <span class="sr-only"> {label(lang, "externalSite")}</span>}
+              </a>
+              {link.description && (
+                <p class="text-txt-black-700 text-content">{link.description}</p>
+              )}
+            </div>
+            <span aria-hidden="true" class={link_chip_class}>
+              <Icon />
+            </span>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <slot />
+</Section>

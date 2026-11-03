@@ -1,0 +1,90 @@
+---
+// registry:block — composed page section, installs to components/blocks
+import type { HTMLAttributes } from "astro/types";
+import { clx } from "@/lib/ftds/utils";
+import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
+
+import { band_cva, container_cva } from "@/components/ui/section.variants";
+/**
+ * Figure is a picture on its own in a page: a photo, chart or diagram, with
+ * an optional caption and its credit under it. It sits at the reading width
+ * of the text around it (`article`, the default), the page's width (`wide`),
+ * or edge to edge (`full`).
+ *
+ * Put the `<img>` (or `<picture>`) in the default slot, with its own `alt`,
+ * `width` and `height`; it fills the figure's width. Say in the caption what
+ * the picture shows that the text doesn't; the alt text and the caption
+ * shouldn't repeat each other. Slots: default, `caption`, `credit`.
+ *
+ * @example
+ * <Figure caption="Pejabat baharu di Presint 2, dibuka Januari 2027." credit="Unit Komunikasi Korporat">
+ *   <img src="/pejabat.jpg" width="1600" height="900" alt="Bangunan pejabat lima tingkat berdinding kaca" />
+ * </Figure>
+ */
+type Props = Omit<HTMLAttributes<"section">, "class"> & {
+  caption?: string;
+  /** Who took or owns the picture; shown after "Kredit:". */
+  credit?: string;
+  /** Reading width (default), the page's width, or edge to edge. */
+  width?: "article" | "wide" | "full";
+  /** Section band: Paper (default) or Well. */
+  tone?: "paper" | "well";
+  lang?: Lang;
+  class?: string;
+};
+
+const {
+  caption,
+  credit,
+  width = "article",
+  tone = "paper",
+  lang: langProp,
+  class: className,
+  ...props
+} = Astro.props;
+
+const lang = resolveLang(langProp, Astro.currentLocale);
+const slots = Astro.slots;
+const hasCaption = Boolean(caption) || slots.has("caption");
+const hasCredit = Boolean(credit) || slots.has("credit");
+const full = width === "full";
+---
+
+<section class={clx(band_cva({ tone }), className)} {...props}>
+  <figure
+    class={full
+      ? "flex w-full flex-col gap-3 py-8 md:py-10"
+      : clx(container_cva({ width }), "gap-3 py-8 md:py-10")}
+  >
+    <div
+      class={clx(
+        "overflow-hidden [&_img]:block [&_img]:h-auto [&_img]:w-full",
+        !full && "rounded-lg",
+      )}
+    >
+      <slot />
+    </div>
+    {
+      (hasCaption || hasCredit) && (
+        <figcaption
+          class={clx(
+            // Full width: the caption stays in the page's column
+            full && [container_cva({ flush: true }), "px-4 md:px-6"],
+            "text-txt-black-700 text-body-sm flex flex-row flex-wrap gap-x-2 gap-y-1",
+          )}
+        >
+          {hasCaption && (
+            <span>
+              <slot name="caption">{caption}</slot>
+            </span>
+          )}
+          {hasCredit && (
+            <span class="text-txt-black-500">
+              {label(lang, "credit")}: <slot name="credit">{credit}</slot>
+            </span>
+          )}
+        </figcaption>
+      )
+    }
+  </figure>
+</section>

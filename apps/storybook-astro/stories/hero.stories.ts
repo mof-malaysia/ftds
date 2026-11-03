@@ -1,5 +1,5 @@
 import Hero from "@/components/blocks/hero.astro";
-import { logo } from "./_logo";
+import { logo, placeholder } from "./_logo";
 
 const base = {
   title: "Bayar bil kerajaan di satu tempat",
@@ -31,4 +31,35 @@ export const WithMedia = {
       media: `<img src="${logo("MyBayar")}" width="480" height="144" alt="" class="w-full rounded-lg" />`,
     },
   },
+};
+const photo = `<img src="${placeholder("Foto", 1600, 900)}" width="1600" height="900" alt="" />`;
+export const Centered = {
+  args: {
+    ...base,
+    align: "center",
+    tone: "well",
+    secondaryAction: { label: "Cara ia berfungsi", href: "#how" },
+  },
+};
+export const SplitMediaLeftPrimaryWash = {
+  args: {
+    ...base,
+    tone: "primary",
+    mediaPosition: "left",
+    slots: {
+      media: `<img src="${placeholder("Ilustrasi", 800, 600)}" width="800" height="600" alt="" class="w-full" />`,
+    },
+  },
+};
+export const ImageWithPanel = {
+  args: {
+    ...base,
+    layout: "image",
+    eyebrow: "Kempen",
+    secondaryAction: { label: "Siapa yang layak", href: "#who" },
+    slots: { media: photo },
+  },
+};
+export const ImageWithPrimaryPanel = {
+  args: { ...base, layout: "image", tone: "primary", slots: { media: photo } },
 };
