@@ -10,13 +10,16 @@ import {
 import { clx } from "@/lib/ftds/utils";
 import { Tag } from "@/components/ui/tag";
 import { renderAction, type BlockAction } from "@/components/ui/section-heading";
+import { band_cva } from "@/components/ui/section.variants";
 import {
   actions_cva,
-  band_cva,
+  band_class,
   container_cva,
   content_cva,
+  description_cva,
   media_cva,
-  secondary_action_cva,
+  resolve_layout,
+  secondary_action,
 } from "@/components/ui/hero.variants";
 
 /**
@@ -31,6 +34,10 @@ import {
  * picture is above the text). `align="center"` centres a stacked hero.
  * `tone` sets the band: Paper (default), Well, or `primary`, the primary
  * wash. No gradients.
+ *
+ * In `image` the picture is usually the page's largest paint: give it a
+ * `srcset` with `sizes="100vw"`, `fetchpriority="high"`, and don't lazy-load
+ * it.
  *
  * Actions accept `{ label, href }` (rendered as links styled as buttons) or
  * any node, such as your own `<Button>`.
@@ -92,16 +99,18 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
       ref,
     ) => {
       const titleId = useId();
-      const hasMedia = Boolean(media);
-      // Without media a split or image hero has nothing to show beside the text
-      const layout = hasMedia ? (layoutProp ?? "split") : "stacked";
-      const align = layout === "stacked" ? alignProp : "start";
+      const { layout, align } = resolve_layout(
+        Boolean(media),
+        layoutProp,
+        alignProp,
+      );
+      const secondary = secondary_action(tone, layout);
 
       return (
         <section
           ref={ref}
           aria-labelledby={titleId}
-          className={clx(band_cva({ tone, layout }), className)}
+          className={clx(band_cva({ tone }), band_class, className)}
           {...props}
         >
           <div className={container_cva({ layout })}>
@@ -124,14 +133,7 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
                   {title}
                 </h1>
                 {description && (
-                  <p
-                    className={clx(
-                      "text-txt-black-700 text-body-lg md:text-body-xl max-w-[60ch]",
-                      align === "center" && "mx-auto",
-                    )}
-                  >
-                    {description}
-                  </p>
+                  <p className={description_cva({ align })}>{description}</p>
                 )}
               </div>
               {(primaryAction || secondaryAction) && (
@@ -140,8 +142,8 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
                   {secondaryAction &&
                     renderAction(
                       secondaryAction,
-                      "default-outline",
-                      secondary_action_cva({ tone, layout }),
+                      secondary.variant,
+                      secondary.class,
                     )}
                 </div>
               )}
@@ -150,7 +152,9 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
               )}
               {children}
             </div>
-            {hasMedia && <div className={media_cva({ layout })}>{media}</div>}
+            {Boolean(media) && (
+              <div className={media_cva({ layout })}>{media}</div>
+            )}
           </div>
         </section>
       );

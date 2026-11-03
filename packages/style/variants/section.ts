@@ -8,12 +8,13 @@ import { cva } from "class-variance-authority";
  * as components/ui/section.variants.ts.
  */
 
-/** The full-width band: Paper (the page) or Well (a recessed band). */
+/** The full-width band: Paper (the page), Well (a recessed band) or the primary wash. */
 export const band_cva = cva("font-body w-full", {
   variants: {
     tone: {
       paper: "bg-bg-gray-50",
       well: "bg-bg-washed",
+      primary: "bg-bg-primary-50",
     },
   },
   defaultVariants: { tone: "paper" },
@@ -43,6 +44,34 @@ export const linked_item_class =
   "group relative has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-fr-primary has-[a:focus-visible]:ring-offset-2";
 export const stretched_link_class =
   "outline-none after:absolute after:inset-0 group-hover:underline group-hover:underline-offset-4";
+
+/**
+ * Lists of links (DownloadList, LinkList): rows on one Sheet panel, or a grid
+ * of Sheet cards. Put `linked_item_class` on each item too.
+ */
+export const link_list_cva = cva("", {
+  variants: {
+    layout: {
+      list: "bg-bg-white flex flex-col rounded-lg px-6",
+      cards: "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3",
+    },
+  },
+  defaultVariants: { layout: "list" },
+});
+
+export const link_item_cva = cva("flex gap-4 rounded-sm", {
+  variants: {
+    layout: {
+      list: "border-otl-gray-200 items-start border-b py-5 last:border-b-0",
+      cards: "bg-bg-white rounded-lg p-surface",
+    },
+  },
+  defaultVariants: { layout: "list" },
+});
+
+/** The arrow or download icon at the end of a linked item; tints on hover. */
+export const link_chip_class =
+  "text-txt-primary group-hover:bg-bg-washed flex size-10 shrink-0 items-center justify-center rounded-md transition-colors duration-150 motion-reduce:transition-none [&_svg]:size-5";
 
 /** An icon in a primary-wash circle. The icon is sized by the badge. */
 export const icon_badge_cva = cva(

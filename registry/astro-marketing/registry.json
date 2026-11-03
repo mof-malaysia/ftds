@@ -352,7 +352,8 @@
         "mof-malaysia/ftds/astro-button",
         "mof-malaysia/ftds/astro-tag",
         "mof-malaysia/ftds/utils",
-        "mof-malaysia/ftds/variants-hero"
+        "mof-malaysia/ftds/variants-hero",
+        "mof-malaysia/ftds/variants-section"
       ],
       "files": [
         {

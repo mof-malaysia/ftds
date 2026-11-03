@@ -5,13 +5,16 @@ import { clx, uniqueId } from "@/lib/ftds/utils";
 import Button from "@/components/ui/button.astro";
 import Tag from "@/components/ui/tag.astro";
 
+import { band_cva } from "@mof-malaysia/ftds-style/variants/section";
 import {
   actions_cva,
-  band_cva,
+  band_class,
   container_cva,
   content_cva,
+  description_cva,
   media_cva,
-  secondary_action_cva,
+  resolve_layout,
+  secondary_action,
 } from "@mof-malaysia/ftds-style/variants/hero";
 /**
  * Hero is the opening section of an agency or landing page: an optional
@@ -24,6 +27,10 @@ import {
  * solid panel over it, so it stays readable on any photo; on mobile the
  * picture is above the text). `align="center"` centres a stacked hero.
  * `tone` sets the band: Paper (default), Well, or `primary`, the primary wash.
+ *
+ * In `image` the picture is usually the page's largest paint: give it a
+ * `srcset` with `sizes="100vw"`, `fetchpriority="high"`, and don't lazy-load
+ * it.
  *
  * Actions take `{ label, href }` (links styled as buttons); for anything else
  * fill the `actions` slot. Slots: `eyebrow`, `title`, `description`,
@@ -88,15 +95,14 @@ const {
   ...props
 } = Astro.props;
 
-// Without media a split or image hero has nothing to show beside the text
-const layout = hasMedia ? (layoutProp ?? "split") : "stacked";
-const align = layout === "stacked" ? alignProp : "start";
+const { layout, align } = resolve_layout(hasMedia, layoutProp, alignProp);
 const hasActions = Boolean(primaryAction || secondaryAction) || slots.has("actions");
+const secondary = secondary_action(tone, layout);
 ---
 
 <section
   aria-labelledby={titleId}
-  class={clx(band_cva({ tone, layout }), className)}
+  class={clx(band_cva({ tone }), band_class, className)}
   {...props}
 >
   <div class={container_cva({ layout })}>
@@ -113,12 +119,7 @@ const hasActions = Boolean(primaryAction || secondaryAction) || slots.has("actio
         </h1>
         {
           (description || slots.has("description")) && (
-            <p
-              class={clx(
-                "text-txt-black-700 text-body-lg md:text-body-xl max-w-[60ch]",
-                align === "center" && "mx-auto",
-              )}
-            >
+            <p class={description_cva({ align })}>
               <slot name="description">{description}</slot>
             </p>
           )
@@ -135,10 +136,10 @@ const hasActions = Boolean(primaryAction || secondaryAction) || slots.has("actio
               )}
               {secondaryAction && (
                 <Button
-                  variant="default-outline"
+                  variant={secondary.variant}
                   size="large"
                   href={secondaryAction.href}
-                  class={secondary_action_cva({ tone, layout })}
+                  class={secondary.class}
                 >
                   {secondaryAction.label}
                 </Button>

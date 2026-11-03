@@ -91,12 +91,7 @@ export const ImageWithPanel = createRender(() => (
     description="Pendaftaran mengambil masa lima minit. Sediakan MyKad anda."
     primaryAction={{ label: "Daftar sekarang", href: "#" }}
     secondaryAction={{ label: "Siapa yang layak", href: "#" }}
-    media={
-      <img
-        src="https://d2391uizq0pg2.cloudfront.net/common/preview-2.svg"
-        alt=""
-      />
-    }
+    media={media}
   />
 ));
 

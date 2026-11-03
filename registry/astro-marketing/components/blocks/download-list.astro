@@ -6,6 +6,9 @@ import { clx, uniqueId } from "@/lib/ftds/utils";
 import { formatDate, isoDate, label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Section from "@/components/ui/section.astro";
 import {
+  link_chip_class,
+  link_item_cva,
+  link_list_cva,
   linked_item_class,
   meta_row_class,
   stretched_link_class,
@@ -119,11 +122,7 @@ const details = (file: DownloadFile) =>
 >
   <slot name="title" slot="title" />
   <slot name="description" slot="description" />
-  <ul
-    class={layout === "cards"
-      ? "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
-      : "bg-bg-white flex flex-col rounded-lg px-6"}
-  >
+  <ul class={link_list_cva({ layout })}>
     {
       files.map((file) => {
         const Icon = ICONS[file.type];
@@ -132,10 +131,8 @@ const details = (file: DownloadFile) =>
           <li
             class={clx(
               linked_item_class,
-              "flex gap-4 rounded-sm",
-              layout === "cards"
-                ? "bg-bg-white flex-col rounded-lg p-surface"
-                : "border-otl-gray-200 items-start border-b py-5 last:border-b-0",
+              link_item_cva({ layout }),
+              layout === "cards" && "flex-col",
             )}
           >
             <Icon aria-hidden="true" class="text-txt-black-700 size-8 shrink-0" />
@@ -166,10 +163,7 @@ const details = (file: DownloadFile) =>
             </div>
             <span
               aria-hidden="true"
-              class={clx(
-                "text-txt-primary group-hover:bg-bg-washed flex size-10 shrink-0 items-center justify-center rounded-md transition-colors duration-150 motion-reduce:transition-none [&_svg]:size-5",
-                layout === "cards" && "absolute top-5 right-5",
-              )}
+              class={clx(link_chip_class, layout === "cards" && "absolute top-5 right-5")}
             >
               <DownloadIcon />
             </span>

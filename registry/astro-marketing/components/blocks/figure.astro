@@ -4,11 +4,11 @@ import type { HTMLAttributes } from "astro/types";
 import { clx } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 
-import { band_cva } from "@/components/ui/section.variants";
+import { band_cva, container_cva } from "@/components/ui/section.variants";
 /**
  * Figure is a picture on its own in a page: a photo, chart or diagram, with
  * an optional caption and its credit under it. It sits at the reading width
- * of the text around it (`content`, the default), the page's width (`wide`),
+ * of the text around it (`article`, the default), the page's width (`wide`),
  * or edge to edge (`full`).
  *
  * Put the `<img>` (or `<picture>`) in the default slot, with its own `alt`,
@@ -25,8 +25,8 @@ type Props = Omit<HTMLAttributes<"section">, "class"> & {
   caption?: string;
   /** Who took or owns the picture; shown after "Kredit:". */
   credit?: string;
-  /** Text width (default), the page's width, or edge to edge. */
-  width?: "content" | "wide" | "full";
+  /** Reading width (default), the page's width, or edge to edge. */
+  width?: "article" | "wide" | "full";
   /** Section band: Paper (default) or Well. */
   tone?: "paper" | "well";
   lang?: Lang;
@@ -36,7 +36,7 @@ type Props = Omit<HTMLAttributes<"section">, "class"> & {
 const {
   caption,
   credit,
-  width = "content",
+  width = "article",
   tone = "paper",
   lang: langProp,
   class: className,
@@ -52,12 +52,9 @@ const full = width === "full";
 
 <section class={clx(band_cva({ tone }), className)} {...props}>
   <figure
-    class={clx(
-      "mx-auto flex w-full flex-col gap-3 py-8 md:py-10",
-      !full && "px-4 md:px-6",
-      width === "content" && "max-w-[808px]",
-      width === "wide" && "max-w-[1280px]",
-    )}
+    class={full
+      ? "flex w-full flex-col gap-3 py-8 md:py-10"
+      : clx(container_cva({ width }), "gap-3 py-8 md:py-10")}
   >
     <div
       class={clx(
@@ -71,8 +68,9 @@ const full = width === "full";
       (hasCaption || hasCredit) && (
         <figcaption
           class={clx(
-            "text-txt-black-700 text-body-sm flex flex-wrap gap-x-2 gap-y-1",
-            full && "mx-auto w-full max-w-[1280px] px-4 md:px-6",
+            // Full width: the caption stays in the page's column
+            full && [container_cva({ flush: true }), "px-4 md:px-6"],
+            "text-txt-black-700 text-body-sm flex flex-row flex-wrap gap-x-2 gap-y-1",
           )}
         >
           {hasCaption && (
