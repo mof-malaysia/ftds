@@ -37,7 +37,7 @@ Tags are permanent. Never move or reuse one: people pin them, and every `#v0.1.0
 
 ```
 https://mof-malaysia.github.io/ftds/
-├── index.html, docs/        Docs site (apps/docs-astro), built from the latest release tag
+├── index.html, docs/        Docs site (apps/docs), built from the latest release tag
 ├── storybook/               Storybook, built from the latest release tag
 ├── llms.txt, llms-full.txt  Docs for coding agents, with components/*.md, guides/*.md and icons.md
 └── r/
@@ -62,14 +62,14 @@ Projects choose a folder in `components.json`:
 
 ### The Astro docs site
 
-`apps/docs-astro` is built by the Pages workflow from the release tag, so the docs always describe the published registry. It takes `site` and `base` from `FTDS_SITE_URL` (`https://mof-malaysia.github.io/ftds` unless the repository variable is set); without it, it builds for the root, which is what `pnpm dev` there uses. The pre-push hook builds it before every push.
+`apps/docs` is built by the Pages workflow from the release tag, so the docs always describe the published registry. It takes `site` and `base` from `FTDS_SITE_URL` (`https://mof-malaysia.github.io/ftds` unless the repository variable is set); without it, it builds for the root, which is what `pnpm dev` there uses. The pre-push hook builds it before every push.
 
 `prepare-gh-pages.ts` copies the build to the root of `deploy/`, so the docs are the site. Keep `storybook/` and `r/` where they are, since projects already point at `r/`.
 
 To check a deploy locally:
 
 ```sh
-FTDS_SITE_URL=https://mof-malaysia.github.io/ftds pnpm --filter @mof-malaysia/ftds-docs-astro build
+FTDS_SITE_URL=https://mof-malaysia.github.io/ftds pnpm --filter @mof-malaysia/ftds-docs build
 pnpm --filter @mof-malaysia/ftds-storybook build:gh-pages
 pnpm deploy:prepare
 ```

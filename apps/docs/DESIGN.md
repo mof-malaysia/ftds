@@ -1,6 +1,6 @@
 ---
 name: FTDS Docs
-description: FTDS, with an expressive frame of its own, for the documentation site at apps/docs-astro.
+description: FTDS, with an expressive frame of its own, for the documentation site at apps/docs.
 colors:
   plate: "#1D4ED8"
   plate-raised: "#1E40AF"

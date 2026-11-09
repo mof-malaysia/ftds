@@ -1,13 +1,13 @@
 ---
 version: 1
-slug: "apps-docs-astro"
-primary_target: "apps/docs-astro"
+slug: "apps-docs"
+primary_target: "apps/docs"
 related_targets: []
 ---
 
 # FTDS docs site (Read; home page Persuade)
 
-Scope: apps/docs-astro. Readers: FiscalTech teams building services (React) or agency and marketing sites (Astro), plus coding agents. Job: pick a stack, find a component, see it working under real conditions, paste it. Source of truth: the two Storybooks, the registries and packages/react/src/components/*.md. apps/docs is legacy and is not a reference. English now; routes and interface strings ready for BM.
+Scope: apps/docs. Readers: FiscalTech teams building services (React) or agency and marketing sites (Astro), plus coding agents. Job: pick a stack, find a component, see it working under real conditions, paste it. Source of truth: the two Storybooks, the registries and packages/react/src/components/*.md. English now; routes and interface strings ready for BM.
 
 ## Direction contract
 

@@ -1,10 +1,10 @@
 {
-  "name": "@mof-malaysia/ftds-docs-astro",
+  "name": "@mof-malaysia/ftds-docs",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "catalogue": "pnpm -w exec tsx scripts/llms/build.ts --out apps/docs-astro/public",
+    "catalogue": "pnpm -w exec tsx scripts/llms/build.ts --out apps/docs/public",
     "dev": "pnpm catalogue && astro dev",
     "build": "pnpm catalogue && astro build",
     "preview": "astro preview",
