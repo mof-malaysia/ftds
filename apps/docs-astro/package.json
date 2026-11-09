@@ -4,13 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "catalogue": "pnpm -w exec tsx scripts/llms/build.ts --out apps/docs-astro/public",
+    "dev": "pnpm catalogue && astro dev",
+    "build": "pnpm catalogue && astro build",
     "preview": "astro preview",
-    "typecheck": "astro check"
+    "typecheck": "pnpm catalogue && astro check"
   },
   "dependencies": {
-    "@astrojs/mdx": "8.1.2",
     "@astrojs/react": "7.1.2",
     "@fontsource-variable/inter": "5.3.0",
     "@mof-malaysia/ftds-react": "workspace:*",

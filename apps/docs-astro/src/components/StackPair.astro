@@ -1,0 +1,13 @@
+---
+/** The same button from each stack, measured. They share their styles. */
+import MeasuredSheet from "./MeasuredSheet.astro";
+import AstroButton from "@/components/ui/button.astro";
+import { Button as ReactButton } from "@/components/ui/button";
+
+const label = "Mula membayar";
+---
+
+<div class="density-pair">
+  <MeasuredSheet class="density-pane" name="React"><ReactButton>{label}</ReactButton></MeasuredSheet>
+  <MeasuredSheet class="density-pane" name="Astro"><AstroButton variant="primary-fill">{label}</AstroButton></MeasuredSheet>
+</div>

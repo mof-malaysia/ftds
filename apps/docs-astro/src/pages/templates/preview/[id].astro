@@ -1,0 +1,33 @@
+---
+/** A whole-page reference on its own, with no docs frame. Framed by the gallery. */
+import type { GetStaticPaths } from "astro";
+import Base from "~/layouts/Base.astro";
+import StoryStage, { preloadStory } from "~/components/StoryStage.tsx";
+import { astroTemplateList, astroTemplates, reactScreens, shellScreens } from "~/lib/templates";
+
+export const getStaticPaths = (async () => {
+  const screens = [...(await reactScreens()), ...(await shellScreens())];
+  return [
+    ...astroTemplateList().map((t) => ({ params: { id: t.id }, props: { title: t.title, astro: t.name } })),
+    ...screens.map((s) => ({ params: { id: s.id }, props: { title: s.title, file: s.file, story: s.story } })),
+  ];
+}) satisfies GetStaticPaths;
+
+interface Props {
+  title: string;
+  astro?: string;
+  file?: string;
+  story?: string;
+}
+
+const { title, astro, file, story } = Astro.props;
+const Template = astro
+  ? (await astroTemplates[`../../../../packages/astro/src/templates/${astro}.astro`]()).default
+  : null;
+if (file) await preloadStory(file);
+---
+
+<Base title={title}>
+  {Template && <Template />}
+  {file && story && <StoryStage client:load file={file} id={story} />}
+</Base>

@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "menlo",
+        "createdAt": "2026-11-09T11:43:08.730Z",
+        "reason": "Agent: system monospace for code blocks, already the --font-mono stack in apps/docs-astro global.css; DESIGN.md's one-face rule covers UI text"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-09T12:08:20.189Z",
+        "reason": "Agent: Inter is the FTDS typeface mandated by DESIGN.md (root); the docs site inherits it"
+      }
+    ]
+  }
+}

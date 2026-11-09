@@ -1,102 +1,51 @@
 ---
-/**
- * A live example and its source. Put the example component in the default
- * slot with a client directive, and pass the same file's source as `code`:
- *
- *   import Variant from "~/examples/button/variant";
- *   import variantCode from "~/examples/button/variant?raw";
- *
- *   <Example code={variantCode}><Variant client:visible /></Example>
- */
+/** One story: a heading, the live stage, and its code in a native disclosure. */
 import { Code } from "astro:components";
 import CopyButton from "./CopyButton.astro";
+import AstroStory from "./AstroStory.astro";
+import StoryStage from "./StoryStage.tsx";
+import type { StoryRef } from "~/lib/stories";
+import { t } from "~/lib/i18n";
+import { getRefs, linkRefs } from "~/lib/refs";
 
 interface Props {
-  code: string;
-  /** Lay the example out in a row (default) or let it fill the stage. */
-  align?: "center" | "start" | "stretch";
+  story: StoryRef;
+  /** The file it comes from. */
+  file: string;
+  stack: "react" | "astro";
+  /** Whole-page stories get a clipped, wider stage. */
+  wide?: boolean;
 }
 
-const { code, align = "center" } = Astro.props;
-// Stable ids for aria wiring, so rebuilding unchanged pages gives the same HTML
-const uid = `ex-${[...code].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36)}`;
-const tabClass =
-  "focus-ring-inset -mb-px flex h-10 items-center border-b-2 border-transparent text-sm font-medium text-txt-black-700 transition-colors hover:text-txt-black-900 aria-selected:border-bg-primary-600 aria-selected:text-txt-black-900";
+const { story, file, stack, wide = false } = Astro.props;
+// Story notes are written in Markdown; only inline code matters here
+const refs = await getRefs();
+const note = (text: string) =>
+  linkRefs(
+    text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/`([^`]+)`/g, "<code>$1</code>"),
+    refs,
+  );
+const headingId = `${stack}-${story.id.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase()}`;
 ---
 
-<ftds-tabs class="not-prose my-6 block" data-selected="preview">
-  <div class="flex items-center justify-between gap-4">
-    <div role="tablist" aria-label="Example" class="flex gap-5">
-      <button type="button" role="tab" id={`${uid}-t1`} aria-controls={`${uid}-p1`} aria-selected="true" data-value="preview" class={tabClass}>
-        Preview
-      </button>
-      <button type="button" role="tab" id={`${uid}-t2`} aria-controls={`${uid}-p2`} aria-selected="false" tabindex="-1" data-value="code" class={tabClass}>
-        Code
-      </button>
-    </div>
-
-    <!-- Density switch for the stage: plain attribute flip, no React -->
-    <div data-density-switch role="group" aria-label="Density" class="bg-bg-washed hidden rounded-md p-0.5 sm:flex">
-      {
-        ["comfortable", "compact"].map((density) => (
-          <button
-            type="button"
-            data-density-value={density}
-            aria-pressed={density === "comfortable" ? "true" : "false"}
-            class="focus-ring text-txt-black-700 aria-pressed:bg-bg-white aria-pressed:text-txt-black-900 h-7 rounded-sm px-2.5 text-xs font-medium capitalize transition-colors"
-          >
-            {density}
-          </button>
-        ))
-      }
-    </div>
+<section class="example" aria-labelledby={headingId}>
+  <h3 id={headingId}>{story.title}</h3>
+  {story.description && <p class="example-note" set:html={note(story.description)} />}
+  <div data-stage data-density="comfortable" class:list={["stage", { "stage--wide": wide }]}>
+    {stack === "react" ? <StoryStage client:visible file={file} id={story.id} /> : <AstroStory file={file} id={story.id} />}
   </div>
-
-  <div role="tabpanel" id={`${uid}-p1`} aria-labelledby={`${uid}-t1`} data-value="preview">
-    <div
-      data-stage
-      data-density="comfortable"
-      class:list={[
-        "bg-bg-white mt-3 flex min-h-48 flex-wrap gap-3 overflow-x-auto rounded-lg p-6 sm:p-10",
-        {
-          center: "items-center justify-center",
-          start: "items-start justify-start",
-          stretch: "flex-col items-stretch",
-        }[align],
-      ]}
-    >
-      <slot />
-    </div>
-  </div>
-
-  <div role="tabpanel" id={`${uid}-p2`} aria-labelledby={`${uid}-t2`} data-value="code" data-pagefind-ignore hidden>
-    <div class="code-block mt-3">
-      <Code code={code.trimEnd()} lang="tsx" themes={{ light: "github-light", dark: "github-dark-dimmed" }} defaultColor={false} />
-      <CopyButton class="absolute top-2 right-2" />
-    </div>
-  </div>
-</ftds-tabs>
-
-<script>
-  import "~/scripts/tabs";
-
-  for (const group of document.querySelectorAll<HTMLElement>("[data-density-switch]")) {
-    const stage = group.closest("ftds-tabs")?.querySelector<HTMLElement>("[data-stage]");
-    if (!stage) continue;
-    group.addEventListener("click", (event) => {
-      const button = (event.target as Element).closest<HTMLButtonElement>("[data-density-value]");
-      if (!button) return;
-      stage.dataset.density = button.dataset.densityValue;
-      for (const b of group.querySelectorAll("[data-density-value]")) {
-        b.setAttribute("aria-pressed", String(b === button));
-      }
-    });
+  {
+    story.code && (
+      <details class="example-code">
+        <summary>{t("code")}</summary>
+        <div class="code-block">
+          <Code code={story.code} lang={story.lang} theme="github-dark-dimmed" />
+          <CopyButton class="absolute top-2 right-2" />
+        </div>
+      </details>
+    )
   }
-</script>
-
-<style>
-  /* The density switch only applies to the preview */
-  ftds-tabs[data-selected="code"] [data-density-switch] {
-    visibility: hidden;
-  }
-</style>
+</section>

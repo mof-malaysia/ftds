@@ -1,0 +1,193 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getEntry } from "astro:content";
+import Docs from "~/layouts/Docs.astro";
+import Plate from "~/components/Plate.astro";
+import StoryList from "~/components/StoryList.astro";
+import AstroStory from "~/components/AstroStory.astro";
+import StoryStage, { preloadStory } from "~/components/StoryStage.tsx";
+import CommandBlock from "~/components/CommandBlock.astro";
+import Toc from "~/components/Toc.astro";
+import { astroProps, getCatalog, type Entry } from "~/lib/catalog";
+import { storyId } from "~/lib/stories";
+import { href } from "~/lib/url";
+import { finishHtml, sectionsOf } from "~/lib/markdown";
+import { getRefs } from "~/lib/refs";
+import { firstSentence } from "~/lib/text";
+import { t } from "~/lib/i18n";
+
+export const getStaticPaths = (async () => {
+  const catalog = await getCatalog();
+  return catalog.map((entry, index) => ({
+    params: { name: entry.name },
+    props: { entry, prev: catalog[index - 1], next: catalog[index + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: Entry;
+  prev?: Entry;
+  next?: Entry;
+}
+
+const { entry, prev, next } = Astro.props;
+// Open a dialog over the page as soon as they mount, so they run in Storybook only
+const opensOnLoad = entry.name === "session-timeout";
+// Horizontal layouts that need the stage's full width, not shrink-to-fit
+const WIDE_EXAMPLES = new Set(["stepper"]);
+// Bars that span a page: at sheet width they would collapse to their phone layout
+const PAGE_WIDE = new Set(["navbar", "footer", "site-footer", "masthead", "announce-bar", "phase-banner", "carousel"]);
+const NEVER_MEASURE = new Set(["cookie-banner", "masthead", "skiplink", "separator", "scroll-area", "language-switcher"]);
+const stacks = [entry.react && "react", entry.astro && "astro"].filter(Boolean) as ("react" | "astro")[];
+const reactStories = entry.react?.stories;
+const astroStories = entry.astro?.stories;
+
+if (reactStories) await preloadStory(reactStories.file);
+
+// Split the catalogue page at each h2: shared guidance reads for both stacks,
+// React's usage and API only when React is showing.
+const page = entry.page ? await getEntry("catalogue", entry.page) : undefined;
+const refs = await getRefs();
+const html = finishHtml(page?.rendered?.html ?? "", refs, entry.name);
+const sections = sectionsOf(html).filter((section) => section.id).map((section) => ({
+  ...section,
+  reactOnly: /^(usage|api|example)/i.test(section.label),
+}));
+const first = sections.filter((s) => /^when to use/i.test(s.label));
+const rest = sections.filter((s) => !first.includes(s));
+
+const props = astroProps(entry.astro?.source);
+
+const specimenReact = opensOnLoad ? undefined : reactStories?.stories[0];
+const specimenAstro = astroStories?.stories[0];
+// Page-scale things shrink to fit; smaller ones stay near real size, unmeasured
+const mode =
+  entry.block || reactStories?.fullscreen || PAGE_WIDE.has(entry.name)
+    ? "fit"
+    : entry.tier === "marketing" || NEVER_MEASURE.has(entry.name)
+      ? "show"
+      : "measure";
+
+const storybookUrl = (() => {
+  const file = reactStories ?? astroStories;
+  const story = file?.stories[0];
+  if (!file || !story) return undefined;
+  const root = file.stack === "react" ? "storybook" : "storybook-astro";
+  return `${href(`/${root}/`)}?path=/story/${storyId(file.storyTitle, story.id)}`;
+})();
+const sourceUrl = entry.react
+  ? `https://github.com/mof-malaysia/ftds/tree/main/packages/react/src/components/${entry.tier}/${entry.name}.tsx`
+  : `https://github.com/mof-malaysia/ftds/tree/main/packages/astro/src/components/${entry.tier}/${entry.name}.astro`;
+
+const toc = [
+  ...first.map((s) => ({ id: s.id, label: s.label })),
+  { id: "install", label: t("install") },
+  ...(specimenReact || specimenAstro ? [{ id: "examples", label: t("examples") }] : []),
+  ...rest.map((s) => ({ id: s.id, label: s.label, only: s.reactOnly && entry.astro ? ("react" as const) : undefined })),
+  ...(props.length ? [{ id: "astro-props", label: "Props", only: "astro" as const }] : []),
+];
+---
+
+<Docs title={entry.title} description={entry.description} current={`components/${entry.name}`}>
+  <Plate
+    title={entry.title}
+    description={firstSentence(entry.description)}
+    crumbs={[{ label: t("components"), href: href("/components") }, { label: entry.category }]}
+    stacks={stacks}
+  >
+    <div slot="specimen" class="sheet" data-plate-frame data-mode={mode}>
+      {
+        specimenReact && (
+          <div data-for="react" data-specimen data-stage data-density="comfortable">
+            <StoryStage client:visible file={reactStories!.file} id={specimenReact.id} />
+          </div>
+        )
+      }
+      {
+        specimenAstro && (
+          <div data-for="astro" data-specimen data-stage data-density="comfortable">
+            <AstroStory file={astroStories!.file} id={specimenAstro.id} />
+          </div>
+        )
+      }
+      {
+        entry.react && !specimenReact && specimenAstro && (
+          <p data-for="react" class="sheet-empty">No React story yet. Switch to Astro to see it.</p>
+        )
+      }
+      {
+        entry.astro && !specimenAstro && specimenReact && (
+          <p data-for="astro" class="sheet-empty">No Astro story yet. Switch to React to see it.</p>
+        )
+      }
+      {
+        !specimenReact && !specimenAstro && (
+          <p class="sheet-empty">{opensOnLoad ? "Opens over the page, so it runs in Storybook." : "No story yet. See the guidance below."}</p>
+        )
+      }
+      <div data-dims aria-hidden="true"></div>
+      <p class="sheet-note" data-scale-note></p>
+    </div>
+  </Plate>
+
+  <div class="doc-read">
+    <article class="prose">
+      {stacks.length === 1 && <p class="doc-only">{stacks[0] === "react" ? t("reactOnly") : t("astroOnly")}</p>}
+
+      {first.map((s) => <section set:html={s.html} />)}
+
+      <h2 id="install">{t("install")}</h2>
+      {entry.react && <div data-for="react"><CommandBlock command={entry.react.install} /></div>}
+      {entry.astro && <div data-for="astro"><CommandBlock command={entry.astro.install} /></div>}
+
+      {
+        (specimenReact || specimenAstro) && (
+          <>
+            <h2 id="examples">{t("examples")}</h2>
+            {
+              entry.react && !reactStories?.stories.length && specimenAstro && (
+                <p data-for="react">No React story yet. Switch to Astro to see it.</p>
+              )
+            }
+            {reactStories && !opensOnLoad && <StoryList stories={reactStories} stack="react" wide={reactStories.fullscreen || WIDE_EXAMPLES.has(entry.name)} />}
+            {astroStories && <StoryList stories={astroStories} stack="astro" wide={entry.block} />}
+          </>
+        )
+      }
+
+      {rest.map((s) => <section data-for={s.reactOnly && entry.astro ? "react" : undefined} set:html={s.html} />)}
+
+      {
+        props.length > 0 && (
+          <section data-for="astro">
+            <h2 id="astro-props">Props</h2>
+            <table>
+              <thead><tr><th>Prop</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                {props.map((p) => (
+                  <tr>
+                    <td><code>{p.name}</code>{p.required && " (required)"}</td>
+                    <td><code>{p.type}</code></td>
+                    <td>{p.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        )
+      }
+
+      <ul class="doc-links">
+        {storybookUrl && <li><a href={storybookUrl}>{t("storybook")}</a></li>}
+        {entry.page && <li><a href={href(`/components/${entry.name}.md`)}>{t("markdown")}</a></li>}
+        <li><a href={sourceUrl}>{t("source")}</a></li>
+      </ul>
+
+      <nav class="doc-pager" aria-label="Pages">
+        {prev ? <a href={href(`/components/${prev.name}`)} rel="prev"><span>{t("previous")}</span>{prev.title}</a> : <span></span>}
+        {next && <a href={href(`/components/${next.name}`)} rel="next" class="doc-pager-next"><span>{t("next")}</span>{next.title}</a>}
+      </nav>
+    </article>
+    <aside class="doc-read-aside"><Toc items={toc} /></aside>
+  </div>
+</Docs>

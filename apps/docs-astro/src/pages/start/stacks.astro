@@ -1,0 +1,64 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import StackPair from "~/components/StackPair.astro";
+import { getCatalog } from "~/lib/catalog";
+import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+import { Decide, Compare, Weight, Island } from "~/components/figures/stacks";
+import "~/styles/figures.css";
+
+const catalog = await getCatalog();
+const reactCount = catalog.filter((e) => e.react).length;
+const astroCount = catalog.filter((e) => e.astro).length;
+const both = catalog.filter((e) => e.react && e.astro).length;
+---
+
+<Reading
+  title="Choose a stack"
+  description="React suits anything people sign in to or work in. Astro suits websites people come to read. Both look the same, so you can use each where it fits."
+  current="start/stacks"
+  crumbs={[{ label: t("start"), href: href("/start") }]}
+  toc={[
+    { id: "short", label: "The short answer" },
+    { id: "compare", label: "Side by side" },
+    { id: "both", label: "Using both" },
+  ]}
+>
+  <StackPair slot="specimen" />
+
+  <h2 id="short">The short answer</h2>
+  <Decide />
+  <ul>
+    <li>Use <a href={href("/start/setup")} data-pick-stack="react">React</a> if the site has a sign-in, a form that does work, a table or a dashboard.</li>
+    <li>Use <a href={href("/start/astro")} data-pick-stack="astro">Astro</a> if people mainly come to read: agency information, announcements or a campaign.</li>
+    <li>Choose React if the site is also a service. It has its own marketing components, so one codebase can do both.</li>
+  </ul>
+
+  <h2 id="compare">Side by side</h2>
+  <Compare />
+  <Weight />
+  <table>
+    <thead><tr><th></th><th>React</th><th>Astro</th></tr></thead>
+    <tbody>
+      <tr><td>Built for</td><td>Services, portals, officer tools</td><td>Agency, landing and campaign sites</td></tr>
+      <tr><td>Components</td><td>{reactCount}</td><td>{astroCount}, with {both} in both stacks</td></tr>
+      <tr><td>JavaScript</td><td>React runtime on every page</td><td>None by default; small scripts where needed</td></tr>
+      <tr><td>Application screens</td><td>Included</td><td>Use React for these</td></tr>
+      <tr><td>Page templates</td><td>Example screens in Storybook</td><td>Whole agency pages to copy</td></tr>
+      <tr><td>Built-in labels</td><td>English, with a <code>labels</code> prop to translate</td><td>Bahasa Melayu (default) and English</td></tr>
+      <tr><td>Install prefix</td><td><code>@ftds/button</code></td><td><code>@ftds/astro-button</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="both">Using both</h2>
+  <Island />
+  <ul>
+    <li>An Astro site can run a heavy React component, such as a combobox or site search, as an island.</li>
+    <li>Components share their styles, so the two stacks look the same.</li>
+    <li>Astro components import with their extension, so <code>button.astro</code> and <code>button.tsx</code> can sit in one folder.</li>
+  </ul>
+</Reading>
+
+<script>
+  import "~/scripts/figures";
+</script>

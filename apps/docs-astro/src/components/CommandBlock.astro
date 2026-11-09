@@ -1,0 +1,15 @@
+---
+import CopyButton from "./CopyButton.astro";
+
+interface Props {
+  command: string;
+  label?: string;
+}
+
+const { command, label = "Copy command" } = Astro.props;
+---
+
+<div class="code-block doc-command">
+  <pre>{command}</pre>
+  <CopyButton class="absolute top-1/2 right-2 -translate-y-1/2" label={label} />
+</div>

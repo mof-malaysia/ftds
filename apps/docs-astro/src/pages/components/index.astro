@@ -1,0 +1,66 @@
+---
+import Docs from "~/layouts/Docs.astro";
+import Plate from "~/components/Plate.astro";
+import { getCategories, getCatalog } from "~/lib/catalog";
+import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+import { firstSentence } from "~/lib/text";
+import Toc from "~/components/Toc.astro";
+
+const categories = await getCategories();
+const catalog = await getCatalog();
+const count = catalog.length;
+const slug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
+---
+
+<Docs title={t("components")} description="Every FTDS component, for React and Astro." current="components">
+  <Plate title={t("components")} description={`${count} components and blocks for React and Astro, each shown working in the conditions your users will meet.`} density={false} plain>
+    <div slot="actions" class="catalogue-filter">
+      <label for="filter">Filter components</label>
+      <input id="filter" type="search" placeholder="Date, table, hero" autocomplete="off" />
+    </div>
+  </Plate>
+
+  <div class="doc-read">
+  <div class="catalogue">
+    {categories.map((category) => (
+      <section data-catalogue-group aria-labelledby={`g-${slug(category.name)}`}>
+        <h2 id={`g-${slug(category.name)}`}>{category.name}</h2>
+        <ul>
+          {category.entries.map((entry) => (
+            <li data-only={entry.react && entry.astro ? undefined : entry.react ? "react" : "astro"} data-search-text={`${entry.title} ${entry.description}`.toLowerCase()}>
+              <a href={href(`/components/${entry.name}`)}>
+                <strong>{entry.title}</strong>
+                <span>{firstSentence(entry.description)}</span>
+                <em>{entry.react && entry.astro ? "React, Astro" : entry.react ? "React" : "Astro"}</em>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="catalogue-empty" hidden>Nothing matches that filter.</p>
+  </div>
+  <aside class="doc-read-aside"><Toc items={categories.map((c) => ({ id: `g-${slug(c.name)}`, label: c.name }))} /></aside>
+  </div>
+</Docs>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>("#filter");
+  const empty = document.querySelector<HTMLElement>(".catalogue-empty");
+  input?.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    document.querySelectorAll<HTMLElement>("[data-catalogue-group]").forEach((group) => {
+      let inGroup = 0;
+      group.querySelectorAll<HTMLElement>("li").forEach((row) => {
+        const match = !q || row.dataset.searchText!.includes(q);
+        row.hidden = !match;
+        if (match) inGroup++;
+      });
+      group.hidden = inGroup === 0;
+      shown += inGroup;
+    });
+    if (empty) empty.hidden = shown > 0;
+  });
+</script>

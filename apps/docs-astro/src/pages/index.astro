@@ -1,14 +1,172 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Logo from "~/components/Logo.astro";
+import SearchButton from "~/components/SearchButton.astro";
+import SearchDialog from "~/components/SearchDialog.astro";
+import Conditions from "~/components/Conditions.astro";
+import CommandBlock from "~/components/CommandBlock.astro";
+import DensityPair from "~/components/DensityPair.astro";
+import StoryStage, { preloadStory } from "~/components/StoryStage.tsx";
+import { getCatalog } from "~/lib/catalog";
+import { loadStories } from "~/lib/stories";
 import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+
+const catalog = await getCatalog();
+const reactCount = catalog.filter((e) => e.react).length;
+const astroCount = catalog.filter((e) => e.astro).length;
+
+const { react } = await loadStories();
+const citizen = react.get("app-citizen-examples");
+if (citizen) await preloadStory(citizen.file);
+
+const nav = [
+  { label: "Start", href: href("/start") },
+  { label: "Foundations", href: href("/foundations/colour") },
+  { label: "Components", href: href("/components") },
+  { label: "Templates", href: href("/templates") },
+  { label: "AI assistants", href: href("/mcp") },
+];
 ---
 
-<!-- Placeholder until the home page is ported -->
-<Base title="FTDS">
-  <main class="mx-auto flex min-h-dvh max-w-2xl flex-col justify-center gap-4 px-4">
-    <h1 class="text-display font-semibold">FTDS docs</h1>
-    <p class="text-txt-black-700">Only the Button page is ported so far.</p>
-    <a href={href("/docs/components/button")} class="text-txt-primary underline underline-offset-4">Go to Button</a>
-    <a href={href("/mcp")} class="text-txt-primary underline underline-offset-4">Use FTDS in Claude or ChatGPT</a>
+<Base title="FTDS" description="Accessible components and ready-made screens for public services, in React and Astro. Free to use and yours to keep.">
+  <a href="#content" class="doc-skip">{t("skip")}</a>
+
+  <header class="home-bar">
+      <Logo />
+      <nav aria-label="Main">
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+      </nav>
+      <div class="home-bar-end">
+        <SearchButton />
+        <button type="button" class="doc-icon-button home-menu-button" popovertarget="home-menu" aria-label={t("menu")}>
+          <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3.5 6h13M3.5 10h13M3.5 14h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+  </header>
+
+    <div id="home-menu" popover class="doc-menu">
+      <button type="button" class="doc-icon-button doc-menu-close" popovertarget="home-menu" popovertargetaction="hide" aria-label={t("closeMenu")}>
+        <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>
+      </button>
+      <Logo />
+      <ul class="home-menu-list">{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+    </div>
+
+  <main id="content" tabindex="-1" class="home-main">
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero-body">
+      <div class="home-hero-copy">
+        <h1 id="home-title">Build public services that people trust.</h1>
+        <p>Accessible components and ready-made screens for forms, payments, case work and public websites. Ready for Bahasa Melayu and English, free to use, and yours to keep.</p>
+        <div class="home-actions">
+          <a class="home-button" href={href("/start")}>Get started</a>
+          <a class="home-button home-button--quiet" href={href("/components")}>Browse components</a>
+        </div>
+      </div>
+
+      <div class="home-hero-specimen">
+        <div class="home-specimen-bar">
+          <p>A working FTDS screen, with sample data.</p>
+          <Conditions stacks={["react"]} />
+        </div>
+        <div class="sheet home-sheet" data-plate-frame data-mode="fit" data-fit-whole inert>
+          {citizen && (
+            <div data-specimen data-stage data-density="comfortable">
+              <StoryStage file={citizen.file} id="PayFee" />
+            </div>
+          )}
+          <div data-dims aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-fork" aria-labelledby="fork">
+    <h2 id="fork">What are you building?</h2>
+    <p class="home-fork-note">Pick a starting point. Each preview is a working FTDS page.</p>
+    <div class="home-fork-grid">
+      <a class="fork fork--react" href={href("/start/setup")} data-pick-stack="react">
+        <div class="fork-copy">
+          <h3>A service</h3>
+          <p>Portals, applications, payments and officer tools. {reactCount} React components, with sign-in, payment and case review screens ready to adapt.</p>
+          <span>Set up React</span>
+        </div>
+        <div class="fork-screen fork-screen--page" data-fit-frame data-fill>
+          <iframe data-src={href("/templates/preview/react-app-officer-examples--Queue")} title="An officer's case queue built with FTDS for React, with sample data" tabindex="-1" inert></iframe>
+        </div>
+      </a>
+
+      <a class="fork fork--astro" href={href("/start/astro")} data-pick-stack="astro">
+        <div class="fork-copy">
+          <h3>A website</h3>
+          <p>Agency pages, landing pages and campaigns. {astroCount} Astro components that send no JavaScript by default, so pages stay quick on slow connections.</p>
+          <span>Set up Astro</span>
+        </div>
+        <div class="fork-screen fork-screen--page" data-fit-frame data-fill>
+          <iframe data-src={href("/templates/preview/astro-service-landing")} title="A service page built with FTDS for Astro, with sample data" tabindex="-1" inert></iframe>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-density" aria-labelledby="density">
+    <div class="home-density-copy">
+      <h2 id="density">Right for the public and the back office.</h2>
+      <p>People using a service once a year get 44px controls and 16px text.</p>
+      <p>Officers working in it all day get 32px controls and 14px text, with more on screen.</p>
+      <p>One setting switches a whole area, so both sides of a service stay consistent.</p>
+    </div>
+    <DensityPair />
+  </section>
+
+  <section class="home-facts" aria-labelledby="facts">
+    <h2 id="facts">What your project can count on.</h2>
+    <dl>
+      <div><dt>Accessible from the start</dt><dd>Every component is built to WCAG 2.2 AA. Automated accessibility and keyboard tests run on the Astro library with every change.</dd></div>
+      <div><dt>Easy to read</dt><dd>Text for the public starts at 16px, and anything people need to read stays high in contrast.</dd></div>
+      <div><dt>Bahasa Melayu and English</dt><dd>Layouts allow for longer Malay text, so labels and key information are not cut off.</dd></div>
+      <div><dt>Free to use</dt><dd>FTDS is open source under the MIT licence, with no licence fees or per-user costs.</dd></div>
+      <div><dt>Yours to keep</dt><dd>Components are copied into your repository as ordinary code. Your team can review and change them, and the next team or supplier inherits code they already know how to read.</dd></div>
+      <div><dt>Easy to start small</dt><dd>Add one component or one screen at a time, and take updates when your project is ready for them.</dd></div>
+    </dl>
+  </section>
+
+  <section class="home-agents" aria-labelledby="agents">
+    <div>
+      <h2 id="agents">Try an idea before writing any code.</h2>
+      <p>Describe a screen to Claude or ChatGPT and see it built with real FTDS components, ready to share with your team. When development starts, coding agents can read the same documentation.</p>
+      <a href={href("/mcp")}>Connect an assistant</a>
+    </div>
+    <div class="home-agents-list">
+      <a href={href("/llms.txt")}><code>/llms.txt</code><span>An index of every page, for coding agents</span></a>
+      <a href={href("/components/button.md")}><code>/components/button.md</code><span>One page per component</span></a>
+      <a href={href("/mcp")}><code>MCP server</code><span>Build screens in the chat</span></a>
+    </div>
+  </section>
+
+  <section class="home-close" aria-labelledby="close">
+    <h2 id="close">Try it on one screen.</h2>
+    <CommandBlock command="npx shadcn@latest add @ftds/ftds-init" />
+    <a class="home-button" href={href("/start")}>Read the setup guide</a>
+  </section>
+
   </main>
+
+  <footer class="home-foot">
+    <p>Built and maintained by FiscalTech. <a class="underline" href={`${href("/start")}#myds`}>A fork of MYDS</a>. MIT licensed.</p>
+    <ul>
+      <li><a href="https://github.com/mof-malaysia/ftds">GitHub</a></li>
+      <li><a href={href("/storybook/")}>Storybook</a></li>
+      <li><a href={href("/storybook-astro/")}>Astro Storybook</a></li>
+    </ul>
+  </footer>
+
+  <SearchDialog />
+
+  <script>
+    import "~/scripts/copy";
+    import "~/scripts/conditions";
+    import "~/scripts/frames";
+  </script>
 </Base>

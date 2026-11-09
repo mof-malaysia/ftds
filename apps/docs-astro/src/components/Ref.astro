@@ -1,0 +1,14 @@
+---
+/** A component named in running text. Links to its page when it has one. */
+import { getRefs } from "~/lib/refs";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const refs = await getRefs();
+const ref = refs.get(name);
+---
+
+{ref ? <a class="ref" href={ref.href}>{name}</a> : <span class="ref">{name}</span>}

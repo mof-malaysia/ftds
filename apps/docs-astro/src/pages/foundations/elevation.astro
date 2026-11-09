@@ -1,0 +1,66 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import { t } from "~/lib/i18n";
+
+const layers = [
+  ["z-sticky", "100", "Sticky headers"],
+  ["z-banner", "200", "Page-level banners"],
+  ["z-overlay", "900", "Scrims behind dialogs and drawers"],
+  ["z-modal", "1000", "Dialogs, drawers, sheets"],
+  ["z-popup", "1100", "Select lists, menus, popovers, tooltips"],
+  ["z-toast", "1200", "Toasts"],
+  ["z-skiplink", "1300", "The skip link, when focused"],
+];
+---
+
+<Reading
+  title="Elevation and layers"
+  description="Screens stay flat and show depth through tone. Shadows are kept for things that float above the page, such as menus and dialogs."
+  current="foundations/elevation"
+  crumbs={[{ label: t("foundations") }]}
+  toc={[
+    { id: "tone", label: "Tone" },
+    { id: "shadows", label: "Shadows" },
+    { id: "layers", label: "Layers" },
+  ]}
+>
+  <div slot="specimen" class="sheet sheet--pad">
+    <div class="elev">
+      <div class="elev-paper"><span>Paper</span>
+        <div class="elev-sheet"><span>Sheet</span>
+          <div class="elev-well"><span>Well</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="tone">Tone</h2>
+  <ul>
+    <li><strong>Paper</strong> is the floor.</li>
+    <li><strong>Sheet</strong> sits on it.</li>
+    <li><strong>Well</strong> sinks into it.</li>
+  </ul>
+  <p>Buttons, inputs, cards and table rows stay flat, which keeps busy screens easy to scan.</p>
+
+  <h2 id="shadows">Shadows</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>Float</td><td>Menus, popovers, select lists, tooltips, toasts</td></tr>
+      <tr><td>Lift</td><td>Dialogs and sheets, over a scrim of Ink at 40%</td></tr>
+    </tbody>
+  </table>
+  <p>On dark canvases shadows disappear, so floating layers use Dark Sheet and a 1px hairline instead.</p>
+
+  <h2 id="layers">Layers</h2>
+  <p>Anything above the page uses a named layer, so dialogs, popups and toasts always stack correctly.</p>
+  <p>Popups sit above modals, so a select inside a dialog opens on top of it.</p>
+  <table>
+    <thead><tr><th>Utility</th><th>Value</th><th>Used by</th></tr></thead>
+    <tbody>
+      {layers.map(([name, value, use]) => (
+        <tr><td><code>{name}</code></td><td>{value}</td><td>{use}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</Reading>

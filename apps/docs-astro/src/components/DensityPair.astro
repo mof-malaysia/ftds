@@ -1,0 +1,23 @@
+---
+/** The same real button at both densities, each measured from the page. */
+import MeasuredSheet from "./MeasuredSheet.astro";
+import Button from "@/components/ui/button.astro";
+
+interface Props {
+  label?: string;
+}
+
+const { label = "Mula membayar" } = Astro.props;
+const panes = [
+  { density: "comfortable", name: "Citizen" },
+  { density: "compact", name: "Officer" },
+];
+---
+
+<div class="density-pair">
+  {panes.map((pane) => (
+    <MeasuredSheet class="density-pane" name={pane.name} density={pane.density}>
+      <Button variant="primary-fill">{label}</Button>
+    </MeasuredSheet>
+  ))}
+</div>

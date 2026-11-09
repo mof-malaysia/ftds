@@ -1,8 +1,9 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { ftdsPaths } from "../../packages/react/paths.mjs";
+import { ftdsAstroPaths } from "../../packages/astro/paths.mjs";
 
 /**
  * Where the site is served. The Pages workflow sets FTDS_SITE_URL (by default
@@ -15,16 +16,23 @@ export default defineConfig({
   site: siteUrl.origin,
   base: siteUrl.pathname,
   trailingSlash: "ignore",
-  integrations: [react(), mdx()],
+  integrations: [react()],
   markdown: {
     shikiConfig: {
-      themes: { light: "github-light", dark: "github-dark-dimmed" },
-      defaultColor: false,
+      theme: "github-dark-dimmed",
     },
   },
   vite: {
-    // Examples import FTDS the way a project that ran `shadcn add` does, so
-    // the Code tab shows code people can paste
-    plugins: [ftdsPaths(), tailwindcss()],
+    // Stories and examples import FTDS the way a project that ran `shadcn add`
+    // does. Astro paths first: they only answer for `.astro` imports.
+    plugins: [ftdsAstroPaths(), ftdsPaths(), tailwindcss()],
+    resolve: {
+      alias: {
+        // Stories import `fn` for Storybook's Actions panel; the docs don't need it
+        "storybook/test": fileURLToPath(
+          new URL("./src/lib/storybook-test.ts", import.meta.url),
+        ),
+      },
+    },
   },
 });

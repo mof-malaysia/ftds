@@ -1,0 +1,26 @@
+---
+/** A component's stories: the first few open, the rest behind a disclosure. */
+import Example from "./Example.astro";
+import type { StoryFile } from "~/lib/stories";
+import { t } from "~/lib/i18n";
+
+interface Props {
+  stories: StoryFile;
+  stack: "react" | "astro";
+  wide?: boolean;
+}
+
+const { stories, stack, wide } = Astro.props;
+const OPEN = 6;
+const more = stories.stories.slice(OPEN);
+---
+
+<div data-for={stack}>
+  {stories.stories.slice(0, OPEN).map((story) => <Example story={story} file={stories.file} stack={stack} wide={wide} />)}
+  {more.length > 0 && (
+    <details class="more-examples">
+      <summary>{t("moreExamples")} ({more.length})</summary>
+      {more.map((story) => <Example story={story} file={stories.file} stack={stack} wide={wide} />)}
+    </details>
+  )}
+</div>

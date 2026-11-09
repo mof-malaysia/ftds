@@ -1,0 +1,68 @@
+---
+import { Code } from "astro:components";
+import Reading from "~/layouts/Reading.astro";
+import CommandBlock from "~/components/CommandBlock.astro";
+import CopyButton from "~/components/CopyButton.astro";
+import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+import { AstroHero } from "~/components/figures/setup";
+import "~/styles/figures.css";
+
+const registry = `{
+  "registries": {
+    "@ftds": "https://mof-malaysia.github.io/ftds/r/v0/{name}.json"
+  }
+}`;
+
+const usage = [
+  "---",
+  'import Hero from "@/components/blocks/hero.astro";',
+  "---",
+  "",
+  "<Hero",
+  '  title="Bayar bil kerajaan di satu tempat"',
+  '  primaryAction={{ label: "Mula membayar", href: "/bayar" }}',
+  "/>",
+].join("\n");
+---
+
+<Reading
+  title="Set up Astro"
+  description="Add FTDS to an agency, landing or campaign site in three steps. You will need Astro 7 or later and Tailwind v4."
+  current="start/astro"
+  crumbs={[{ label: t("start"), href: href("/start") }]}
+  toc={[
+    { id: "registry", label: "Add the registry" },
+    { id: "styles", label: "Install the styles" },
+    { id: "components", label: "Install components" },
+    { id: "where", label: "Where files go" },
+  ]}
+>
+  <Fragment slot="specimen"><AstroHero /></Fragment>
+
+  <h2 id="registry">1. Add the registry</h2>
+  <p>In <code>components.json</code>, add the <code>@ftds</code> namespace.</p>
+  <div class="code-block"><Code code={registry} lang="json" theme="github-dark-dimmed" /><CopyButton class="absolute top-2 right-2" /></div>
+
+  <h2 id="styles">2. Install the styles</h2>
+  <CommandBlock command="npx shadcn@latest add @ftds/ftds-init" />
+  <p>This is the same step React uses, so the two stacks share their tokens.</p>
+
+  <h2 id="components">3. Install components</h2>
+  <CommandBlock command="npx shadcn@latest add @ftds/astro-hero @ftds/astro-masthead" />
+  <p>Import each component with its file extension, so <code>button.astro</code> and <code>button.tsx</code> can live side by side.</p>
+  <div class="code-block"><Code code={usage} lang="astro" theme="github-dark-dimmed" /><CopyButton class="absolute top-2 right-2" /></div>
+
+  <h2 id="where">Where files go</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Installed to</th></tr></thead>
+    <tbody>
+      <tr><td>Components</td><td><code>components/ui/&lt;name&gt;.astro</code></td></tr>
+      <tr><td>Marketing blocks</td><td><code>components/blocks/&lt;name&gt;.astro</code></td></tr>
+      <tr><td>Icons</td><td><code>components/ui/icons/&lt;name&gt;.astro</code></td></tr>
+      <tr><td>Shared variants</td><td><code>components/ui/&lt;name&gt;.variants.ts</code></td></tr>
+      <tr><td>Labels</td><td><code>lib/ftds/i18n/</code></td></tr>
+    </tbody>
+  </table>
+  <p>Pages still render correctly with JavaScript turned off, which helps visitors on older devices and poor connections.</p>
+</Reading>

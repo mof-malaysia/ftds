@@ -1,19 +1,16 @@
 ---
-import Base from "~/layouts/Base.astro";
+import Reading from "~/layouts/Reading.astro";
 import CopyButton from "~/components/CopyButton.astro";
-import Brand from "~/components/Brand.astro";
-import ThemeToggle from "~/components/ThemeToggle.astro";
+import CommandBlock from "~/components/CommandBlock.astro";
+import { href } from "~/lib/url";
 
 /**
- * How to add the FTDS MCP server (apps/mcp) to Claude or ChatGPT, nothing
- * else. Menu names follow each product's help pages as of October 2026.
+ * How coding agents and assistants read FTDS. Menu names follow each product's
+ * help pages as of October 2026.
  */
+const MCP_URL = import.meta.env.PUBLIC_FTDS_MCP_URL || "https://ftds-mcp.irfan-ismail96.workers.dev/mcp";
 
-const MCP_URL =
-  import.meta.env.PUBLIC_FTDS_MCP_URL || "https://ftds-mcp.irfan-ismail96.workers.dev/mcp";
-
-const PROMPT =
-  "Mock up an officer dashboard for reviewing grant applications, with status filters and a table.";
+const PROMPT = "Mock up an officer dashboard for reviewing grant applications, with status filters and a table.";
 
 const apps = [
   {
@@ -25,7 +22,7 @@ const apps = [
       "Choose <b>No sign in</b>, then click <b>Add</b>.",
       "In a chat, click <b>+ → Connectors</b> and turn on <b>FTDS</b>.",
     ],
-    note: "Works on every plan; Free allows one custom connector. On Team and Enterprise, an owner adds it under Organization settings → Connectors first.",
+    note: "Works on every plan. Free allows one custom connector, and on Team and Enterprise, an owner adds it under Organization settings → Connectors first.",
   },
   {
     name: "ChatGPT",
@@ -41,64 +38,45 @@ const apps = [
 ];
 ---
 
-<Base
-  title="Use FTDS in Claude or ChatGPT"
-  description="Add the FTDS MCP server to Claude or ChatGPT and mock up screens with FTDS components."
+<Reading
+  title="AI assistants"
+  description="Try a screen idea in Claude or ChatGPT using real FTDS components, and give your coding agents the same documentation your team reads."
+  current="mcp"
+  toc={[
+    { id: "text", label: "Plain-text docs" },
+    { id: "mcp", label: "MCP server" },
+    { id: "ask", label: "Ask for a screen" },
+  ]}
 >
-  <header class="flex h-14 items-center justify-between px-4 md:px-6">
-    <Brand />
-    <ThemeToggle />
-  </header>
+  <h2 id="text">Plain-text docs</h2>
+  <ul>
+    <li><a href={href("/llms.txt")}>llms.txt</a> is the index and the rules.</li>
+    <li><a href={href("/llms-full.txt")}>llms-full.txt</a> is every page in one file.</li>
+    <li>Each component has its own Markdown page, for example <a href={href("/components/button.md")}>button.md</a>, with its props read from the code.</li>
+  </ul>
 
-  <main class="text-txt-black-900 mx-auto max-w-4xl px-4 pt-8 pb-20 md:pt-16">
-    <h1 class="text-headline font-semibold">Use FTDS in Claude or ChatGPT</h1>
-    <p class="text-txt-black-700 mt-3 max-w-2xl text-lg">
-      Describe a screen and your assistant builds it with FTDS components, right in the chat. Share what it
-      makes as a link.
-    </p>
+  <h2 id="mcp">MCP server</h2>
+  <p>Connect your assistant with this URL. It takes a few minutes, and no sign-in is needed.</p>
+  <div class="code-block doc-command">
+    <pre class="break-all whitespace-pre-wrap">{MCP_URL}</pre>
+    <CopyButton class="absolute top-1/2 right-2 -translate-y-1/2" label="Copy URL" />
+  </div>
+  {apps.map((app) => (
+    <>
+      <h3>{app.name}</h3>
+      <ol>
+        {app.steps.map((step) => <li set:html={step} />)}
+      </ol>
+      <p>{app.note}</p>
+    </>
+  ))}
 
-    <section class="mt-10" aria-labelledby="url">
-      <h2 id="url" class="font-semibold">1. Copy this URL</h2>
-      <div class="code-block bg-bg-white mt-3 flex items-center gap-2 rounded-lg py-2 pr-2 pl-4">
-        <pre class="min-w-0 flex-1 font-mono text-sm break-all whitespace-pre-wrap">{MCP_URL}</pre>
-        <CopyButton label="Copy URL" />
-      </div>
-    </section>
-
-    <section class="mt-10" aria-labelledby="add">
-      <h2 id="add" class="font-semibold">2. Add it to your assistant</h2>
-      <div class="mt-3 grid gap-4 md:grid-cols-2">
-        {
-          apps.map((app) => (
-            <div class="bg-bg-white rounded-lg p-6">
-              <h3 class="text-title font-semibold">{app.name}</h3>
-              <ol class="mt-4 space-y-3">
-                {app.steps.map((step, i) => (
-                  <li class="flex gap-3">
-                    <span class="bg-bg-washed text-txt-black-700 grid size-6 shrink-0 place-items-center rounded-full text-xs font-medium tabular-nums">
-                      {i + 1}
-                    </span>
-                    <span class="[&_b]:font-medium" set:html={step} />
-                  </li>
-                ))}
-              </ol>
-              <p class="text-txt-black-700 mt-5 text-sm">{app.note}</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="mt-10" aria-labelledby="ask">
-      <h2 id="ask" class="font-semibold">3. Ask for a screen</h2>
-      <div class="code-block bg-bg-white mt-3 flex items-center gap-2 rounded-lg py-2 pr-2 pl-4">
-        <pre class="min-w-0 flex-1 font-sans text-sm whitespace-pre-wrap">{PROMPT}</pre>
-        <CopyButton label="Copy prompt" />
-      </div>
-      <p class="text-txt-black-700 mt-3 text-sm">
-        The screen appears in the chat. Ask for changes in plain words, and use the link button above the screen to
-        share it.
-      </p>
-    </section>
-  </main>
-</Base>
+  <h2 id="ask">Ask for a screen</h2>
+  <p>A quick way to explore an idea with your team before any code is written. Try this one:</p>
+  <CommandBlock command={PROMPT} label="Copy prompt" />
+  <ul>
+    <li>The screen appears in the chat.</li>
+    <li>Ask for changes in plain words.</li>
+    <li>To share it, use the link button above the screen.</li>
+  </ul>
+</Reading>

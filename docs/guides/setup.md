@@ -1,6 +1,6 @@
 ---
 title: Setup
-description: Add FTDS to a React project: shadcn init, the @ftds registry namespace, styles, fonts, dark mode and density.
+description: Add FTDS to a new or existing React project: connect the registry, install the styles, then set up dark mode and density.
 order: 1
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Page layouts
-description: Which frame to use for citizen services, officer tools, sign-in screens, settings and marketing pages, and the government chrome every page needs.
+description: The right starting frame for public services, officer tools, sign-in screens, settings and websites, and the official elements a government page needs.
 order: 5
 ---
 
@@ -18,7 +18,7 @@ Pick the frame by who the page is for, then fill it with components and blocks.
 
 Every page opens with a `PageHeader` holding the page's only `h1` (`PageHeaderTitle`), unless a block already provides the title.
 
-## Government chrome
+## Official site elements
 
 Public Malaysian government sites show, top to bottom:
 
@@ -81,7 +81,7 @@ export function ServicePage({ children }: { children: ReactNode }) {
         {children}
       </main>
       <Footer>
-        <FooterCopyright>© 2026 Ministry of Finance Malaysia</FooterCopyright>
+        <FooterCopyright>© 2026 Your agency name</FooterCopyright>
       </Footer>
     </div>
   );

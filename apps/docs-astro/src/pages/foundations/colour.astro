@@ -1,0 +1,74 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import { resolveColor } from "~/lib/tokens";
+import { t } from "~/lib/i18n";
+
+const roles = [
+  { token: "--bg-primary-600", name: "FTDS Blue", use: "The primary action, links, the current selection." },
+  { token: "--bg-gray-50", name: "Paper", use: "The page canvas." },
+  { token: "--bg-white", name: "Sheet", use: "Raised content: dialogs, inputs, the main panel." },
+  { token: "--bg-washed", name: "Well", use: "Grouped areas, secondary buttons, row hover." },
+  { token: "--txt-black-900", name: "Ink", use: "Headings and primary text." },
+  { token: "--txt-black-700", name: "Ink Secondary", use: "Supporting text, hints, table headers." },
+  { token: "--otl-gray-200", name: "Hairline", use: "Table row dividers and one rule under a top bar." },
+  { token: "--bg-danger-600", name: "Danger", use: "Destructive actions, errors, overdue amounts." },
+  { token: "--txt-success", name: "Success", use: "Completed payments, approved status." },
+  { token: "--txt-warning", name: "Warning", use: "Upcoming deadlines, incomplete information." },
+].map((role) => ({ ...role, ...resolveColor(role.token) }));
+
+const ramp = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
+---
+
+<Reading
+  title="Colour"
+  description="Mostly neutral screens, with blue reserved for the next step, so people always know where to go."
+  current="foundations/colour"
+  crumbs={[{ label: t("foundations") }]}
+  toc={[
+    { id: "roles", label: "Roles" },
+    { id: "rules", label: "Rules" },
+    { id: "dark", label: "Dark theme" },
+  ]}
+>
+  <div slot="specimen" class="sheet sheet--pad">
+    <div class="ramp" role="img" aria-label="FTDS Blue, from Primary 50 to Primary 950">
+      {ramp.map((step) => (
+        <div style={`background: rgb(var(--_primary-${step}))`} class:list={[{ on: step === "600" }]}>
+          <span style={Number(step) >= 600 ? "color:#fff" : "color:#000"}>{step}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <h2 id="roles">Roles</h2>
+  <table>
+    <thead><tr><th>Role</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      {roles.map((r) => (
+        <tr>
+          <td>{r.name}</td>
+          <td><span class="swatch" style={`background:${r.light?.hex}`}></span><code>{r.light?.hex}</code></td>
+          <td><span class="swatch" style={`background:${r.dark?.hex}`}></span><code>{r.dark?.hex}</code></td>
+          <td>{r.use}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p>These values come from the style package when this site builds, so the table always matches the CSS.</p>
+
+  <h2 id="rules">Rules</h2>
+  <ul>
+    <li><strong>Lead with one blue action.</strong> In a service, a single filled blue element shows people the next step.</li>
+    <li><strong>Keep important text in Ink or Ink Secondary.</strong> Light grey is harder to read, especially for older eyes.</li>
+    <li><strong>Show status with a wash and coloured text.</strong> Saturated fills are kept for primary and danger buttons.</li>
+    <li><strong>Pair colour with words or an icon,</strong> so the meaning reaches everyone.</li>
+  </ul>
+  <p>These rules are for the services you build. This documentation site uses blue more freely.</p>
+
+  <h2 id="dark">Dark theme</h2>
+  <ul>
+    <li>Dark is a full theme for officers in long sessions.</li>
+    <li>It has its own Graphite neutrals instead of reversing the light greys.</li>
+    <li>Text stops short of pure white, because white on near-black glares over a working day.</li>
+  </ul>
+</Reading>

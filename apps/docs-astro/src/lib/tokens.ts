@@ -35,6 +35,11 @@ function load() {
   return cache;
 }
 
+/** The light theme as CSS declarations, for a light panel on a dark page. */
+export function lightTokens() {
+  return [...load().light].map(([name, value]) => `${name}:${value}`).join(";");
+}
+
 function toHex(rgb: string): string | undefined {
   const parts = rgb.split(/\s+/).map(Number);
   if (parts.length < 3 || parts.some(Number.isNaN)) return undefined;

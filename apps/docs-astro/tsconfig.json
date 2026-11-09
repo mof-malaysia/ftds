@@ -12,7 +12,8 @@
       "@/components/ui/*": [
         "../../packages/react/src/components/core/*",
         "../../packages/react/src/components/app/*",
-        "../../packages/react/src/components/marketing/*"
+        "../../packages/react/src/components/marketing/*",
+        "../../packages/astro/src/components/core/*"
       ]
     }
   }

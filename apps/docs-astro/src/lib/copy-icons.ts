@@ -1,0 +1,3 @@
+/** The copy button's two states, shared by `CopyButton` and Markdown code blocks. */
+export const copyIcons =
+  '<svg class="size-4 group-data-copied/copy:hidden" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.75" y="6.75" width="10.5" height="10.5" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M13.25 6.75V4.75a2 2 0 0 0-2-2h-6.5a2 2 0 0 0-2 2v6.5a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.5"></path></svg><svg class="hidden size-4 group-data-copied/copy:block" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4.5 10.5 3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>';

@@ -1,7 +1,7 @@
 ---
 title: Masthead
 description: The "Official Malaysia Government Website" bar at the very top of every government site, with a panel that explains how to tell the site is genuine.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

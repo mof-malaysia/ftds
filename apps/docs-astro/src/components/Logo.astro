@@ -1,0 +1,17 @@
+---
+import { href } from "~/lib/url";
+
+/**
+ * The FTDS mark, "Nest": one corner drawn at two sizes, 44 and 32, the two
+ * densities of the system. Together they make an F. On a blue field the
+ * square drops away and the white strokes stand alone (see .doc-brand rect).
+ */
+---
+
+<a href={href("/")} class="doc-brand" aria-label="FTDS home">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+    <rect width="32" height="32" rx="8" fill="#2563EB"></rect>
+    <path d="M8 26V10a2 2 0 0 1 2-2h14M14 26V16a2 2 0 0 1 2-2h4" stroke="#fff" stroke-width="4" stroke-linecap="round"></path>
+  </svg>
+  <span>FTDS</span>
+</a>

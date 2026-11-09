@@ -1,0 +1,33 @@
+---
+/** A docs page with a plain plate, a reading column and contents. */
+import Docs from "./Docs.astro";
+import Plate from "~/components/Plate.astro";
+import Toc from "~/components/Toc.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  current: string;
+  crumbs?: { label: string; href?: string }[];
+  toc?: { id: string; label: string }[];
+  /** Pages that don't depend on density hide that switch. */
+  density?: boolean;
+  /** Pages with React and Astro variations show the stack switch. */
+  stack?: boolean;
+}
+
+const { title, description, current, crumbs, toc = [], density = false, stack = false } = Astro.props;
+const hasSpecimen = Astro.slots.has("specimen");
+---
+
+<Docs title={title} description={description} current={current}>
+  <Plate title={title} description={description} crumbs={crumbs} density={density} stack={stack} plain={!hasSpecimen}>
+    {hasSpecimen && <slot name="specimen" slot="specimen" />}
+  </Plate>
+  <div class="doc-read">
+    <article class="prose">
+      <slot />
+    </article>
+    {toc.length > 0 && <aside class="doc-read-aside"><Toc items={toc} /></aside>}
+  </div>
+</Docs>

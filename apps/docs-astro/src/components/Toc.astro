@@ -1,49 +1,38 @@
 ---
-import type { MarkdownHeading } from "astro";
+import { t } from "~/lib/i18n";
 
 interface Props {
-  headings: MarkdownHeading[];
+  items: { id: string; label: string; only?: "react" | "astro" }[];
 }
 
-const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+const { items } = Astro.props;
 ---
 
-{
-  headings.length > 0 && (
-    <nav aria-labelledby="toc-title" data-toc>
-      <p id="toc-title" class="text-txt-black-900 mb-2 text-sm font-semibold">
-        On this page
-      </p>
-      <ul class="space-y-1">
-        {headings.map((h) => (
-          <li data-toc-slug={h.slug}>
-            <a
-              href={`#${h.slug}`}
-              class:list={[
-                "focus-ring text-txt-black-700 hover:text-txt-black-900 block rounded-xs py-1 text-sm transition-colors",
-                h.depth === 3 && "pl-3",
-              ]}
-            >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )
-}
+<nav class="doc-toc" aria-label={t("onThisPage")}>
+  <h2>{t("onThisPage")}</h2>
+  <ul>
+    {items.map((item) => (
+      <li data-only={item.only}><a href={`#${item.id}`}>{item.label}</a></li>
+    ))}
+  </ul>
+</nav>
 
 <script>
-  import { CHANGE } from "~/scripts/tabs";
-
-  // On pages with tabs, list only the headings in the open tab
-  const toc = document.querySelector<HTMLElement>("[data-toc]");
-  const sync = () => {
-    for (const item of toc?.querySelectorAll<HTMLElement>("[data-toc-slug]") ?? []) {
-      const panel = document.getElementById(item.dataset.tocSlug!)?.closest<HTMLElement>("[role=tabpanel]");
-      item.hidden = Boolean(panel?.closest("[data-hash]") && panel.hidden);
-    }
-  };
-  sync();
-  document.addEventListener(CHANGE, sync);
+  const links = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>(".doc-toc a")].map((a) => [a.hash.slice(1), a]),
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute("aria-current"));
+        links.get(entry.target.id)?.setAttribute("aria-current", "true");
+      }
+    },
+    { rootMargin: "0px 0px -75% 0px" },
+  );
+  links.forEach((_, id) => {
+    const heading = document.getElementById(id);
+    if (heading) observer.observe(heading);
+  });
 </script>

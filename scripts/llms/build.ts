@@ -305,7 +305,7 @@ function main() {
   const link = (title: string, page: string, description: string) =>
     `- [${title}](${pageUrl(page)}): ${description}`;
   const iconCount = readRegistry().filter((e) => e.registry === "icons").length;
-  const summary = `> FiscalTech Design System (FTDS) is the Ministry of Finance Malaysia's design system for government services: ${documented.length} React components, blocks and helpers, ${iconCount} icons and Tailwind CSS v4 styles, distributed as a shadcn registry and built on Base UI. This file documents ${isRelease ? `release ${VERSION}` : `the unreleased ${VERSION} branch`}.`;
+  const summary = `> FiscalTech Design System (FTDS) is an open-source design system for public services, built and maintained by FiscalTech: ${documented.length} React components, blocks and helpers, ${iconCount} icons and Tailwind CSS v4 styles, distributed as a shadcn registry and built on Base UI. This file documents ${isRelease ? `release ${VERSION}` : `the unreleased ${VERSION} branch`}.`;
 
   const sections: string[] = [];
   sections.push(

@@ -1,0 +1,39 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import DensityPair from "~/components/DensityPair.astro";
+import Ref from "~/components/Ref.astro";
+import { t } from "~/lib/i18n";
+---
+
+<Reading
+  title="Density"
+  description="One set of components at two sizes: comfortable for the public, compact for officers who work in them all day."
+  current="foundations/density"
+  crumbs={[{ label: t("foundations") }]}
+  toc={[
+    { id: "values", label: "Values" },
+    { id: "use", label: "Using it" },
+  ]}
+>
+  <DensityPair slot="specimen" />
+
+  <h2 id="values">Values</h2>
+  <table>
+    <thead><tr><th></th><th>Citizen (comfortable)</th><th>Officer (compact)</th></tr></thead>
+    <tbody>
+      <tr><td>Body text</td><td>16px</td><td>14px</td></tr>
+      <tr><td>Control height</td><td>44px</td><td>32px</td></tr>
+      <tr><td>Gaps</td><td>12 to 24px</td><td>8 to 16px</td></tr>
+      <tr><td>Table row</td><td>48px</td><td>40px</td></tr>
+    </tbody>
+  </table>
+  <p>Density changes only size and spacing. Colour, radius and behaviour stay the same.</p>
+
+  <h2 id="use">Using it</h2>
+  <ul>
+    <li>Comfortable is the default.</li>
+    <li>For compact, set <code>data-density="compact"</code> on any container. Everything inside follows.</li>
+    <li><Ref name="DeskShell" /> sets it for you.</li>
+    <li>Leave control sizes to the density. The <code>size</code> prop is relative to it, so a small button is the right size in either.</li>
+  </ul>
+</Reading>

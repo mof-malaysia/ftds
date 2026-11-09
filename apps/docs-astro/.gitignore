@@ -1,3 +1,16 @@
 node_modules
 dist
 .astro
+
+# Written by `pnpm catalogue` (scripts/llms/build.ts)
+public/llms.txt
+public/llms-full.txt
+public/icons.md
+public/components/
+public/guides/
+
+# Impeccable decision-round mocks
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/hook.cache.json
+.impeccable/questions/
