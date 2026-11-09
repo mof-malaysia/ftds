@@ -1,0 +1,48 @@
+---
+/** The Forms guide's "which control" table, as the controls themselves. */
+import StoryStage, { preloadStory } from "~/components/StoryStage.tsx";
+import Ref from "~/components/Ref.astro";
+import { loadStories } from "~/lib/stories";
+
+const { react } = await loadStories();
+
+const needs = [
+  { need: "Short text", story: "input", use: ["Input"] },
+  { need: "Long text, with a limit", story: "character-count", use: ["CharacterCount"] },
+  { need: "One choice of 2 to 6", story: "radio", use: ["Radio"] },
+  { need: "One choice of 7 or more", story: "select", use: ["Select"], or: "Combobox", orNote: "when people need to search" },
+  { need: "Several choices", story: "checkbox-group", use: ["CheckboxGroup"] },
+  { need: "On or off, applied at once", story: "switch", use: ["Switch"], or: "Checkbox", orNote: "when submitted with the form" },
+  { need: "A date people know", story: "date-field", use: ["DateField"] },
+  { need: "A date people pick", story: "date-picker", use: ["DatePicker"], or: "DateRangePicker", orNote: "for a range" },
+  { need: "Money and numbers", story: "number-field", use: ["NumberField"] },
+  { need: "One-time code", story: "otp-field", use: ["OTPField"] },
+  { need: "Password", story: "password-input", use: ["PasswordInput"] },
+  { need: "Files", story: "file-upload", use: ["FileUpload"] },
+];
+
+const cells = await Promise.all(
+  needs.map(async (item) => {
+    const file = react.get(item.story);
+    if (file) await preloadStory(file.file);
+    return { ...item, file: file?.file, id: file?.stories[0]?.id };
+  }),
+);
+---
+
+<figure class="fig">
+  <ul class="controls">
+    {cells.map((cell) => (
+      <li>
+        <h3>{cell.need}</h3>
+        <div class:list={["controls-live", { "controls-live--fit": cell.story === "otp-field", "controls-live--narrow": cell.story === "select" }]} inert data-density="comfortable">
+          {cell.file && cell.id && <StoryStage file={cell.file} id={cell.id} />}
+        </div>
+        <p>
+          {cell.use.map((name) => <Ref name={name} />)}
+          {cell.or && <span class="controls-or">or <Ref name={cell.or} /> {cell.orNote}</span>}
+        </p>
+      </li>
+    ))}
+  </ul>
+</figure>

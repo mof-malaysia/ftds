@@ -1,7 +1,7 @@
 ---
 title: Footer
 description: The plain government footer every service needs: one band with the copyright line, an optional "last updated" note and the required links.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

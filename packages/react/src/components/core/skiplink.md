@@ -1,7 +1,7 @@
 ---
 title: Skiplink
 description: A "Skip to main content" link that stays hidden until it gets keyboard focus. Put it first on every page so keyboard users can jump past the masthead and navigation.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

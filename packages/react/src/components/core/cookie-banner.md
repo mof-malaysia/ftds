@@ -1,7 +1,7 @@
 ---
 title: Cookie Banner
 description: A panel in the bottom-right corner that asks for consent to non-essential cookies, with an optional preferences view. Show it until the user makes a choice.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

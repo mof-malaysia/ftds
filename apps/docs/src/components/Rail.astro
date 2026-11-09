@@ -1,0 +1,61 @@
+---
+import Logo from "./Logo.astro";
+import SearchButton from "./SearchButton.astro";
+import { getNav, type NavLink } from "~/lib/nav";
+import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+
+interface Props {
+  current: string;
+  /** The rail appears twice (desktop and the mobile menu); ids must not clash. */
+  idPrefix?: string;
+}
+
+const { current, idPrefix = "rail" } = Astro.props;
+const nav = await getNav();
+const isCurrent = (link: NavLink) => link.id === current;
+const group = current.startsWith("components");
+---
+
+<div class="doc-rail-head">
+  <Logo />
+  <SearchButton />
+</div>
+
+<nav class="doc-tree" aria-label="Documentation">
+  <p class="doc-tree-label">{t("start")}</p>
+  <ul>
+    {nav.start.map((l) => (
+      <li><a href={l.href} aria-current={isCurrent(l) ? "page" : undefined}>{l.title}</a></li>
+    ))}
+  </ul>
+
+  <p class="doc-tree-label">{t("foundations")}</p>
+  <ul>
+    {nav.foundations.map((l) => (
+      <li><a href={l.href} aria-current={isCurrent(l) ? "page" : undefined}>{l.title}</a></li>
+    ))}
+  </ul>
+
+  <p class="doc-tree-label"><a href={href("/components")} aria-current={current === "components" ? "page" : undefined}>{t("components")}</a></p>
+  {nav.components.map((g, i) => (
+    <details open={g.links.some(isCurrent) || (!group && i === 0)} data-group id={`${idPrefix}-${i}`}>
+      <summary>
+        {g.title}
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m6 4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </summary>
+      <ul>
+        {g.links.map((l) => (
+          <li data-only={l.only}><a href={l.href} aria-current={isCurrent(l) ? "page" : undefined}>{l.title}</a></li>
+        ))}
+      </ul>
+    </details>
+  ))}
+
+  <p class="doc-tree-label">More</p>
+  <ul>
+    <li><a href={href("/templates")} aria-current={current === "templates" ? "page" : undefined}>{t("templates")}</a></li>
+    <li><a href={href("/mcp")} aria-current={current === "mcp" ? "page" : undefined}>{t("agents")}</a></li>
+    <li><a href={href("/storybook/")}>Storybook</a></li>
+  </ul>
+</nav>

@@ -7,7 +7,7 @@ import { buildJsonRegistry } from "../registry/build-json";
 /**
  * Assemble the GitHub Pages site in deploy/:
  *
- *   index.html, docs/      apps/docs-astro build at the root (run `pnpm build`
+ *   index.html, docs/      apps/docs build at the root (run `pnpm build`
  *                          there with FTDS_SITE_URL set first)
  *   storybook/             apps/storybook build (run `pnpm build:gh-pages` there first)
  *   storybook-astro/       apps/storybook-astro build, composed into storybook/
@@ -28,7 +28,7 @@ const ROOT_DIR = path.join(__dirname, "../..");
 const DEPLOY_DIR = path.join(ROOT_DIR, "deploy");
 const STORYBOOK_BUILD = path.join(ROOT_DIR, "apps/storybook/dist");
 const STORYBOOK_ASTRO_BUILD = path.join(ROOT_DIR, "apps/storybook-astro/dist");
-const DOCS_BUILD = path.join(ROOT_DIR, "apps/docs-astro/dist");
+const DOCS_BUILD = path.join(ROOT_DIR, "apps/docs/dist");
 
 /** Where the site is served; set FTDS_SITE_URL for a custom domain. */
 const SITE_URL = (
@@ -148,7 +148,7 @@ function buildRegistries(
 function copyDocs() {
   if (!fs.existsSync(DOCS_BUILD)) {
     throw new Error(
-      "Docs build not found. Run `pnpm build` in apps/docs-astro first.",
+      "Docs build not found. Run `pnpm build` in apps/docs first.",
     );
   }
   fs.cpSync(DOCS_BUILD, DEPLOY_DIR, { recursive: true });

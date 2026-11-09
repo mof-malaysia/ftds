@@ -1,10 +1,10 @@
 ---
 title: Styling with FTDS tokens
-description: The colour, type, spacing, radius and shadow tokens to use when laying out pages or building something FTDS doesn't have, and the design rules behind them.
+description: The colour, type, spacing, radius and shadow tokens that keep your page layouts and custom components consistent with FTDS, and the design rules behind them.
 order: 3
 ---
 
-FTDS components are already styled. You need tokens for page layout and for the rare custom component. Every colour token switches automatically in dark mode and follows the density, so never use raw Tailwind palette colours (`bg-blue-600`, `text-gray-500`, `border-gray-200`).
+FTDS components come styled, so tokens are mainly for page layout and the occasional custom component. Every colour token follows dark mode and the density automatically, so use tokens in place of raw Tailwind palette colours (`bg-blue-600`, `text-gray-500`, `border-gray-200`).
 
 ## Surfaces
 
@@ -93,6 +93,6 @@ export function PaymentDue({
 }
 ```
 
-## Anti-patterns
+## Looks to avoid
 
 Don't make FTDS look like a generic Tailwind starter (grey 1px outlines on every card, button and row; boxes inside boxes), an old government portal (crests and banners everywhere, gradients, tiny text), flashy fintech (neon, dark gradients, glassmorphism) or stiff corporate banking (navy and gold, heavy serifs). The [design principles](https://raw.githubusercontent.com/mof-malaysia/ftds/main/DESIGN.md) explain every rule in detail.

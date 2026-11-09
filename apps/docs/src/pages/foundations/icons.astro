@@ -1,0 +1,35 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import CommandBlock from "~/components/CommandBlock.astro";
+import { t } from "~/lib/i18n";
+
+const modules = import.meta.glob<{ default: any }>("../../../../../packages/astro/src/icons/*.astro", { eager: true });
+const icons = Object.entries(modules)
+  .map(([path, mod]) => ({ name: path.split("/").pop()!.replace(/\.astro$/, ""), Icon: mod.default }))
+  .filter((icon) => !icon.name.startsWith("legacy-"))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Reading
+  stack
+  title="Icons"
+  description={`${icons.length} icons, installed one at a time, so your project only carries the ones it uses.`}
+  current="foundations/icons"
+  crumbs={[{ label: t("foundations") }]}
+  toc={[
+    { id: "install", label: "Install" },
+    { id: "all", label: "All icons" },
+  ]}
+>
+  <h2 id="install">Install</h2>
+  <div data-for="react"><CommandBlock command="npx shadcn@latest add @ftds/icon-arrow-forward" /></div>
+  <div data-for="astro"><CommandBlock command="npx shadcn@latest add @ftds/astro-icon-arrow-forward" /></div>
+  <p>Give every icon-only button an <code>aria-label</code>, so screen readers can announce it.</p>
+
+  <h2 id="all">All icons</h2>
+  <div class="not-prose icon-grid">
+    {icons.map(({ name, Icon }) => (
+      <div><Icon class="size-6" aria-hidden="true" /><span>{name}</span></div>
+    ))}
+  </div>
+</Reading>

@@ -1,10 +1,10 @@
 ---
-title: Conventions for writing FTDS code
-description: How FTDS components are built and composed: Base UI parts, the render prop, controlled state, clx, labels for translation, and what to avoid.
+title: Code conventions
+description: How FTDS code is written, so projects stay consistent and easy to pick up: Base UI parts, the render prop, controlled state, clx, labels for translation, and what to avoid.
 order: 2
 ---
 
-Read this before writing UI with FTDS. It applies to every component page.
+A short guide to how FTDS code fits together. It applies to every component, and it keeps a project easy for the next developer to pick up.
 
 ## Components are compound parts
 
@@ -142,7 +142,7 @@ Icons are separate items (`@ftds/icon-<name>`, see the icon catalogue) imported 
 
 Blocks (`@/components/blocks/...`) are whole screens and page sections built from components: sign-in, check your answers, confirmation, hero, FAQ. Install one when it matches the screen you are building, then pass your content and handlers through its props. Because the code is yours, you can also edit the installed file when the screen needs something the props don't cover.
 
-## Don'ts
+## Things to avoid
 
 - Don't import from `@mof-malaysia/ftds-react` or `@base-ui/react` directly in app code when an FTDS component exists.
 - Don't use `asChild`, `cn` or Radix-style prop names (`onSelect` for menus is fine where documented; check the page).

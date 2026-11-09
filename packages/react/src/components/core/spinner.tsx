@@ -8,7 +8,7 @@ const spinnerVariants = cva(
     "animate-spin",
     "[animation-duration:600ms]",
     "rounded-full",
-    "bg-[conic-gradient(var(--tw-gradient-stops))]",
+    "bg-conic",
     "from-transparent",
     "[mask:radial-gradient(transparent_56%,#000_56%)]",
   ],

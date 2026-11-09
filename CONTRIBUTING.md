@@ -22,7 +22,7 @@ FTDS is largely managed by [Turborepo](https://turbo.build/). If you would like 
 
 ## Coding standards
 
-Formatting is defined in [.oxfmtrc.json](./.oxfmtrc.json) ([oxfmt](https://oxc.rs/docs/guide/usage/formatter)) and lint rules in [.oxlintrc.json](./.oxlintrc.json) ([oxlint](https://oxc.rs/docs/guide/usage/linter)). `apps/docs` is not linted.
+Formatting is defined in [.oxfmtrc.json](./.oxfmtrc.json) ([oxfmt](https://oxc.rs/docs/guide/usage/formatter)) and lint rules in [.oxlintrc.json](./.oxlintrc.json) ([oxlint](https://oxc.rs/docs/guide/usage/linter)).
 
 ```sh
 pnpm run lint        # oxlint, fails on any warning

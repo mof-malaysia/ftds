@@ -1,0 +1,121 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Reading from "~/layouts/Reading.astro";
+import DensityPair from "~/components/DensityPair.astro";
+import ControlsGrid from "~/components/figures/ControlsGrid.astro";
+import CheckInstall from "~/components/figures/CheckInstall.astro";
+import FormDemoIsland from "~/components/figures/FormDemoIsland.astro";
+import * as Conventions from "~/components/figures/conventions";
+import * as Forms from "~/components/figures/forms";
+import * as Layouts from "~/components/figures/layouts";
+import * as Setup from "~/components/figures/setup";
+import * as Styling from "~/components/figures/styling";
+import { finishHtml, guideBody, guideSummary, sectionsOf } from "~/lib/markdown";
+import { getRefs } from "~/lib/refs";
+import { href } from "~/lib/url";
+import { t } from "~/lib/i18n";
+import "~/styles/figures.css";
+
+export const getStaticPaths = (async () => {
+  const guides = await getCollection("guides");
+  return guides.map((guide) => ({ params: { guide: guide.id }, props: { guide } }));
+}) satisfies GetStaticPaths;
+
+/**
+ * The visuals for each guide. The guides are also read as plain Markdown by
+ * coding agents, so figures live here and are placed by section id. `swap`
+ * lists sections whose table a figure replaces on this page.
+ */
+const VISUALS: Record<string, { hero?: any; intro?: any; at?: Record<string, any>; swap?: string[] }> = {
+  layouts: {
+    hero: Layouts.Hero,
+    intro: Layouts.Frames,
+    swap: ["intro"],
+    at: { "official-site-elements": Layouts.Official, "officer-tools": Layouts.Officer },
+  },
+  forms: {
+    hero: Forms.Hero,
+    swap: ["choosing-a-control"],
+    at: {
+      "the-parts": Forms.Parts,
+      "a-complete-form": FormDemoIsland,
+      "writing-messages": Forms.Messages,
+      "choosing-a-control": ControlsGrid,
+      "long-forms-and-services": Forms.Journey,
+    },
+  },
+  conventions: {
+    hero: Conventions.Hero,
+    at: {
+      "compose-with-render-never-aschild": Conventions.Render,
+      "controlled-and-uncontrolled-state": Conventions.State,
+      "classes-clx-and-classname": Conventions.Classes,
+      "built-in-text-and-translation": Conventions.Language,
+      "blocks-are-starting-points": Conventions.Blocks,
+      "things-to-avoid": Conventions.Avoid,
+    },
+  },
+  styling: {
+    hero: Styling.Hero,
+    swap: ["text", "type"],
+    at: {
+      text: Styling.Ink,
+      colour: Styling.Blue,
+      type: Styling.Scale,
+      "spacing-and-density": Styling.Space,
+      "shape-and-depth": Styling.Shape,
+      "a-custom-section-done-right": Styling.Custom,
+    },
+  },
+  setup: {
+    hero: Setup.ReactHero,
+    at: { "5-dark-mode": Setup.Theme, "6-density": DensityPair, "7-check-the-install": CheckInstall },
+  },
+};
+
+const { guide } = Astro.props;
+const title = guide.id === "setup" ? "Set up React" : (guide.body?.match(/^# (.+)$/m)?.[1] ?? guide.id);
+const description = guideSummary(guide.body);
+const html = finishHtml(guideBody(guide.rendered?.html ?? ""), await getRefs());
+const sections = sectionsOf(html);
+const toc = sections.filter((s) => s.id).map(({ id, label }) => ({ id, label }));
+
+const visuals = VISUALS[guide.id] ?? {};
+const Hero = visuals.hero;
+// A renamed heading would otherwise lose its figure without a word
+for (const id of [...Object.keys(visuals.at ?? {}), ...(visuals.swap ?? [])]) {
+  if (id !== "intro" && !sections.some((s) => s.id === id)) throw new Error(`No "${id}" section in the ${guide.id} guide`);
+}
+const parts = sections.map((section) => {
+  const heading = section.html.match(/^<h2[\s\S]*?<\/h2>/)?.[0] ?? "";
+  const id = section.id || "intro";
+  const rest = section.html.slice(heading.length);
+  return {
+    heading,
+    body: visuals.swap?.includes(id) ? rest.replace(/<table[\s\S]*?<\/table>/, "") : rest,
+    Figure: id === "intro" ? visuals.intro : visuals.at?.[id],
+  };
+});
+---
+
+<Reading
+  title={title}
+  description={description}
+  current={`start/${guide.id}`}
+  crumbs={[{ label: t("start"), href: href("/start") }]}
+  toc={toc}
+>
+  {Hero && <Fragment slot="specimen"><Hero /></Fragment>}
+  {parts.map(({ heading, body, Figure }) => (
+    <>
+      <Fragment set:html={heading} />
+      {Figure && <Figure />}
+      <Fragment set:html={body} />
+    </>
+  ))}
+</Reading>
+
+<script>
+  import "~/scripts/figures";
+</script>

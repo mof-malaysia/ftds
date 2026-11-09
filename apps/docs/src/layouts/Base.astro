@@ -1,0 +1,51 @@
+---
+import "~/styles/global.css";
+import type { Locale } from "~/content.config";
+import { href } from "~/lib/url";
+
+interface Props {
+  title: string;
+  description?: string;
+  locale?: Locale;
+}
+
+const { title, description, locale = "en" } = Astro.props;
+const fullTitle = title === "FTDS" ? "FTDS, the FiscalTech Design System" : `${title} | FTDS`;
+---
+
+<!doctype html>
+<html lang={locale === "ms" ? "ms" : "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" href={href("/favicon.svg")} type="image/svg+xml" />
+    <link rel="icon" href={href("/favicon.ico")} sizes="32x32" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Before first paint, so the page never flashes the wrong theme or stack.
+         Same storage key and class as the FTDS ThemeProvider. -->
+    <script is:inline>
+      (() => {
+        const get = (key) => {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        };
+        const root = document.documentElement;
+        let theme = get("theme");
+        if (theme !== "light" && theme !== "dark") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        root.classList.add(theme);
+        root.dataset.stack = get("ftds-docs-stack") === "astro" ? "astro" : "react";
+        root.dataset.demoDensity = get("ftds-docs-density") === "compact" ? "compact" : "comfortable";
+      })();
+    </script>
+  </head>
+  <body class="min-h-dvh">
+    <slot />
+  </body>
+</html>

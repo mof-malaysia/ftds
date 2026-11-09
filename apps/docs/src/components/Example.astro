@@ -1,0 +1,51 @@
+---
+/** One story: a heading, the live stage, and its code in a native disclosure. */
+import { Code } from "astro:components";
+import CopyButton from "./CopyButton.astro";
+import AstroStory from "./AstroStory.astro";
+import StoryStage from "./StoryStage.tsx";
+import type { StoryRef } from "~/lib/stories";
+import { t } from "~/lib/i18n";
+import { getRefs, linkRefs } from "~/lib/refs";
+
+interface Props {
+  story: StoryRef;
+  /** The file it comes from. */
+  file: string;
+  stack: "react" | "astro";
+  /** Whole-page stories get a clipped, wider stage. */
+  wide?: boolean;
+}
+
+const { story, file, stack, wide = false } = Astro.props;
+// Story notes are written in Markdown; only inline code matters here
+const refs = await getRefs();
+const note = (text: string) =>
+  linkRefs(
+    text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/`([^`]+)`/g, "<code>$1</code>"),
+    refs,
+  );
+const headingId = `${stack}-${story.id.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase()}`;
+---
+
+<section class="example" aria-labelledby={headingId}>
+  <h3 id={headingId}>{story.title}</h3>
+  {story.description && <p class="example-note" set:html={note(story.description)} />}
+  <div data-stage data-density="comfortable" class:list={["stage", { "stage--wide": wide }]}>
+    {stack === "react" ? <StoryStage client:visible file={file} id={story.id} /> : <AstroStory file={file} id={story.id} />}
+  </div>
+  {
+    story.code && (
+      <details class="example-code">
+        <summary>{t("code")}</summary>
+        <div class="code-block">
+          <Code code={story.code} lang={story.lang} theme="github-dark-dimmed" />
+          <CopyButton class="absolute top-2 right-2" />
+        </div>
+      </details>
+    )
+  }
+</section>

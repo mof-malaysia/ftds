@@ -1,0 +1,53 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import { t } from "~/lib/i18n";
+
+const scale = [
+  { name: "Display", spec: "600, 32px, 1.25", use: "Page titles on service screens, one per page", style: "font-size:2rem;font-weight:600;line-height:1.25;letter-spacing:-0.02em" },
+  { name: "Headline", spec: "600, 24px, 1.33", use: "Section titles, high-stakes dialogs", style: "font-size:1.5rem;font-weight:600;line-height:1.33;letter-spacing:-0.015em" },
+  { name: "Title", spec: "600, 18px, 1.45", use: "Card and form section headings", style: "font-size:1.125rem;font-weight:600;line-height:1.45;letter-spacing:-0.01em" },
+  { name: "Body", spec: "400, 16px, 1.5", use: "All reading text for citizens", style: "font-size:1rem;line-height:1.5" },
+  { name: "Body compact", spec: "400, 14px, 1.43", use: "Officer tables and forms", style: "font-size:.875rem;line-height:1.43" },
+  { name: "Label", spec: "500, 14px, 1.43", use: "Buttons, form labels, nav, tabs", style: "font-size:.875rem;font-weight:500;line-height:1.43" },
+  { name: "Label compact", spec: "500, 13px, 1.38", use: "Table headers, badges. The smallest size", style: "font-size:.8125rem;font-weight:500;line-height:1.38" },
+];
+---
+
+<Reading
+  title="Typography"
+  description="One typeface, Inter, at sizes chosen for easy reading. Figures line up in columns, so amounts are simple to compare."
+  current="foundations/typography"
+  crumbs={[{ label: t("foundations") }]}
+  toc={[
+    { id: "scale", label: "Scale" },
+    { id: "rules", label: "Rules" },
+  ]}
+>
+  <div slot="specimen" class="sheet sheet--pad">
+    <div class="type-specimen">
+      <p class="type-big">Aa</p>
+      <div>
+        <p class="type-amount">RM 12,480.50</p>
+        <p class="type-caption">Inter, weights 400, 500 and 600, tabular figures for money</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="scale">Scale</h2>
+  <div class="type-list">
+    {scale.map((s) => (
+      <div>
+        <p style={s.style} class="type-sample">{s.name}</p>
+        <p class="type-meta"><code>{s.spec}</code> {s.use}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 id="rules">Rules</h2>
+  <ul>
+    <li><strong>Nothing is smaller than 13px,</strong> and only labels in the compact density use it. Text for citizens starts at 16px.</li>
+    <li><strong>Every amount uses tabular figures</strong> and right-aligns in columns, so ringgit and sen line up.</li>
+    <li><strong>Only three weights:</strong> 400, 500 and 600.</li>
+    <li><strong>Lines of reading text stop at 70 characters.</strong> Malay runs longer than English, so check both.</li>
+  </ul>
+</Reading>

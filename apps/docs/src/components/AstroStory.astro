@@ -1,0 +1,24 @@
+---
+/**
+ * Renders one story from the Astro Storybook: the component, its args, and
+ * slots given as HTML strings.
+ */
+import { astroStoryModule } from "~/lib/stories";
+
+interface Props {
+  file: string;
+  id: string;
+}
+
+const { file, id } = Astro.props;
+const mod = await astroStoryModule(file);
+const meta = mod.default ?? {};
+const story = mod[id] ?? {};
+const { slots = {}, ...props } = { ...meta.args, ...story.args } as Record<string, any>;
+const Component = meta.component;
+const entries = Object.entries(slots) as [string, string][];
+---
+
+<Component {...props}>
+  {entries.map(([name, html]) => <Fragment slot={name} set:html={html} />)}
+</Component>

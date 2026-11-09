@@ -43,5 +43,5 @@ pre-push:
         pnpm exec turbo run build test --ui=stream --output-logs=errors-only
         --filter=@mof-malaysia/ftds-storybook
         --filter=@mof-malaysia/ftds-storybook-astro
-        --filter=@mof-malaysia/ftds-docs-astro
+        --filter=@mof-malaysia/ftds-docs
         --filter=@mof-malaysia/ftds-mcp

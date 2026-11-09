@@ -31,6 +31,26 @@ test.describe("navbar on desktop", () => {
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
+  test("untitled links beside groups stay in one column", async ({ page }) => {
+    await openStory(page, "marketing-navbar--expressive");
+    await page.getByRole("button", { name: "Untuk anda" }).click();
+    await expect(
+      page.getByRole("link", { name: "Soalan lazim" }),
+    ).toBeVisible();
+    // Both measured in one frame, so the dropdown's entrance motion moves them alike.
+    const [a, b] = await page.evaluate(() =>
+      ["Kalkulator cukai", "Soalan lazim"].map((name) => {
+        const link = [...document.querySelectorAll("a")].find(
+          (el) => el.textContent?.trim() === name,
+        )!;
+        const box = link.getBoundingClientRect();
+        return { x: box.x, y: box.y };
+      }),
+    );
+    expect(b!.x).toBe(a!.x);
+    expect(b!.y).toBeGreaterThan(a!.y);
+  });
+
   test("outside click closes the dropdown", async ({ page }) => {
     await openStory(page, "marketing-navbar--standard");
     await page.getByRole("button", { name: "Agensi" }).click();

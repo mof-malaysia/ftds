@@ -1,0 +1,64 @@
+---
+/**
+ * The conditions a component is met under. Changing one changes every example
+ * on the page and is remembered across pages. Each is a plain toggle group;
+ * scripts/conditions.ts does the work.
+ */
+import { t } from "~/lib/i18n";
+
+interface Props {
+  /** Which stacks this page has. Leave out for pages that apply to both. */
+  stacks?: ("react" | "astro")[];
+  density?: boolean;
+  stack?: boolean;
+}
+
+const { stacks = ["react", "astro"], density = true, stack = true } = Astro.props;
+const groups = [
+  {
+    key: "stack",
+    label: t("stack"),
+    show: stack,
+    options: [
+      { value: "react", label: "React", disabled: !stacks.includes("react") },
+      { value: "astro", label: "Astro", disabled: !stacks.includes("astro") },
+    ],
+  },
+  {
+    key: "density",
+    label: t("density"),
+    show: density,
+    options: [
+      { value: "comfortable", label: t("citizen"), disabled: false },
+      { value: "compact", label: t("officer"), disabled: false },
+    ],
+  },
+  {
+    key: "theme",
+    label: t("theme"),
+    show: true,
+    options: [
+      { value: "light", label: t("light"), disabled: false },
+      { value: "dark", label: t("dark"), disabled: false },
+    ],
+  },
+];
+---
+
+<div class="doc-conditions">
+  {groups.filter((g) => g.show).map((g) => (
+    <div role="group" aria-label={g.label} data-condition={g.key}>
+      {g.options.map((o) => (
+        <button
+          type="button"
+          data-value={o.value}
+          aria-pressed="false"
+          disabled={o.disabled}
+          title={o.disabled ? `Not available for ${o.label}` : undefined}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  ))}
+</div>

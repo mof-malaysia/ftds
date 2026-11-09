@@ -260,7 +260,7 @@ Every commit runs oxfmt on staged files plus `pnpm lint` and `pnpm typecheck`; e
 
 ## Origins
 
-FTDS is built on MYDS, the Malaysia Government Design System, originally developed by Unit Nukleus GovTech and released under the MIT licence. Its original copyright notice is kept in [LICENSE](./LICENSE). FTDS is maintained by the Ministry of Finance and is not an official MYDS release.
+FTDS is a fork of MYDS, the Malaysia Government Design System, originally developed by Unit Nukleus GovTech and released under the MIT licence. Its original copyright notice is kept in [LICENSE](./LICENSE). FTDS is maintained by the Ministry of Finance and is not an official MYDS release.
 
 ## Licence
 

@@ -1,0 +1,53 @@
+---
+/**
+ * The blue opener every page has. Title bottom-left, conditions top-right,
+ * and whatever the page is about in the `specimen` slot.
+ */
+import Conditions from "./Conditions.astro";
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  crumbs?: Crumb[];
+  stacks?: ("react" | "astro")[];
+  density?: boolean;
+  stack?: boolean;
+  /** Smaller plate for reading pages with nothing to show. */
+  plain?: boolean;
+}
+
+const { title, description, crumbs = [], stacks, density = true, stack = true, plain = false } = Astro.props;
+const hasSpecimen = Astro.slots.has("specimen");
+const longest = Math.max(...title.split(/\s+/).map((word) => word.length));
+---
+
+<section class:list={["plate", { "plate--plain": plain }]}>
+  <div class="plate-top">
+    {
+      crumbs.length > 1 && (
+        <nav aria-label="Breadcrumb" class="plate-crumbs">
+          <ol>
+            {crumbs.map((c) => (
+              <li>{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <Conditions stacks={stacks} density={density} stack={stack} />
+  </div>
+
+  <div class:list={["plate-body", { "plate-body--specimen": hasSpecimen }]}>
+    <div class="plate-title">
+      <h1 style={`--longest: ${longest}`}>{title}</h1>
+      {description && <p>{description}</p>}
+      <slot name="actions" />
+    </div>
+    {hasSpecimen && <div class="plate-specimen"><slot name="specimen" /></div>}
+  </div>
+</section>

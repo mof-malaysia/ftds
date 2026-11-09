@@ -1,7 +1,7 @@
 ---
 title: Phase Banner
 description: A slim bar under the masthead that says a service is in Alpha or Beta (or under maintenance) and asks for feedback.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

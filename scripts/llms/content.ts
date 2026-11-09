@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { execFileSync } from "child_process";
 import { REGISTRY_DIR, type RegistryName } from "../registry/utils";
+import { CATEGORIES, type Category } from "./categories";
 
 /**
  * Everything the llms.txt build reads: registry items (names, types, install
@@ -46,20 +47,7 @@ const REACT_SRC = path.join(ROOT_DIR, "packages/react/src");
 export const GUIDES_DIR = path.join(ROOT_DIR, "docs/guides");
 export const INTRO_FILE = path.join(ROOT_DIR, "docs/llms-intro.md");
 
-/** Index sections, in order. Blocks and icons are grouped automatically. */
-export const CATEGORIES = [
-  "Actions",
-  "Forms and inputs",
-  "Data display",
-  "Feedback and status",
-  "Overlays",
-  "Navigation",
-  "Layout",
-  "Government chrome",
-  "Marketing",
-  "Utilities",
-] as const;
-export type Category = (typeof CATEGORIES)[number];
+export { CATEGORIES, type Category };
 
 export interface RegistryFile {
   path: string;

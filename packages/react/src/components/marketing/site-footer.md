@@ -1,7 +1,7 @@
 ---
 title: Site Footer
 description: The large multi-column footer for agency and landing sites: agency name, address and social links, then groups of site links. Pair it with Footer.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

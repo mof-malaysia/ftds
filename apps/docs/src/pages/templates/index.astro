@@ -1,0 +1,48 @@
+---
+import Docs from "~/layouts/Docs.astro";
+import Plate from "~/components/Plate.astro";
+import { astroTemplateList, reactScreens } from "~/lib/templates";
+import { href } from "~/lib/url";
+
+const astro = astroTemplateList();
+const react = await reactScreens();
+
+const stacks = [
+  {
+    stack: "astro",
+    label: "Astro templates",
+    items: astro,
+    note: "Copy a template from <code>packages/astro/src/templates</code> along with <code>site-layout.astro</code>, <code>site.ts</code> and the blocks it imports, then swap in your content.",
+  },
+  { stack: "react", label: "React example screens", items: react, note: undefined },
+];
+---
+
+<Docs title="Templates" description="Complete FTDS pages to copy and adapt, for agency websites and service screens." current="templates">
+  <Plate title="Templates" description="Complete pages to copy and adapt, so a new project starts from something that already works. Astro covers agency websites, and React covers service screens." density={false} plain />
+
+  <div class="gallery-wrap">
+    {stacks.map(({ stack, label, items, note }) => (
+      <section data-for={stack} aria-label={label}>
+        <ul class="gallery">
+          {items.map((item) => (
+            <li>
+              <a href={href(`/templates/preview/${item.id}`)}>
+                <div class="gallery-frame" data-fit-frame>
+                  <iframe data-src={href(`/templates/preview/${item.id}`)} title={`Preview of ${item.title}`} tabindex="-1" inert></iframe>
+                </div>
+                <strong>{item.title}</strong>
+                {"about" in item && <span>{item.about}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+        {note && <p class="gallery-note" set:html={note} />}
+      </section>
+    ))}
+  </div>
+</Docs>
+
+<script>
+  import "~/scripts/frames";
+</script>

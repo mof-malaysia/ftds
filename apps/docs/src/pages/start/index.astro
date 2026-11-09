@@ -1,0 +1,94 @@
+---
+import Reading from "~/layouts/Reading.astro";
+import StackPair from "~/components/StackPair.astro";
+import CommandBlock from "~/components/CommandBlock.astro";
+import { getCatalog } from "~/lib/catalog";
+import { href } from "~/lib/url";
+
+const catalog = await getCatalog();
+const reactCount = catalog.filter((e) => e.react).length;
+const astroCount = catalog.filter((e) => e.astro).length;
+---
+
+<Reading
+  stack
+  title="Introduction"
+  description="FTDS helps your team deliver public services that are clear, accessible and consistent, without designing every screen from scratch."
+  current="start"
+  toc={[
+    { id: "what", label: "What FTDS is" },
+    { id: "project", label: "What it gives your project" },
+    { id: "people", label: "Who it is designed for" },
+    { id: "stacks", label: "Two stacks" },
+    { id: "first", label: "Your first component" },
+    { id: "good", label: "What makes a good screen" },
+    { id: "myds", label: "FTDS and MYDS" },
+  ]}
+>
+  <StackPair slot="specimen" />
+
+  <h2 id="what">What FTDS is</h2>
+  <p>FTDS is an open-source design system for public services: components, ready-made screens and the guidance to use them well.</p>
+  <p>FiscalTech builds it, maintains it and uses it on its own projects. Your team is welcome to use it too.</p>
+  <p>It is a fork of MYDS, the Malaysia Government Design System, continued by its original team. It keeps the MYDS colours, so your service will feel at home beside other government sites. <a href="#myds">See how the two differ</a>.</p>
+
+  <h2 id="project">What it gives your project</h2>
+  <ul>
+    <li><strong>A faster first release.</strong> Sign-in, forms, payments and case review are ready to adapt, so your effort goes into the service itself.</li>
+    <li><strong>Accessibility from the start.</strong> Every component is built to WCAG 2.2 AA, including keyboard and screen reader support.</li>
+    <li><strong>Two languages.</strong> Layouts hold both Bahasa Melayu and English without cutting off key information.</li>
+    <li><strong>No licence cost.</strong> FTDS is MIT licensed, with no fees for any number of users or services.</li>
+    <li><strong>Code you own.</strong> Components are copied into your repository, so your team can review them like the rest of your code and hand them over to the next team or supplier.</li>
+    <li><strong>Adoption at your own pace.</strong> Add one component at a time and pin a release, so updates arrive when you choose.</li>
+  </ul>
+
+  <h2 id="people">Who it is designed for</h2>
+  <ul>
+    <li><strong>The public,</strong> paying, applying or tracking a submission. Many are older or less confident online, and they want to know it worked.</li>
+    <li><strong>Officers,</strong> who spend their day in tables and forms, where clarity and comfort matter most.</li>
+  </ul>
+
+  <h2 id="stacks">Two stacks</h2>
+  <ul>
+    <li>
+      <strong><a href={href("/start/setup")} data-pick-stack="react">React</a></strong> is for services: anything people
+      sign in to, fill in or work in. It has {reactCount} components, including officer workstations and application
+      screens.
+    </li>
+    <li>
+      <strong><a href={href("/start/astro")} data-pick-stack="astro">Astro</a></strong> is for websites: agency pages,
+      landing pages and campaigns. Its {astroCount} components send no JavaScript by default, and it includes whole page
+      templates to copy.
+    </li>
+  </ul>
+  <p>Not sure which suits your project? <a href={href("/start/stacks")}>Compare the two stacks</a>.</p>
+
+  <h2 id="first">Your first component</h2>
+  <p>Once your project is <a href={href("/start/setup")}>set up</a>, install a component by name. Anything it depends on is installed with it.</p>
+  <div data-for="react"><CommandBlock command="npx shadcn@latest add @ftds/button" /></div>
+  <div data-for="astro"><CommandBlock command="npx shadcn@latest add @ftds/astro-button" /></div>
+
+  <h2 id="good">What makes a good screen</h2>
+  <ul>
+    <li><strong>One primary action.</strong> People can see the next step at a glance.</li>
+    <li><strong>Space and tone to group content.</strong> Screens stay calm, without extra borders or shadows.</li>
+    <li><strong>Design tokens for colour.</strong> <code>bg-bg-primary-600</code> follows dark mode, and <code>bg-blue-600</code> does not.</li>
+    <li><strong>Plain words.</strong> Errors explain what to do next, and a delete button says what it deletes.</li>
+    <li><strong>Status in words as well as colour.</strong> A tag with text can be read by everyone.</li>
+  </ul>
+  <p>There is more in <a href={href("/start/conventions")}>Conventions</a>.</p>
+
+  <h2 id="myds">FTDS and MYDS</h2>
+  <table>
+    <thead><tr><th></th><th>MYDS</th><th>FTDS</th></tr></thead>
+    <tbody>
+      <tr><td>Components</td><td>40, for React</td><td>{reactCount} for React and {astroCount} for Astro</td></tr>
+      <tr><td>Ready-made screens</td><td>Not part of the library</td><td>Sign-in, payments, case review, officer workstations and website sections</td></tr>
+      <tr><td>Density</td><td>One size</td><td>Comfortable for the public, compact for officers</td></tr>
+      <tr><td>Websites</td><td>Built with React</td><td>Native Astro components that send no JavaScript by default</td></tr>
+      <tr><td>Installation</td><td>npm packages</td><td>Source code copied into your repository</td></tr>
+    </tbody>
+  </table>
+  <p>MYDS was built in 2024 and 2025. FTDS is a fork of that work, carried forward by the team that built it, and it is developed independently of the original project.</p>
+  <p>The two share a colour palette and a common starting point. From here, FTDS follows the needs of the services built with it.</p>
+</Reading>

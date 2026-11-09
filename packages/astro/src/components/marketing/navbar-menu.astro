@@ -237,6 +237,11 @@ const trigger_class = clx(
                       {links}
                     </ul>
                   </li>
+                ) : item.grouped ? (
+                  // Beside titled groups the list lays out in columns: keep the untitled links in one column.
+                  <li class={clx(navbar_group_class)}>
+                    <ul class="flex flex-col">{links}</ul>
+                  </li>
                 ) : (
                   links
                 );

@@ -187,7 +187,7 @@
       "title": "Navbar",
       "description": "The site's top navigation bar: logo, links and dropdown menus, and actions such as search, with a full-width menu panel on tablet and mobile.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [
@@ -235,7 +235,7 @@
       "title": "Site Footer",
       "description": "The large multi-column footer for agency and landing sites: agency name, address and social links, then groups of site links. Pair it with Footer.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [

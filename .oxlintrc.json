@@ -47,8 +47,6 @@
     }
   ],
   "ignorePatterns": [
-    // The docs site is being deprecated
-    "apps/docs/**",
     "registry/**",
     "deploy/**",
     "**/storybook-static/**",

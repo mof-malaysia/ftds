@@ -1,7 +1,7 @@
 ---
 title: Navbar
 description: The site's top navigation bar: logo, links and dropdown menus, and actions such as search, with a full-width menu panel on tablet and mobile.
-category: Government chrome
+category: Official site elements
 ---
 
 ## When to use

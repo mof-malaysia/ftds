@@ -1,0 +1,20 @@
+---
+/** One component on a white sheet with its dimensions drawn by `scripts/measure`. */
+interface Props {
+  class?: string;
+  /** Shown in the corner when panes sit side by side. */
+  name?: string;
+  density?: string;
+}
+
+const { class: className, name, density = "comfortable" } = Astro.props;
+---
+
+<div class:list={["sheet", className]} data-plate-frame data-mode="measure" data-fixed-zoom="1.75">
+  {name && <p class="density-name">{name}</p>}
+  <div data-specimen data-stage data-density-locked data-density={density}>
+    <slot />
+  </div>
+  <div data-dims aria-hidden="true"></div>
+  <p class="sheet-note" data-scale-note></p>
+</div>

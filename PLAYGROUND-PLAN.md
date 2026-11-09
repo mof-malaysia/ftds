@@ -146,7 +146,7 @@ apps/mcp/
 ```
 
 - `packages/react` stays source-only. The view build resolves the
-  `@/components/ui/*` paths to its source like `apps/docs-astro` does.
+  `@/components/ui/*` paths to its source like `apps/docs` does.
 - The catalogue comes from the same llms build as the docs site's `llms.txt`,
   bundled into the Worker, so the tools describe exactly the components the
   preview renders. Exports for the import checks come from the TypeScript

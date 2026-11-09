@@ -1,10 +1,10 @@
 ---
 title: Building forms
-description: The FTDS form pattern: Field around every control, Form for validation and server errors, ErrorSummary after a failed submit, and how to write error messages.
+description: One pattern for forms that are easy to complete: Field around every control, Form for validation and server errors, ErrorSummary after a failed submit, and error messages that help.
 order: 4
 ---
 
-Government forms are where people get nervous. FTDS forms follow one pattern so that every field is labelled, every error says what to do, and keyboard and screen-reader users are told about problems straight away.
+Forms are where people most need reassurance. FTDS forms follow one pattern, so every field is labelled, every error explains what to do, and keyboard and screen-reader users hear about problems straight away.
 
 ## The parts
 

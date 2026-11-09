@@ -278,7 +278,7 @@
       "title": "Cookie Banner",
       "description": "A panel in the bottom-right corner that asks for consent to non-essential cookies, with an optional preferences view. Show it until the user makes a choice.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [
@@ -393,7 +393,7 @@
       "title": "Footer",
       "description": "The plain government footer every service needs: one band with the copyright line, an optional \"last updated\" note and the required links.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [
@@ -543,7 +543,7 @@
       "title": "Masthead",
       "description": "The \"Official Malaysia Government Website\" bar at the very top of every government site, with a panel that explains how to tell the site is genuine.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [
@@ -590,7 +590,7 @@
       "title": "Phase Banner",
       "description": "A slim bar under the masthead that says a service is in Alpha or Beta (or under maintenance) and asks for feedback.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [
@@ -767,7 +767,7 @@
       "title": "Skiplink",
       "description": "A \"Skip to main content\" link that stays hidden until it gets keyboard focus. Put it first on every page so keyboard users can jump past the masthead and navigation.",
       "categories": [
-        "government-chrome"
+        "official-site-elements"
       ],
       "type": "registry:ui",
       "dependencies": [],

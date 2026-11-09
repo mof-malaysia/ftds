@@ -1,0 +1,24 @@
+---
+import { copyIcons } from "~/lib/copy-icons";
+
+interface Props {
+  class?: string;
+  /** What is copied, for the accessible name. */
+  label?: string;
+}
+
+const { label = "Copy code" } = Astro.props;
+---
+
+<button
+  type="button"
+  data-copy
+  aria-label={label}
+  class:list={["group/copy doc-copy", Astro.props.class]}
+>
+  <Fragment set:html={copyIcons} />
+</button>
+
+<script>
+  import "~/scripts/copy";
+</script>
