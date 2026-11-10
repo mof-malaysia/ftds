@@ -278,8 +278,16 @@ function main() {
   const guides = readGuides();
   const intro = readDoc(INTRO_FILE);
 
+  // Drop pages left over from renamed items. Only the Markdown: in deploy/ these
+  // folders also hold the docs site's HTML (components/button/index.html).
   for (const dir of ["components", "guides"]) {
-    fs.rmSync(path.join(OUT_DIR, dir), { recursive: true, force: true });
+    const target = path.join(OUT_DIR, dir);
+    if (!fs.existsSync(target)) continue;
+    for (const entry of fs.readdirSync(target, { withFileTypes: true })) {
+      if (entry.isFile() && entry.name.endsWith(".md")) {
+        fs.rmSync(path.join(target, entry.name));
+      }
+    }
   }
 
   const pages: string[] = [];
