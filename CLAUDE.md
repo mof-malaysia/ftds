@@ -52,18 +52,9 @@ Conventional commits, scoped by stack when it applies: `feat(astro): …`, `fix(
 
 ## Autonomy
 
-The maintainer hands off whole tasks and reviews PRs in batches. Carry a task through to an open PR without stopping for routine confirmations.
+The maintainer's general autonomy rules live in their global `~/.claude/CLAUDE.md`: what to do without asking, what to decide and note in the PR, when to stop and ask, and how to report a finished task. In this repo, a feature branch can be pushed once the pre-push hook passes, and story arguments are yours to choose.
 
-**Go ahead without asking:** edit files, run any check or test, commit on a feature branch, push a feature branch (the pre-push hook must pass), open a PR, and fix whatever a hook or test reports.
+FTDS adds these to "stop and ask first":
 
-**Pick a sensible default and record it in the PR description:** naming, small refactors done along the way, docs wording, story arguments, and test structure.
-
-**Stop and ask first:**
-
-- Public component API: adding, renaming or removing a prop, part or registry item. These are breaking changes for anyone who installed it.
+- Public component API: adding, renaming or removing a prop, part or registry item. These break anyone who installed the component.
 - Anything in `DESIGN.md` or `PRODUCT.md`, and any new design token.
-- Adding or upgrading a dependency, except a patch or minor bump that the hooks pass.
-- Releases, tags, deploys, pushing to `main`, force-pushing, and deleting branches or files outside the task.
-- Skipping the hooks (`LEFTHOOK=0`) for any reason.
-
-When a task is finished, end with: the PR link, what you decided on your own (so it can be reviewed), what you didn't verify, and the obvious next task if there is one.
