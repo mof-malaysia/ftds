@@ -116,3 +116,29 @@ export function moveFocus(
   target.focus();
   return target;
 }
+
+/**
+ * Whether keystrokes on `target` are text entry, so a page-wide key such as
+ * "/" leaves them alone. The same rule as React's `isEditable` (utils), kept
+ * here so a script doesn't pull in the utils module and its tailwind-merge.
+ */
+export function isEditable(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.isContentEditable) return true;
+  if (
+    target instanceof HTMLTextAreaElement ||
+    target instanceof HTMLSelectElement
+  )
+    return true;
+  if (target instanceof HTMLInputElement)
+    return ![
+      "button",
+      "checkbox",
+      "radio",
+      "reset",
+      "submit",
+      "range",
+      "color",
+    ].includes(target.type);
+  return false;
+}

@@ -734,7 +734,9 @@
         "mof-malaysia/ftds/astro-i18n",
         "mof-malaysia/ftds/astro-icon-search",
         "mof-malaysia/ftds/astro-scripts",
-        "mof-malaysia/ftds/utils"
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-input",
+        "mof-malaysia/ftds/variants-kbd"
       ],
       "files": [
         {

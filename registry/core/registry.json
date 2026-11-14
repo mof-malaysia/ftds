@@ -446,7 +446,8 @@
         "class-variance-authority@^0.7.1"
       ],
       "registryDependencies": [
-        "mof-malaysia/ftds/utils"
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-input"
       ],
       "files": [
         {
@@ -486,7 +487,8 @@
       "type": "registry:ui",
       "dependencies": [],
       "registryDependencies": [
-        "mof-malaysia/ftds/utils"
+        "mof-malaysia/ftds/utils",
+        "mof-malaysia/ftds/variants-kbd"
       ],
       "files": [
         {

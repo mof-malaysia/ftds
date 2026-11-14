@@ -1,6 +1,8 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import { clx, uniqueId } from "@/lib/ftds/utils";
+import { input_box_class, input_cva, input_icon_cva } from "@/components/ui/input.variants";
+import { kbd_cva } from "@/components/ui/kbd.variants";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import SearchIcon from "@/components/ui/icons/search.astro";
@@ -64,14 +66,6 @@ const {
 } = Astro.props;
 
 const lang = resolveLang(langProp, Astro.currentLocale);
-
-// React Input's sizes and icon placement, with the border on the field itself
-const field = {
-  small: "h-(--ctl-h-sm) px-3 pl-10 text-field-sm",
-  medium: "h-(--ctl-h-md) px-3 pl-10 text-field-md",
-  large: "h-(--ctl-h-lg) px-3.5 pl-11 text-field-lg",
-}[size];
-const icon = { small: "size-4.5", medium: "size-5", large: "size-6" }[size];
 ---
 
 <form
@@ -90,42 +84,39 @@ const icon = { small: "size-4.5", medium: "size-5", large: "size-6" }[size];
     {labels.label ?? label(lang, "siteSearchLabel")}
   </label>
   <div class="flex w-full gap-2">
-    <div class="relative min-w-0 flex-1">
-      <SearchIcon
-        aria-hidden="true"
-        class={clx(
-          "text-txt-black-700 pointer-events-none absolute inset-y-0 left-3 my-auto",
-          icon,
-        )}
-      />
-      <input
-        id={inputId}
-        type="search"
-        name={name}
-        value={defaultValue}
-        placeholder={placeholder}
-        autocomplete="off"
-        class={clx(
-          "bg-bg-white border-otl-control text-txt-black-700 placeholder:text-txt-black-500 box-border w-full min-w-0 rounded-md border outline-none transition-colors",
-          "focus-visible:ring-fr-primary focus-visible:border-otl-primary-300 focus-visible:ring",
-          shortcut && "pr-10",
-          field,
-        )}
-      />
-      {
-        shortcut && (
-          // Hidden while the field has focus or a query: the key is only a hint for getting there
-          <kbd
-            hidden
-            data-ftds-requires-js
-            data-ftds-site-search-hint
-            aria-hidden="true"
-            class="border-otl-gray-200 bg-bg-washed text-txt-black-700 text-label-compact pointer-events-none absolute inset-y-0 right-3 my-auto flex h-5 min-w-5 items-center justify-center rounded-sm border px-1 font-mono max-sm:hidden [div:focus-within>&]:hidden"
-          >
-            /
-          </kbd>
-        )
-      }
+    {/* React SiteSearch's Input, InputIcon and Kbd, from the same classes */}
+    <div class={clx(input_box_class, "min-w-0 flex-1")}>
+      <div class="relative w-full">
+        <input
+          id={inputId}
+          type="search"
+          name={name}
+          value={defaultValue}
+          placeholder={placeholder ?? (shortcut ? " " : undefined)}
+          autocomplete="off"
+          data-has-left-icon="true"
+          data-has-right-icon={shortcut ? "true" : undefined}
+          class={clx(input_cva({ size }), "peer")}
+        />
+        <SearchIcon aria-hidden="true" class={input_icon_cva({ position: "left", size })} />
+        {
+          shortcut && (
+            // Only while the field is empty and unfocused: the key is a hint for getting there.
+            // `:placeholder-shown` needs a placeholder, hence the space when there's none.
+            <span
+              hidden
+              data-ftds-requires-js
+              aria-hidden="true"
+              class={clx(
+                input_icon_cva({ position: "right", size }),
+                "flex w-auto items-center max-sm:hidden peer-focus:hidden peer-not-placeholder-shown:hidden",
+              )}
+            >
+              <kbd class={kbd_cva()}>/</kbd>
+            </span>
+          )
+        }
+      </div>
     </div>
     <Button type="submit" size={size} class="shrink-0">
       {labels.submit ?? label(lang, "siteSearchSubmit")}
@@ -139,32 +130,31 @@ const icon = { small: "size-4.5", medium: "size-5", large: "size-6" }[size];
 </form>
 
 <script>
-  import { onEach } from "@/lib/ftds/scripts";
+  import { isEditable, onEach } from "@/lib/ftds/scripts";
 
-  const isEditable = (target: EventTarget | null) =>
-    target instanceof HTMLElement &&
-    (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+  // Shows the "/" hints (data-ftds-requires-js) once this script runs
+  onEach("[data-ftds-site-search]", () => {});
 
-  onEach("[data-ftds-site-search]", (form) => {
-    const field = form.querySelector<HTMLInputElement>("input[type=search]")!;
-    const hint = form.querySelector<HTMLElement>("[data-ftds-site-search-hint]");
-    const showHint = () => {
-      if (hint) hint.style.display = field.value ? "none" : "";
-    };
-    showHint();
-    field.addEventListener("input", showHint);
+  // One listener for every SiteSearch on the page
+  document.addEventListener("keydown", (event) => {
+    const target = event.target;
     // Escape leaves the field when it is empty (a filled one is cleared by the browser)
-    field.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !field.value) field.blur();
-    });
-    if (!("shortcut" in form.dataset)) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
-      if (isEditable(event.target)) return;
-      event.preventDefault();
-      field.focus();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    if (event.key === "Escape") {
+      if (
+        target instanceof HTMLInputElement &&
+        !target.value &&
+        target.closest("[data-ftds-site-search]")
+      )
+        target.blur();
+      return;
+    }
+    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (isEditable(target)) return;
+    const field = document.querySelector<HTMLInputElement>(
+      "[data-ftds-site-search][data-shortcut] input[type=search]",
+    );
+    if (!field) return;
+    event.preventDefault();
+    field.focus();
   });
 </script>

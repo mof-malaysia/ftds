@@ -274,6 +274,44 @@
       ]
     },
     {
+      "name": "variants-input",
+      "title": "Input variants",
+      "description": "The cva classes the React and Astro input components share, installed to components/ui/input.variants.ts.",
+      "categories": [
+        "utilities"
+      ],
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/input.variants.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "variants-kbd",
+      "title": "Kbd variants",
+      "description": "The cva classes the React and Astro kbd components share, installed to components/ui/kbd.variants.ts.",
+      "categories": [
+        "utilities"
+      ],
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/kbd.variants.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "variants-link",
       "title": "Link variants",
       "description": "The cva classes the React and Astro link components share, installed to components/ui/link.variants.ts.",

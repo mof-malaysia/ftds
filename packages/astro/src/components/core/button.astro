@@ -23,7 +23,6 @@ type Props =
 
 const {
   variant = "primary-fill",
-  type,
   size = "small",
   iconOnly = false,
   href,
@@ -40,22 +39,24 @@ const icon_class = [
 ];
 
 // The rest of a destructured union isn't narrowed by `href`; without it,
-// these are the <button> branch's attributes
-const buttonProps = props as Omit<HTMLAttributes<"button">, "class">;
+// these are the <button> branch's attributes. `type` is taken out so it's
+// written once: browsers keep the first of two, so a fixed type="button"
+// before the spread ignored type="submit".
+const { type: buttonType = "button", ...buttonProps } = props as Omit<
+  HTMLAttributes<"button">,
+  "class"
+>;
 
-// `type` is taken out of the spread: with a fixed type="button" before it,
-// Astro wrote two type attributes and browsers keep the first, so a passed
-// type="submit" was ignored.
 const classes = clx(button_cva({ variant, size, iconOnly }), icon_class, className);
 ---
 
 {
   href ? (
-    <a href={href} type={type} class={classes} {...props}>
+    <a href={href} class={classes} {...props}>
       <slot />
     </a>
   ) : (
-    <button type={(type as HTMLAttributes<"button">["type"]) ?? "button"} class={classes} {...buttonProps}>
+    <button type={buttonType} class={classes} {...buttonProps}>
       <slot />
     </button>
   )

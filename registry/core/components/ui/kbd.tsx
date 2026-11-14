@@ -6,6 +6,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { clx } from "@/lib/ftds/utils";
+import { kbd_cva } from "@/components/ui/kbd.variants";
 
 /**
  * Kbd shows a keyboard shortcut as key caps, in the platform's own notation:
@@ -220,17 +221,7 @@ const Kbd = forwardRef<HTMLSpanElement, KbdProps>(
             )}
             <span aria-hidden className="inline-flex gap-0.5">
               {labels.map((label) => (
-                <kbd
-                  key={label}
-                  className={clx(
-                    "inline-flex h-5 min-w-5 items-center justify-center rounded-sm border border-b-2 px-1",
-                    // Label Compact: the Floor Rule's 13px minimum
-                    "font-body text-label-compact leading-none font-medium",
-                    inverse
-                      ? "text-txt-white border-current/30 bg-current/10"
-                      : "border-otl-gray-300 bg-bg-white text-txt-black-700",
-                  )}
-                >
+                <kbd key={label} className={kbd_cva({ inverse })}>
                   {label}
                 </kbd>
               ))}

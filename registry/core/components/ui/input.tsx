@@ -11,6 +11,11 @@ import React, {
   useMemo,
 } from "react";
 import { cva, VariantProps } from "class-variance-authority";
+import {
+  input_box_class,
+  input_cva,
+  input_icon_cva,
+} from "@/components/ui/input.variants";
 import { clx } from "@/lib/ftds/utils";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
@@ -34,30 +39,6 @@ interface InputProps
   children?: ReactNode;
 }
 
-const input_cva = cva(
-  [
-    "bg-bg-white border border-transparent outline-none box-border rounded-md",
-    "placeholder:text-txt-black-500 text-txt-black-700 transition-colors w-full",
-    "focus-visible:ring focus-visible:ring-fr-primary focus-visible:border-otl-primary-300",
-    "disabled:bg-bg-washed disabled:cursor-not-allowed disabled:text-txt-black-disabled",
-    "data-[has-prepend=true]:rounded-l-none data-[has-append=true]:rounded-r-none",
-    "data-[has-left-icon=true]:pl-10 data-[has-right-icon=true]:pr-10",
-  ],
-  {
-    variants: {
-      size: {
-        // Height excludes the wrapper's 1px border; follows data-density
-        small: "h-[calc(var(--ctl-h-sm)-2px)] px-3 text-field-sm",
-        medium: "h-[calc(var(--ctl-h-md)-2px)] px-3 text-field-md",
-        large: "h-[calc(var(--ctl-h-lg)-2px)] px-3.5 text-field-lg",
-      },
-    },
-    defaultVariants: {
-      size: "small",
-    },
-  },
-);
-
 const Input: ForwardRefExoticComponent<
   InputProps & React.RefAttributes<HTMLInputElement>
 > = forwardRef<HTMLInputElement, InputProps>(
@@ -80,14 +61,7 @@ const Input: ForwardRefExoticComponent<
     }, [children]);
 
     return (
-      <div
-        className={clx(
-          "border-otl-control relative rounded-md border outline-none",
-          // Inside an invalid Field (DESIGN.md: error stroke turns Danger)
-          "has-[input[data-invalid]]:border-bg-danger-600",
-          className,
-        )}
-      >
+      <div className={clx(input_box_class, className)}>
         <div className="flex w-full flex-row">
           <InputContext.Provider value={{ size }}>
             {prepend}
@@ -153,27 +127,6 @@ const InputAddon: ForwardRefExoticComponent<InputAddonProps> = forwardRef(
 InputAddon.displayName = "InputAddon";
 
 /*========================================================================================================================*/
-
-// Ink Secondary, so icons follow the theme instead of inheriting the page's text colour
-const input_icon_cva = cva(
-  ["absolute top-0 bottom-0 my-auto text-txt-black-700"],
-  {
-    variants: {
-      size: {
-        small: "size-4.5",
-        medium: "size-5",
-        large: "size-6",
-      },
-      position: {
-        left: "left-3",
-        right: "right-3",
-      },
-    },
-    defaultVariants: {
-      position: "left",
-    },
-  },
-);
 
 interface InputIconProps extends ComponentProps<"div"> {
   position: "left" | "right";

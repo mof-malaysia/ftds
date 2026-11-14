@@ -79,7 +79,7 @@ const hasMeta = meta.length > 0 || slots.has("meta");
   >
     {breadcrumb?.length ? <Breadcrumb items={breadcrumb} lang={lang} /> : null}
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-      <div class="flex max-w-[760px] flex-col items-start gap-4">
+      <div class="flex w-full max-w-[760px] flex-col items-start gap-4">
         <slot name="eyebrow">
           {eyebrow && <Tag variant="primary" size="medium">{eyebrow}</Tag>}
         </slot>
@@ -98,7 +98,7 @@ const hasMeta = meta.length > 0 || slots.has("meta");
         }
         {
           slots.has("search") && (
-            <div class="w-[760px] max-w-full pt-2">
+            <div class="w-full pt-2">
               <slot name="search" />
             </div>
           )
