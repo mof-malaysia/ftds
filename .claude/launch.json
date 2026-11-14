@@ -1,0 +1,114 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "storybook",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-storybook",
+        "dev",
+        "--no-open"
+      ],
+      "port": 6006
+    },
+    {
+      "name": "storybook-alt",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-storybook",
+        "exec",
+        "storybook",
+        "dev",
+        "-p",
+        "6007",
+        "--no-open"
+      ],
+      "port": 6007
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-docs",
+        "dev",
+        "--port",
+        "4321"
+      ],
+      "port": 4321
+    },
+    {
+      "name": "docs-static",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-docs",
+        "preview",
+        "--port",
+        "4322"
+      ],
+      "port": 4322
+    },
+    {
+      "name": "docs-pages",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "FTDS_SITE_URL=http://localhost:4323/ftds",
+        "pnpm",
+        "--filter",
+        "@mof-malaysia/ftds-docs",
+        "preview",
+        "--port",
+        "4323",
+        "--force"
+      ],
+      "port": 4323
+    },
+    {
+      "name": "mcp",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-mcp",
+        "exec",
+        "wrangler",
+        "dev",
+        "--port",
+        "8787"
+      ],
+      "port": 8787
+    },
+    {
+      "name": "mcp-host",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-mcp",
+        "test:host"
+      ],
+      "port": 5199
+    },
+    {
+      "name": "astro-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-astro",
+        "dev"
+      ],
+      "port": 4330
+    },
+    {
+      "name": "storybook-astro",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@mof-malaysia/ftds-storybook-astro",
+        "dev"
+      ],
+      "port": 6008
+    }
+  ]
+}
