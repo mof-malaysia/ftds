@@ -24,7 +24,7 @@
     "@storybook/addon-docs": "^10.6.5",
     "@storybook/builder-vite": "^10.6.5",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.4.4",
+    "astro": "7.4.7",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "storybook": "^10.6.5",
