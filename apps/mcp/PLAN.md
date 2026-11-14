@@ -1,4 +1,4 @@
-# FTDS Playground: plan
+# FTDS Playground: design notes
 
 A way for project managers to turn requirements into FTDS screens while they
 talk to Claude (or ChatGPT), and share the result as a link.
@@ -40,9 +40,8 @@ Two standards do the work:
 
 ## Status
 
-Built in `apps/mcp` (phases 0 and 1 below) and deployed to
-https://ftds-mcp.irfan-ismail96.workers.dev; not yet tried in a real
-Claude or ChatGPT:
+Built and deployed to https://ftds-mcp.irfan-ismail96.workers.dev, with a
+docs page at `/mcp` on the docs site:
 
 - The Worker serves `/mcp`, `/s` and `/`; `pnpm --filter @mof-malaysia/ftds-mcp dev`.
 - All five tools, the code checks (6 unit tests) and the catalogue from the
@@ -157,53 +156,21 @@ apps/mcp/
 
 ## Deployment
 
-- One Worker, `ftds-mcp`, on `*.workers.dev` for the spike; a custom
-  domain later.
-- Deploys with the **Release** workflow, from the release tag, like the docs
-  site, so the playground matches the published registry. Needs
-  `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+- One Worker, `ftds-mcp`, on `*.workers.dev`, deployed by hand (see
+  [DEPLOYMENT.md](../../DEPLOYMENT.md#cloudflare)).
 - The pre-push hook builds the Worker and runs the checks' tests.
-- Public and authless. Add Cloudflare rate limiting on `/mcp`; the tools only
-  read bundled data, so the cost of abuse is Worker requests.
+- Public and authless. The tools only read bundled data, so the cost of abuse
+  is Worker requests.
 
-## Phases
+## Remaining work
 
-### 0. Prove the riskiest part (1–2 days)
+- Rate limiting on `/mcp` (Cloudflare rate limiting rule or binding).
+- Deploy from the Release workflow, from the release tag, so the playground
+  matches the published registry. Needs `CLOUDFLARE_API_TOKEN` and
+  `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+- A custom domain.
 
-A Worker with one `render_screen` tool whose view renders a hard-coded FTDS
-`Button` and `DataTable` in Claude (web and desktop) and ChatGPT. Answers:
-does the single-file view load under each host's CSP, how big is it, how fast
-does it appear, does `@tailwindcss/browser` work in the sandbox, and does
-the view still render when the conversation is shared with Claude's own share
-link.
-
-Stop here if the view can't render reliably; fall back to share links only.
-
-### 1. Working loop
-
-- Preview view: compile and render any TSX, toolbar, error boundary.
-- Catalogue tools from the llms build.
-- `render_screen` with compile and import checks.
-- Share page.
-- Test with real PM prompts (a dashboard, a form, a list → detail flow) in
-  Claude and ChatGPT; note what the model gets wrong.
-
-### 2. Make it reliable
-
-- Design-rule checks, seeded from the mistakes found in phase 1.
-- Runtime errors back to the model.
-- `get_code` with install commands.
-- Tune tool descriptions and `get_started` until first renders are usually
-  right.
-
-### 3. Ship
-
-- Release workflow deploy, secrets, rate limiting.
-- A docs page, "Mock up screens with Claude": add the connector (Claude,
-  ChatGPT), a first prompt to try, how to share, what admins must allow on
-  Team / Enterprise plans. Link it from the front page.
-
-### Later
+Later:
 
 - Multi-screen flows: several screens in one share link, linked by buttons.
 - Short links in KV.

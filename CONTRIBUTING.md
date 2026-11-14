@@ -30,6 +30,16 @@ pnpm run lint:fix    # apply safe autofixes
 pnpm run typecheck   # tsc --noEmit in every package, via Turborepo
 ```
 
+## Definition of done
+
+Every component, React or Astro:
+
+- Sits in the lowest tier that every consumer of it belongs to (see [REGISTRY.md](./REGISTRY.md#tiers)), with correct `dependencies` and `registryDependencies`.
+- React: wraps the Base UI primitive where one exists, with no custom focus, keyboard or ARIA logic that Base UI already provides. Astro: uses native elements first (`<details>`, `<dialog>`, the Popover API), with a small script only where the platform has no answer.
+- Follows [DESIGN.md](./DESIGN.md): tokens only, separated by surface rather than outlines, works in comfortable and compact density and in dark mode.
+- Has a Storybook story with every variant and state, and no violations in the a11y panel. Astro components with interaction also get a Playwright spec in `apps/storybook-astro/tests`.
+- Has a component doc (React, see below), and BM strings fit without cutting off key information.
+
 ## Icons
 
 Icons are generated from SVGs. Add or edit a file in [packages/react/src/svg/icons](./packages/react/src/svg/icons) (dash-case, e.g. `arrow-back.svg`), then run:
@@ -72,26 +82,8 @@ A failing check blocks the commit or push. The push checks read the working tree
 
 ## Submitting a Pull Request (PR)
 
-1. **Ensure Checks Pass**:
-   ```sh
-   pnpm run lint && pnpm run typecheck
-   ```
-2. **Format Code**:
-
-   ```sh
-   pnpm run format
-   ```
-
-3. **Push Your Changes**:
-   ```sh
-   git push origin feature/your-feature-name
-   ```
-4. **Open a Pull Request**:
-   - Go to the repository on GitHub.
-   - Click "New pull request".
-   - Fill out the PR template.
-   - Link to relevant issues.
-   - Request a review from a maintainer.
+1. Work on a short-lived branch from `main`. The git hooks format, lint and typecheck on every commit and run the full checks on push, so a branch that pushes cleanly is ready for review.
+2. Open a pull request on GitHub, link any related issue and request a review from a maintainer.
 
 ## Questions?
 

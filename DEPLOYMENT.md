@@ -129,7 +129,7 @@ pnpm tsx scripts/registry/build-json.ts . /tmp/r http://localhost:3000/r/dev
 
 ## Troubleshooting
 
-### CI: "registry/ is out of date"
+### Push fails: "registry/ is out of date"
 
 Run `pnpm registry:build` and commit `registry.json` and `registry/`.
 
