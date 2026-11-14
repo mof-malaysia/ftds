@@ -14,6 +14,10 @@ import { band_cva, container_cva, meta_row_class } from "@mof-malaysia/ftds-styl
  * category, reading time). The Hero is for the home page and campaign pages;
  * this is its quieter counterpart.
  *
+ * `tone` sets the band: Well (default), Paper, or `primary`, the primary
+ * wash, which carries the site's colour onto inner pages. As on the Hero,
+ * it's a wash, never a solid primary band (One Blue Rule).
+ *
  * Slots: `eyebrow`, `title`, `description`, `meta` (replaces the `meta`
  * items; each child gets a dot before it), `actions` (beside the title on
  * desktop) and `media` (an image under the text, e.g. an article's lead
@@ -36,8 +40,8 @@ type Props = Omit<HTMLAttributes<"section">, "class" | "title"> & {
   description?: string;
   /** Facts in a row under the description, e.g. `["31 Oktober 2026", "5 minit bacaan"]`. */
   meta?: string[];
-  /** Band: Well (default) or Paper. */
-  tone?: "well" | "paper";
+  /** Band: Well (default), Paper, or `primary`, the primary wash. */
+  tone?: "well" | "paper" | "primary";
   /** `"article"` narrows the text to a reading column. Defaults to `"wide"`. */
   width?: "wide" | "article";
   lang?: Lang;

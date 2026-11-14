@@ -47,3 +47,21 @@ export const WithActions = {
     },
   },
 };
+export const Primary = {
+  args: {
+    tone: "primary",
+    breadcrumb: [
+      { label: "Utama", href: "#utama" },
+      { label: "Perkhidmatan", href: "#perkhidmatan" },
+      { label: "Bantuan Sara Hidup" },
+    ],
+    eyebrow: "Perkhidmatan",
+    title: "Bantuan Sara Hidup",
+    description:
+      "Bantuan tunai untuk isi rumah berpendapatan rendah. Semak kelayakan dan mohon dalam talian.",
+    meta: ["Dikemas kini 3 November 2026"],
+    slots: {
+      actions: `<a href="#mohon" class="text-txt-primary underline">Mohon sekarang</a>`,
+    },
+  },
+};
