@@ -1,0 +1,19 @@
+---
+/**
+ * Story-only composite: a PageIntro with a real SiteSearch in its `search`
+ * slot (story slots take HTML strings, not components).
+ */
+import type { ComponentProps } from "astro/types";
+import PageIntro from "@/components/blocks/page-intro.astro";
+import SiteSearch from "@/components/ui/site-search.astro";
+
+type Props = ComponentProps<typeof PageIntro> & {
+  search: ComponentProps<typeof SiteSearch>;
+};
+
+const { search, ...props } = Astro.props;
+---
+
+<PageIntro {...props}>
+  <SiteSearch slot="search" {...search} lang={props.lang} />
+</PageIntro>

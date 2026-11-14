@@ -720,6 +720,30 @@
       ]
     },
     {
+      "name": "astro-site-search",
+      "title": "Site Search (Astro)",
+      "description": "A labelled \"search this site\" field with a Search button, for agency sites and service landing pages. Submits a GET request, or calls onSearch.",
+      "categories": [
+        "astro",
+        "marketing"
+      ],
+      "type": "registry:ui",
+      "dependencies": [],
+      "registryDependencies": [
+        "mof-malaysia/ftds/astro-button",
+        "mof-malaysia/ftds/astro-i18n",
+        "mof-malaysia/ftds/astro-icon-search",
+        "mof-malaysia/ftds/astro-scripts",
+        "mof-malaysia/ftds/utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/site-search.astro",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "astro-stats-band",
       "title": "Stats Band (Astro)",
       "description": "Two to four headline figures on a Well band, each with a label and optional footnote, and a source line. For landing pages, not dashboards.",

@@ -18,10 +18,11 @@ import { band_cva, container_cva, meta_row_class } from "@/components/ui/section
  * wash, which carries the site's colour onto inner pages. As on the Hero,
  * it's a wash, never a solid primary band (One Blue Rule).
  *
- * Slots: `eyebrow`, `title`, `description`, `meta` (replaces the `meta`
- * items; each child gets a dot before it), `actions` (beside the title on
- * desktop) and `media` (an image under the text, e.g. an article's lead
- * photo).
+ * Slots: `eyebrow`, `title`, `description`, `search` (under the
+ * description, e.g. a SiteSearch over a collection's items), `meta`
+ * (replaces the `meta` items; each child gets a dot before it), `actions`
+ * (beside the title on desktop) and `media` (an image under the text, e.g.
+ * an article's lead photo).
  *
  * @example
  * <PageIntro
@@ -93,6 +94,13 @@ const hasMeta = meta.length > 0 || slots.has("meta");
             <p class="text-txt-black-700 text-body-lg max-w-[65ch]">
               <slot name="description">{description}</slot>
             </p>
+          )
+        }
+        {
+          slots.has("search") && (
+            <div class="w-[760px] max-w-full pt-2">
+              <slot name="search" />
+            </div>
           )
         }
         {

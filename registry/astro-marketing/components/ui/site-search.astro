@@ -1,0 +1,170 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { clx, uniqueId } from "@/lib/ftds/utils";
+import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
+import Button from "@/components/ui/button.astro";
+import SearchIcon from "@/components/ui/icons/search.astro";
+
+/**
+ * SiteSearch is the "search this site" box for agency sites and service
+ * landing pages: a labelled search field and one Search button inside a
+ * `<form role="search">`. It submits a GET request (`?q=…`) to `action`, so it
+ * works without JavaScript; a page script can take over from the form's
+ * `submit` or the field's `input` event. The Astro port of React SiteSearch,
+ * with the same props, and `params` for hidden inputs sent with the query.
+ *
+ * @example
+ * <SiteSearch action="/carian" placeholder="Contoh: cukai jalan" />
+ *
+ * <SiteSearch
+ *   action="/carian"
+ *   size="large"
+ *   labels={{ label: "Cari dalam berita" }}
+ *   params={{ koleksi: "Berita" }}
+ * />
+ */
+type Props = Omit<HTMLAttributes<"form">, "class" | "method"> & {
+  /** Where the form goes. Defaults to the current page. */
+  action?: string;
+  /** Field and button size, relative to density. `large` suits a hero. Defaults to `medium`. */
+  size?: "small" | "medium" | "large";
+  /** Name of the query parameter. Defaults to `q`. */
+  name?: string;
+  placeholder?: string;
+  /** The query to start with, e.g. the one in the address. */
+  defaultValue?: string;
+  /** Shows the label above the field instead of only to screen readers. */
+  showLabel?: boolean;
+  /** "/" focuses the field from anywhere on the page, with a key hint while it's empty. */
+  shortcut?: boolean;
+  /** The field's label and the button. Default "Cari dalam laman ini" and "Cari". */
+  labels?: { label?: string; submit?: string };
+  /** Sent with the query as hidden inputs; an array sends the name once per value. */
+  params?: Record<string, string | string[]>;
+  /** `id` for the field. Generated when unset. */
+  inputId?: string;
+  lang?: Lang;
+  class?: string;
+};
+
+const {
+  action,
+  size = "medium",
+  name = "q",
+  placeholder,
+  defaultValue,
+  showLabel = false,
+  shortcut = false,
+  labels = {},
+  params = {},
+  inputId = uniqueId("site-search"),
+  lang: langProp,
+  class: className,
+  ...props
+} = Astro.props;
+
+const lang = resolveLang(langProp, Astro.currentLocale);
+
+// React Input's sizes and icon placement, with the border on the field itself
+const field = {
+  small: "h-(--ctl-h-sm) px-3 pl-10 text-field-sm",
+  medium: "h-(--ctl-h-md) px-3 pl-10 text-field-md",
+  large: "h-(--ctl-h-lg) px-3.5 pl-11 text-field-lg",
+}[size];
+const icon = { small: "size-4.5", medium: "size-5", large: "size-6" }[size];
+---
+
+<form
+  action={action}
+  method="get"
+  role="search"
+  class={clx("font-body flex w-full flex-col gap-2", className)}
+  data-ftds-site-search
+  data-shortcut={shortcut ? "" : undefined}
+  {...props}
+>
+  <label
+    for={inputId}
+    class={clx("text-txt-black-900 text-label-sm font-medium", !showLabel && "sr-only")}
+  >
+    {labels.label ?? label(lang, "siteSearchLabel")}
+  </label>
+  <div class="flex w-full gap-2">
+    <div class="relative min-w-0 flex-1">
+      <SearchIcon
+        aria-hidden="true"
+        class={clx(
+          "text-txt-black-700 pointer-events-none absolute inset-y-0 left-3 my-auto",
+          icon,
+        )}
+      />
+      <input
+        id={inputId}
+        type="search"
+        name={name}
+        value={defaultValue}
+        placeholder={placeholder}
+        autocomplete="off"
+        class={clx(
+          "bg-bg-white border-otl-control text-txt-black-700 placeholder:text-txt-black-500 box-border w-full min-w-0 rounded-md border outline-none transition-colors",
+          "focus-visible:ring-fr-primary focus-visible:border-otl-primary-300 focus-visible:ring",
+          shortcut && "pr-10",
+          field,
+        )}
+      />
+      {
+        shortcut && (
+          // Hidden while the field has focus or a query: the key is only a hint for getting there
+          <kbd
+            hidden
+            data-ftds-requires-js
+            data-ftds-site-search-hint
+            aria-hidden="true"
+            class="border-otl-gray-200 bg-bg-washed text-txt-black-700 text-label-compact pointer-events-none absolute inset-y-0 right-3 my-auto flex h-5 min-w-5 items-center justify-center rounded-sm border px-1 font-mono max-sm:hidden [div:focus-within>&]:hidden"
+          >
+            /
+          </kbd>
+        )
+      }
+    </div>
+    <Button type="submit" size={size} class="shrink-0">
+      {labels.submit ?? label(lang, "siteSearchSubmit")}
+    </Button>
+  </div>
+  {
+    Object.entries(params).flatMap(([key, values]) =>
+      [values].flat().map((v) => <input type="hidden" name={key} value={v} />),
+    )
+  }
+</form>
+
+<script>
+  import { onEach } from "@/lib/ftds/scripts";
+
+  const isEditable = (target: EventTarget | null) =>
+    target instanceof HTMLElement &&
+    (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+
+  onEach("[data-ftds-site-search]", (form) => {
+    const field = form.querySelector<HTMLInputElement>("input[type=search]")!;
+    const hint = form.querySelector<HTMLElement>("[data-ftds-site-search-hint]");
+    const showHint = () => {
+      if (hint) hint.style.display = field.value ? "none" : "";
+    };
+    showHint();
+    field.addEventListener("input", showHint);
+    // Escape leaves the field when it is empty (a filled one is cleared by the browser)
+    field.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !field.value) field.blur();
+    });
+    if (!("shortcut" in form.dataset)) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (isEditable(event.target)) return;
+      event.preventDefault();
+      field.focus();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  });
+</script>
