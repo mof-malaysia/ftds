@@ -1,6 +1,6 @@
 # FTDS Playground
 
-A remote MCP server, on a Cloudflare Worker, that lets Claude or ChatGPT mock up screens with FTDS. Screens render in the chat as an [MCP App](https://modelcontextprotocol.io/extensions/apps) and can be shared as a link that opens in any browser. The plan and findings are in [PLAYGROUND-PLAN.md](../../PLAYGROUND-PLAN.md).
+A remote MCP server, on a Cloudflare Worker, that lets Claude or ChatGPT mock up screens with FTDS. Screens render in the chat as an [MCP App](https://modelcontextprotocol.io/extensions/apps) and can be shared as a link that opens in any browser. The plan and findings are in [PLAN.md](./PLAN.md).
 
 The Worker keeps no state and calls no AI: the person's own Claude or ChatGPT does the work.
 
