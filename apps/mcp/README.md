@@ -6,7 +6,7 @@ The Worker keeps no state and calls no AI: the person's own Claude or ChatGPT do
 
 | Path          | What                                                                            |
 | ------------- | ------------------------------------------------------------------------------- |
-| `/mcp`        | The MCP server. Add `https://<worker>/mcp` as a custom connector.               |
+| `/mcp`        | The MCP server. Add `https://<worker>/mcp` as a custom connector. Rate limited. |
 | `/s#<screen>` | A shared screen. The screen is in the fragment, which never reaches the Worker. |
 | `/`           | What this is and how to connect.                                                |
 
@@ -35,3 +35,5 @@ pnpm --filter @mof-malaysia/ftds-mcp run deploy
 ```
 
 Needs a Cloudflare account (`wrangler login`, or `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in a workflow). Set `FTDS_VERSION` to the release tag when deploying from a release, so tools and share links name it.
+
+`/mcp` is rate limited per client IP by the `MCP_LIMITER` binding in `wrangler.jsonc`, which sets the limit. Over the limit, clients get a 429 with `Retry-After`. `wrangler dev` enforces the limit locally too, and without the binding requests go through.

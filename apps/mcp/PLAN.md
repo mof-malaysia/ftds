@@ -161,10 +161,13 @@ apps/mcp/
 - The pre-push hook builds the Worker and runs the checks' tests.
 - Public and authless. The tools only read bundled data, so the cost of abuse
   is Worker requests.
+- `/mcp` is rate limited per client IP with the Workers rate limiting binding
+  (`MCP_LIMITER` in `wrangler.jsonc` sets the limit; `src/worker/rate-limit.ts`). Over the limit it answers 429 with
+  `Retry-After` and a JSON-RPC error. Counts are per Cloudflare location and
+  approximate. `OPTIONS`, `/s`, `/` and the fonts are not limited.
 
 ## Remaining work
 
-- Rate limiting on `/mcp` (Cloudflare rate limiting rule or binding).
 - Deploy from the Release workflow, from the release tag, so the playground
   matches the published registry. Needs `CLOUDFLARE_API_TOKEN` and
   `CLOUDFLARE_ACCOUNT_ID` repository secrets.

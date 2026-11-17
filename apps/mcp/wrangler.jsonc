@@ -8,5 +8,13 @@
   "assets": { "directory": "./public" },
   // The preview page (dist/view.html) is bundled as a string
   "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],
+  // Per-IP limit on /mcp (src/worker/rate-limit.ts). namespace_id must be unique in the account.
+  "ratelimits": [
+    {
+      "name": "MCP_LIMITER",
+      "namespace_id": "3701",
+      "simple": { "limit": 60, "period": 60 }
+    }
+  ],
   "observability": { "enabled": true }
 }
