@@ -28,6 +28,9 @@ import type { Catalogue } from "../src/shared/catalogue";
  *               for checking a screen's imports
  *   items       import path → registry item, for `shadcn add`
  *
+ * React only for now: render_screen renders React, so the Astro sections and
+ * pages of llms.txt are left out until the tools know the framework (#30).
+ *
  * Writes src/generated/catalogue.json, which the Worker bundles.
  *
  * Usage: tsx scripts/catalogue.cts   (FTDS_SITE_URL and FTDS_VERSION are optional)
@@ -56,6 +59,9 @@ execFileSync(
   { cwd: ROOT_DIR, stdio: "inherit" },
 );
 
+const reactItems = readItems().filter((item) => item.framework === "react");
+const reactPages = new Set(reactItems.map((item) => item.entry.name));
+
 const read = (file: string) =>
   fs.readFileSync(path.join(LLMS_DIR, file), "utf-8");
 
@@ -70,14 +76,15 @@ for (const line of index.split("\n")) {
     continue;
   }
   const item = line.match(/^- \[.+?\]\(.+?\/components\/([\w-]+)\.md\): (.*)$/);
-  if (item && sections.length) {
+  if (item && sections.length && reactPages.has(item[1]!)) {
     sections.at(-1)!.items.push({ name: item[1]!, description: item[2]! });
   }
 }
 
 const pages: Catalogue["pages"] = {};
 for (const file of fs.readdirSync(path.join(LLMS_DIR, "components"))) {
-  pages[file.replace(/\.md$/, "")] = read(`components/${file}`);
+  const name = file.replace(/\.md$/, "");
+  if (reactPages.has(name)) pages[name] = read(`components/${file}`);
 }
 
 // The section index comes from llms.txt above: build.ts groups blocks there
@@ -89,7 +96,7 @@ const guides: Catalogue["guides"] = readGuides().map(({ slug, title }) => ({
 
 const modules: Catalogue["modules"] = {};
 const items: Catalogue["items"] = {};
-for (const item of readItems()) {
+for (const item of reactItems) {
   modules[item.importPath] = readExports(item.sourceFile).map((e) => e.name);
   items[item.importPath] = item.entry.name;
 }

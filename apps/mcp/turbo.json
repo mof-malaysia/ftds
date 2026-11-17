@@ -10,7 +10,8 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
-        "$TURBO_ROOT$/registry/**"
+        "$TURBO_ROOT$/registry/**",
+        "$TURBO_ROOT$/packages/astro/src/**"
       ],
       "outputs": [
         "dist/**",
@@ -24,7 +25,8 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
-        "$TURBO_ROOT$/registry/**"
+        "$TURBO_ROOT$/registry/**",
+        "$TURBO_ROOT$/packages/astro/src/**"
       ],
       "outputs": [
         ".catalogue/**",

@@ -10,6 +10,8 @@ import { CATEGORIES, type Category } from "./categories";
  *
  *   packages/react/src/components/<tier>/<name>.md   one per component and block
  *   packages/react/src/{utils,hooks}/<name>.md        the utils and hooks items
+ *   packages/astro/src/components/<tier>/<name>.md   one per Astro component and block
+ *   packages/astro/src/{i18n,scripts}/<name>.md       the astro-i18n and astro-scripts items
  *   docs/guides/<slug>.md                             guides
  *   docs/llms-intro.md                                the rules at the top of llms.txt
  */
@@ -44,6 +46,7 @@ export function currentTag(): string | undefined {
   }
 }
 const REACT_SRC = path.join(ROOT_DIR, "packages/react/src");
+const ASTRO_SRC = path.join(ROOT_DIR, "packages/astro/src");
 export const GUIDES_DIR = path.join(ROOT_DIR, "docs/guides");
 export const INTRO_FILE = path.join(ROOT_DIR, "docs/llms-intro.md");
 
@@ -73,13 +76,20 @@ export interface Doc {
   body: string;
 }
 
+export type Framework = "react" | "astro";
+
 export interface Item {
   entry: RegistryEntry;
+  framework: Framework;
+  /** The fence of the examples the checker typechecks: tsx for React, astro for Astro. */
+  exampleLang: "tsx" | "astro";
+  /** Whether a missing doc fails the build or only warns. */
+  docRequired: boolean;
   /** The TypeScript source the item is generated from (first file for hooks). */
   sourceFile: string;
   /** Install path in a project, e.g. components/ui/button.tsx. */
   installPath: string;
-  /** Import specifier after install, e.g. @/components/ui/button. */
+  /** Import specifier after install, e.g. @/components/ui/button or @/components/ui/button.astro. */
   importPath: string;
   doc?: Doc;
   docFile: string;
@@ -91,7 +101,27 @@ const REGISTRIES: RegistryName[] = [
   "marketing",
   "icons",
   "style",
+  "astro-core",
+  "astro-marketing",
 ];
+
+/** Registries whose items have a hand-written doc: the framework of each, and whether the doc is required yet. */
+const DOCUMENTED: Partial<
+  Record<RegistryName, { framework: Framework; docRequired: boolean }>
+> = {
+  core: { framework: "react", docRequired: true },
+  app: { framework: "react", docRequired: true },
+  marketing: { framework: "react", docRequired: true },
+  "astro-core": { framework: "astro", docRequired: true },
+  // Its docs are still being written; #29 makes them required
+  "astro-marketing": { framework: "astro", docRequired: false },
+};
+
+/** Astro libs: registry name -> folder under packages/astro/src. */
+const ASTRO_LIBS: Record<string, string> = {
+  "astro-i18n": "i18n",
+  "astro-scripts": "scripts",
+};
 
 export function readRegistry(): RegistryEntry[] {
   return REGISTRIES.flatMap((registry) => {
@@ -140,6 +170,9 @@ export const rel = (file: string) => path.relative(ROOT_DIR, file);
 function sourceFor(entry: RegistryEntry): string {
   if (entry.name === "utils") return path.join(REACT_SRC, "utils/index.ts");
   if (entry.name === "hooks") return path.join(REACT_SRC, "hooks/index.ts");
+  const lib = ASTRO_LIBS[entry.name];
+  if (lib) return path.join(ASTRO_SRC, lib, "index.ts");
+  if (entry.registry.startsWith("astro-")) return astroPath(entry, "astro");
   return path.join(
     REACT_SRC,
     "components",
@@ -151,29 +184,52 @@ function sourceFor(entry: RegistryEntry): string {
 function docFileFor(entry: RegistryEntry): string {
   if (entry.name === "utils") return path.join(REACT_SRC, "utils/utils.md");
   if (entry.name === "hooks") return path.join(REACT_SRC, "hooks/hooks.md");
+  const lib = ASTRO_LIBS[entry.name];
+  if (lib) return path.join(ASTRO_SRC, lib, `${lib}.md`);
+  if (entry.registry.startsWith("astro-")) return astroPath(entry, "md");
   return path.join(REACT_SRC, "components", entry.registry, `${entry.name}.md`);
 }
 
-/** Components, blocks, utils and hooks: everything that has a hand-written doc. */
+/** astro-core's astro-button -> packages/astro/src/components/core/button.<ext>. */
+const astroPath = (entry: RegistryEntry, ext: string) =>
+  path.join(
+    ASTRO_SRC,
+    "components",
+    entry.registry.replace(/^astro-/, ""),
+    `${entry.name.replace(/^astro-/, "")}.${ext}`,
+  );
+
+function importPathFor(entry: RegistryEntry, installPath: string): string {
+  if (entry.name === "utils" || entry.name === "hooks")
+    return `@/lib/ftds/${entry.name}`;
+  // Astro libs install to lib/ftds/<name>/index.ts
+  if (ASTRO_LIBS[entry.name])
+    return `@/${installPath.replace(/\/index\.ts$/, "")}`;
+  // Astro imports keep the .astro extension
+  return `@/${installPath.replace(/\.tsx?$/, "")}`;
+}
+
+/** Components, blocks, utils and hooks of both stacks: everything that has a hand-written doc. */
 export function readItems(entries = readRegistry()): Item[] {
-  return entries
-    .filter((entry) => ["core", "app", "marketing"].includes(entry.registry))
-    .map((entry) => {
-      const file = entry.files[0]!;
-      const installPath = (file.target ?? file.path).replace(/^~\//, "");
-      const docFile = docFileFor(entry);
-      return {
+  return entries.flatMap((entry) => {
+    const documented = DOCUMENTED[entry.registry];
+    if (!documented) return [];
+    const file = entry.files[0]!;
+    const installPath = (file.target ?? file.path).replace(/^~\//, "");
+    const docFile = docFileFor(entry);
+    return [
+      {
         entry,
+        ...documented,
+        exampleLang: documented.framework === "astro" ? "astro" : "tsx",
         sourceFile: sourceFor(entry),
         installPath,
-        importPath:
-          entry.name === "utils" || entry.name === "hooks"
-            ? `@/lib/ftds/${entry.name}`
-            : `@/${installPath.replace(/\.tsx?$/, "")}`,
+        importPath: importPathFor(entry, installPath),
         doc: fs.existsSync(docFile) ? readDoc(docFile) : undefined,
         docFile,
-      };
-    });
+      },
+    ];
+  });
 }
 
 export function readGuides(): (Doc & { slug: string })[] {
@@ -191,7 +247,9 @@ export function readGuides(): (Doc & { slug: string })[] {
     );
 }
 
-/** Fenced ```tsx blocks of a doc body: the examples the checker typechecks. */
-export function tsxExamples(body: string): string[] {
-  return [...body.matchAll(/^```tsx\n([\s\S]*?)^```$/gm)].map((m) => m[1]!);
+/** Fenced ```tsx (or ```astro) blocks of a doc body: the examples the checker typechecks. */
+export function examples(body: string, lang = "tsx"): string[] {
+  return [
+    ...body.matchAll(new RegExp(`^\`\`\`${lang}\\n([\\s\\S]*?)^\`\`\`$`, "gm")),
+  ].map((m) => m[1]!);
 }
