@@ -653,16 +653,17 @@ const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
     return (
       <span
         data-active={isActive ? "" : undefined}
-        className="data-[active]:border-txt-primary flex shrink-0 items-center border-b-2 border-transparent pr-1"
+        className="data-[active]:border-txt-primary flex shrink-0 items-center border-b-2 border-transparent"
       >
         {link}
+        {/* 24px, the WCAG 2.2 minimum target; it fills the wrapper's end padding */}
         <button
           type="button"
           aria-label={
             closeLabel ??
             (label ? labels.closeTab.replace("{label}", label) : "Close")
           }
-          className="text-txt-black-500 hover:text-txt-black-900 hover:bg-bg-washed-active focus-ring inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-sm transition-colors duration-150 motion-reduce:transition-none"
+          className="text-txt-black-500 hover:text-txt-black-900 hover:bg-bg-washed-active focus-ring inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-sm transition-colors duration-150 motion-reduce:transition-none"
           onClick={onClose}
         >
           <CrossIcon className="size-3.5" aria-hidden />
