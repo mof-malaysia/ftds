@@ -206,13 +206,64 @@ function componentProps(
     : undefined;
 }
 
+const standalone = new Map<string, ts.Program>();
+
+/**
+ * A source file and its checker: from the packages/react program, or for a
+ * file outside it (the Astro libs, Astro-only variants) a program of its own
+ * with the same options.
+ */
+function sourceAndChecker(filePath: string) {
+  let prog = getProgram();
+  if (!prog.getSourceFile(filePath)) {
+    let own = standalone.get(filePath);
+    if (!own) {
+      // Reuses the React program's parsed files (lib.d.ts, dependencies)
+      own = ts.createProgram(
+        [filePath],
+        prog.getCompilerOptions(),
+        undefined,
+        prog,
+      );
+      standalone.set(filePath, own);
+    }
+    prog = own;
+  }
+  const source = prog.getSourceFile(filePath);
+  if (!source) throw new Error(`Could not read ${filePath}`);
+  return { source, checker: prog.getTypeChecker() };
+}
+
+/**
+ * The variant props of a cva builder (`button_cva` -> `variant`, `size`,
+ * `iconOnly`), for Astro components whose props are `VariantProps<typeof ...>`.
+ */
+export function cvaProps(filePath: string, exportName: string): PropInfo[] {
+  const { source, checker } = sourceAndChecker(filePath);
+  const moduleSymbol = checker.getSymbolAtLocation(source);
+  const exported = moduleSymbol
+    ? checker
+        .getExportsOfModule(moduleSymbol)
+        .find((e) => e.name === exportName)
+    : undefined;
+  if (!exported) throw new Error(`${filePath} does not export ${exportName}`);
+  const param = checker
+    .getTypeOfSymbolAtLocation(exported, source)
+    .getCallSignatures()[0]?.parameters[0];
+  if (!param) return [];
+  return checker
+    .getPropertiesOfType(
+      checker.getNonNullableType(
+        checker.getTypeOfSymbolAtLocation(param, source),
+      ),
+    )
+    .filter((p) => p.name !== "class" && p.name !== "className")
+    .map((p) => propInfo(p, checker, source));
+}
+
 /** Public API of one source file, in export order. */
 export function readExports(filePath: string): ExportInfo[] {
-  const prog = getProgram();
-  const checker = prog.getTypeChecker();
-  const source = prog.getSourceFile(filePath);
-  if (!source)
-    throw new Error(`Not in the packages/react program: ${filePath}`);
+  const { source, checker } = sourceAndChecker(filePath);
   const moduleSymbol = checker.getSymbolAtLocation(source);
   if (!moduleSymbol) return [];
 

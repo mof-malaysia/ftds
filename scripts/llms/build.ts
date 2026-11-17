@@ -1,6 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { readExports, type ExportInfo, type PropInfo } from "./api";
+import { cvaProps, readExports, type ExportInfo, type PropInfo } from "./api";
+import {
+  astroComponentName,
+  astroDefaults,
+  astroProps,
+  astroSlots,
+  astroTakesAttributes,
+  astroVariants,
+} from "./astro";
 import {
   CATEGORIES,
   DEFAULT_SITE_URL,
@@ -13,23 +21,26 @@ import {
   rel,
   currentTag,
   siteUrl,
-  tsxExamples,
+  examples,
   type Item,
 } from "./content";
-import { REGISTRY_REPO } from "../registry/utils";
+import { REGISTRY_REPO, VARIANTS_DIR } from "../registry/utils";
 
 /**
  * Build the documentation coding agents read (https://llmstxt.org):
  *
  *   llms.txt                 index: what FTDS is, the rules, a link per page
  *   llms-full.txt            every page below in one file
- *   components/<name>.md     one per component, block, utils and hooks
+ *   components/<name>.md     one per component, block, utils and hooks, React and Astro
  *   guides/<slug>.md         setup, conventions, styling, forms, layouts
  *   icons.md                 every icon item and its export
  *
  * Each component page joins the hand-written doc next to its source (what it
  * is for, examples, notes) with what the code says: exports, the props the
  * component declares with their exact types, dependencies and install paths.
+ *
+ * Astro items (astro-core, astro-marketing) get the same pages, after the React
+ * ones. A missing astro-marketing doc only warns until every one is written.
  *
  * Usage: tsx scripts/llms/build.ts [--out deploy] [--site <url>] [--version v0.1.0] [--allow-missing]
  */
@@ -140,6 +151,93 @@ function apiSection(exports: ExportInfo[]): string {
   return parts.join("\n\n");
 }
 
+// ---------------------------------------------------------------------------
+// Astro components: read from the .astro source (scripts/llms/astro.ts)
+
+/** Each .astro source is read for its exports and again for its API section. */
+const astroSources = new Map<string, string>();
+const astroSource = (file: string) => {
+  let source = astroSources.get(file);
+  if (source === undefined) {
+    source = fs.readFileSync(file, "utf-8");
+    astroSources.set(file, source);
+  }
+  return source;
+};
+
+/** An Astro component as a single default export, with its props. */
+function astroExports(item: Item): ExportInfo[] {
+  const source = astroSource(item.sourceFile);
+  const own = astroProps(source);
+  const defaults = astroDefaults(source);
+  const variants = astroVariants(source)
+    .flatMap(({ name, module }) =>
+      cvaProps(path.join(VARIANTS_DIR, `${module}.ts`), name),
+    )
+    .filter((p) => !own.some((o) => o.name === p.name))
+    .map((p) => ({ ...p, defaultValue: defaults.get(p.name) }));
+  return [
+    {
+      kind: "component",
+      name: astroComponentName(item.sourceFile),
+      props: [...variants, ...own].sort(
+        (a, b) => Number(b.required) - Number(a.required),
+      ),
+      baseUiProps: [],
+      domPropCount: astroTakesAttributes(source) ? 1 : 0,
+      description: "",
+    },
+  ];
+}
+
+const isAstroComponent = (item: Item) => item.sourceFile.endsWith(".astro");
+
+function exportsOf(item: Item): ExportInfo[] {
+  return isAstroComponent(item)
+    ? astroExports(item)
+    : readExports(item.sourceFile);
+}
+
+/** Interfaces declared next to the props that the props use (`BreadcrumbItem`). */
+function astroLocalTypes(source: string, props: PropInfo[]): string[] {
+  const types = props.map((p) => p.type).join(" ");
+  return [...source.matchAll(/^interface (\w+) \{[\s\S]*?^\}/gm)]
+    .filter(
+      ([, name]) => name !== "Props" && new RegExp(`\\b${name}\\b`).test(types),
+    )
+    .map(([text]) => text);
+}
+
+function astroApiSection(item: Item, exports: ExportInfo[]): string {
+  const component = exports[0] as Extract<ExportInfo, { kind: "component" }>;
+  const source = astroSource(item.sourceFile);
+  const parts = [
+    "## API",
+    `### ${code(component.name)}`,
+    propsTable(component.props) || "No props of its own.",
+  ];
+  const localTypes = astroLocalTypes(source, component.props);
+  if (localTypes.length)
+    parts.push(`\`\`\`ts\n${localTypes.join("\n\n")}\n\`\`\``);
+  const slots = astroSlots(source);
+  parts.push(
+    slots.length
+      ? `Slots: ${slots.map((slot) => (slot === "default" ? "the default slot" : code(slot))).join(", ")}.`
+      : "No slots.",
+  );
+  if (component.domPropCount > 0) {
+    parts.push(
+      "Also accepts the standard attributes of the element it renders (`id`, `aria-*`, `data-*` and so on). Pass classes with `class`, not `className`.",
+    );
+  }
+  return parts.join("\n\n");
+}
+
+const ASTRO_KINDS: Record<string, string> = {
+  "registry:block": "block",
+  "registry:lib": "helpers",
+};
+
 function componentPage(item: Item, exports: ExportInfo[]): string {
   const { entry, doc } = item;
   const valueNames = exports
@@ -147,11 +245,19 @@ function componentPage(item: Item, exports: ExportInfo[]): string {
     .map((e) => e.name);
   const registryDeps = entry.registryDependencies.map(depName);
   const npmDeps = entry.dependencies;
+  const kind =
+    item.framework === "astro"
+      ? `Astro ${ASTRO_KINDS[entry.type] ?? "component"}, ${entry.registry} tier`
+      : `${entry.registry} tier`;
 
   const facts = [
     ...installLines(entry.name),
-    `- **Import:** ${code(`import { ${valueNames.join(", ")} } from "${item.importPath}";`)}`,
-    `- **Installs to:** ${code(item.installPath)} (${entry.registry} tier, ${code(entry.type)})`,
+    `- **Import:** ${code(
+      isAstroComponent(item)
+        ? `import ${valueNames[0]} from "${item.importPath}";`
+        : `import { ${valueNames.join(", ")} } from "${item.importPath}";`,
+    )}`,
+    `- **Installs to:** ${code(item.installPath)} (${kind}, ${code(entry.type)})`,
   ];
   if (registryDeps.length || npmDeps.length) {
     const brings = [
@@ -168,7 +274,9 @@ function componentPage(item: Item, exports: ExportInfo[]): string {
     `> ${doc!.description}`,
     facts.join("\n"),
     doc!.body,
-    apiSection(exports),
+    isAstroComponent(item)
+      ? astroApiSection(item, exports)
+      : apiSection(exports),
   ].join("\n\n");
 }
 
@@ -200,6 +308,8 @@ function iconsPage(): string {
       "```",
       "",
       "Icons render an `<svg>` and accept SVG props. Size them with `size-*` classes; they take the text colour (`currentColor`). Decorative icons need `aria-hidden`; an icon that is the only content of a button needs an `aria-label` on the button.",
+      "",
+      'For Astro, each icon is also an item named `astro-icon-<name>`, which installs `components/ui/icons/<name>.astro` with a default export: `import ChevronDown from "@/components/ui/icons/chevron-down.astro";`.',
     ].join("\n"),
     ["| Item | Export | Import |", "| --- | --- | --- |", ...rows].join("\n"),
   ].join("\n\n");
@@ -210,9 +320,10 @@ function iconsPage(): string {
 function main() {
   const items = readItems();
   const missing = items.filter((item) => !item.doc);
-  if (missing.length && !ALLOW_MISSING) {
+  const required = missing.filter((item) => item.docRequired);
+  if (required.length && !ALLOW_MISSING) {
     console.error(
-      `❌ ${missing.length} items have no doc:\n${missing.map((m) => `   ${rel(m.docFile)}`).join("\n")}`,
+      `❌ ${required.length} items have no doc:\n${required.map((m) => `   ${rel(m.docFile)}`).join("\n")}`,
     );
     process.exit(1);
   }
@@ -225,17 +336,16 @@ function main() {
     if (item.doc.description.length > 200) {
       problems.push(`${rel(item.docFile)}: description over 200 characters`);
     }
-    if (!tsxExamples(item.doc.body).length) {
+    const lang = item.exampleLang;
+    if (!examples(item.doc.body, lang).length) {
       problems.push(
-        `${rel(item.docFile)}: needs at least one \`\`\`tsx example`,
+        `${rel(item.docFile)}: needs at least one \`\`\`${lang} example`,
       );
     }
   }
   // Every `PascalCase` name in the docs must be a real export, so docs can't
   // send agents after components or parts that don't exist.
-  const exportsByItem = new Map(
-    items.map((item) => [item, readExports(item.sourceFile)]),
-  );
+  const exportsByItem = new Map(items.map((item) => [item, exportsOf(item)]));
   const exportNames = new Set(
     [...exportsByItem.values()].flat().map((e) => e.name),
   );
@@ -313,20 +423,18 @@ function main() {
   const link = (title: string, page: string, description: string) =>
     `- [${title}](${pageUrl(page)}): ${description}`;
   const iconCount = readRegistry().filter((e) => e.registry === "icons").length;
-  const summary = `> FiscalTech Design System (FTDS) is an open-source design system for public services, built and maintained by FiscalTech: ${documented.length} React components, blocks and helpers, ${iconCount} icons and Tailwind CSS v4 styles, distributed as a shadcn registry and built on Base UI. This file documents ${isRelease ? `release ${VERSION}` : `the unreleased ${VERSION} branch`}.`;
+  const react = documented.filter((item) => item.framework === "react");
+  const astro = documented.filter((item) => item.framework === "astro");
+  const summary = `> FiscalTech Design System (FTDS) is an open-source design system for public services, built and maintained by FiscalTech: ${react.length} React components, blocks and helpers built on Base UI, ${astro.length} Astro components, blocks and helpers for static sites, ${iconCount} icons and Tailwind CSS v4 styles, distributed as a shadcn registry. This file documents ${isRelease ? `release ${VERSION}` : `the unreleased ${VERSION} branch`}.`;
 
   const sections: string[] = [];
   sections.push(
     `## Guides\n\n${guides.map((g) => link(g.title, `guides/${g.slug}.md`, g.description)).join("\n")}`,
   );
-  for (const category of CATEGORIES) {
-    const inCategory = documented.filter(
-      (item) =>
-        item.entry.type !== "registry:block" && item.doc!.category === category,
-    );
-    if (!inCategory.length) continue;
+  const listSection = (heading: string, inSection: Item[]) => {
+    if (!inSection.length) return;
     sections.push(
-      `## ${category}\n\n${inCategory
+      `## ${heading}\n\n${inSection
         .map((item) =>
           link(
             item.doc!.title,
@@ -335,30 +443,39 @@ function main() {
           ),
         )
         .join("\n")}`,
+    );
+  };
+  for (const category of CATEGORIES) {
+    listSection(
+      category,
+      react.filter(
+        (item) =>
+          item.entry.type !== "registry:block" &&
+          item.doc!.category === category,
+      ),
     );
   }
   for (const [registry, heading] of [
     ["app", "Blocks: service screens"],
     ["marketing", "Blocks: marketing pages"],
   ] as const) {
-    const blocks = documented.filter(
-      (item) =>
-        item.entry.type === "registry:block" &&
-        item.entry.registry === registry,
-    );
-    if (!blocks.length) continue;
-    sections.push(
-      `## ${heading}\n\n${blocks
-        .map((item) =>
-          link(
-            item.doc!.title,
-            `components/${item.entry.name}.md`,
-            item.doc!.description,
-          ),
-        )
-        .join("\n")}`,
+    listSection(
+      heading,
+      react.filter(
+        (item) =>
+          item.entry.type === "registry:block" &&
+          item.entry.registry === registry,
+      ),
     );
   }
+  // Astro after React: components (then the i18n and scripts helpers), blocks
+  const astroOfType = (type: string) =>
+    astro.filter((item) => item.entry.type === type);
+  listSection("Astro: components", [
+    ...astroOfType("registry:ui"),
+    ...astroOfType("registry:lib"),
+  ]);
+  listSection("Astro: blocks", astroOfType("registry:block"));
   sections.push(
     `## Icons\n\n${link("Icon catalogue", "icons.md", `All ${iconCount} icons with their item names, exports and import paths.`)}`,
   );
