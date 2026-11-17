@@ -38,6 +38,8 @@ const meta = {
     layout: "centered",
   },
   args: {
+    // The stories show the field on its own, without a Field and its label
+    "aria-label": "Date of birth",
     size: "medium",
     invalid: false,
   },

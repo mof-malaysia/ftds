@@ -18,5 +18,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["stories", ".storybook", "utils", "vite.config.ts"]
+  "include": [
+    "stories",
+    ".storybook",
+    "utils",
+    "tests",
+    "vite.config.ts",
+    "playwright.config.ts"
+  ]
 }

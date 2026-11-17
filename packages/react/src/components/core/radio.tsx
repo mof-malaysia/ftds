@@ -146,16 +146,15 @@ const RadioHintText = ({
   ...props
 }: ComponentProps<"p">) => {
   const { size } = useContext(RadioContext);
-  const { disabled } = useContext(RadioItemContext);
   return (
     <p
       className={clx(
-        // Hints are Ink Secondary (DESIGN.md: never lighter for text the user reads)
+        // Hints are Ink Secondary (DESIGN.md: never lighter for text the user
+        // reads), even on a disabled option: it often says why it's disabled
         "text-txt-black-700",
         size === "small" && "text-label-compact",
         size === "medium" && "text-body-sm",
         size === "large" && "text-body-md",
-        disabled && "text-txt-black-disabled",
         className,
       )}
       {...props}
