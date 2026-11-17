@@ -10,7 +10,7 @@
     "build": "pnpm catalogue && pnpm build:view && wrangler deploy --dry-run --outdir dist/worker",
     "dev": "pnpm catalogue && pnpm build:view && wrangler dev",
     "deploy": "pnpm catalogue && pnpm build:view && wrangler deploy",
-    "test": "tsx --test src/shared/check.test.ts",
+    "test": "tsx --test src/shared/check.test.ts src/worker/rate-limit.test.ts",
     "typecheck": "pnpm catalogue && tsc --noEmit",
     "test:host": "vite --config test/host/vite.config.ts"
   },

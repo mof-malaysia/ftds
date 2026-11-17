@@ -1,10 +1,12 @@
 import { createMcpHandler } from "@modelcontextprotocol/server";
+import { rateLimit } from "./rate-limit";
 import { createServer, previewHtml } from "./server";
 
 /**
  * FTDS Playground Worker. It keeps no state and stores nothing:
  *
- *   /mcp          the MCP server (Streamable HTTP) people add to Claude or ChatGPT as a connector
+ *   /mcp          the MCP server (Streamable HTTP) people add to Claude or ChatGPT as a connector,
+ *                 rate limited per client IP (rate-limit.ts)
  *   /s#<screen>   a shared screen; the screen is in the fragment, which never reaches this Worker
  *   /fonts/*      static assets (served before this code runs)
  *   /             what this is and how to connect
@@ -23,14 +25,16 @@ const CORS = {
 };
 
 export default {
-  async fetch(request: Request): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
     if (url.pathname === "/mcp") {
       if (request.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: CORS });
       }
-      const response = await mcp.fetch(request);
+      const response =
+        (await rateLimit(request, env.MCP_LIMITER)) ??
+        (await mcp.fetch(request));
       const headers = new Headers(response.headers);
       for (const [name, value] of Object.entries(CORS))
         headers.set(name, value);
