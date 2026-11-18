@@ -105,17 +105,33 @@ const REGISTRIES: RegistryName[] = [
   "astro-marketing",
 ];
 
-/** Registries whose items have a hand-written doc: the framework of each, and whether the doc is required yet. */
-const DOCUMENTED: Partial<
-  Record<RegistryName, { framework: Framework; docRequired: boolean }>
-> = {
-  core: { framework: "react", docRequired: true },
-  app: { framework: "react", docRequired: true },
-  marketing: { framework: "react", docRequired: true },
-  "astro-core": { framework: "astro", docRequired: true },
-  // Its docs are still being written; #29 makes them required
-  "astro-marketing": { framework: "astro", docRequired: false },
+/** Registries whose items have a hand-written doc, and the framework of each. */
+const DOCUMENTED: Partial<Record<RegistryName, Framework>> = {
+  core: "react",
+  app: "react",
+  marketing: "react",
+  "astro-core": "astro",
+  "astro-marketing": "astro",
 };
+
+/**
+ * Items whose doc may still be missing: a missing one only warns. These are
+ * the astro-marketing ui components #28 documents. Whichever of #28 and #29
+ * merges last deletes this set and the Item.docRequired field it feeds.
+ */
+const DOC_PENDING = new Set([
+  "astro-accordion",
+  "astro-announce-bar",
+  "astro-carousel",
+  "astro-navbar",
+  "astro-navbar-menu",
+  "astro-pager",
+  "astro-prose",
+  "astro-section",
+  "astro-section-heading",
+  "astro-site-footer",
+  "astro-site-search",
+]);
 
 /** Astro libs: registry name -> folder under packages/astro/src. */
 const ASTRO_LIBS: Record<string, string> = {
@@ -212,16 +228,17 @@ function importPathFor(entry: RegistryEntry, installPath: string): string {
 /** Components, blocks, utils and hooks of both stacks: everything that has a hand-written doc. */
 export function readItems(entries = readRegistry()): Item[] {
   return entries.flatMap((entry) => {
-    const documented = DOCUMENTED[entry.registry];
-    if (!documented) return [];
+    const framework = DOCUMENTED[entry.registry];
+    if (!framework) return [];
     const file = entry.files[0]!;
     const installPath = (file.target ?? file.path).replace(/^~\//, "");
     const docFile = docFileFor(entry);
     return [
       {
         entry,
-        ...documented,
-        exampleLang: documented.framework === "astro" ? "astro" : "tsx",
+        framework,
+        docRequired: !DOC_PENDING.has(entry.name),
+        exampleLang: framework === "astro" ? "astro" : "tsx",
         sourceFile: sourceFor(entry),
         installPath,
         importPath: importPathFor(entry, installPath),

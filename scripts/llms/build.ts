@@ -40,7 +40,8 @@ import { REGISTRY_REPO, VARIANTS_DIR } from "../registry/utils";
  * component declares with their exact types, dependencies and install paths.
  *
  * Astro items (astro-core, astro-marketing) get the same pages, after the React
- * ones. A missing astro-marketing doc only warns until every one is written.
+ * ones. A missing doc fails the build, except for the few items still listed
+ * in DOC_PENDING (scripts/llms/content.ts), which only warn.
  *
  * Usage: tsx scripts/llms/build.ts [--out deploy] [--site <url>] [--version v0.1.0] [--allow-missing]
  */
