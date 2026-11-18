@@ -67,6 +67,7 @@ export default function Screen() {
 \`\`\`
 
 - **One file, one default export.** Import only from \`react\` and FTDS (\`@/components/ui/<name>\`, \`@/components/blocks/<name>\`, \`@/components/ui/icons/<name>\`, \`@/lib/ftds/utils\`, \`@/lib/ftds/hooks\`). No other packages, no CSS imports, no network requests.
+- **React items only.** render_screen and prepare_handoff work with FTDS's React items. Items marked (Astro) in list_components are for Astro sites: read their docs to answer questions about them, but don't import them in a screen.
 - **Start from a block or a layout.** Service screens, sign-in, settings, work queues and marketing sections already exist as blocks; page frames are in the Layout and Government chrome sections. Call list_components, then read_docs for every item you use before writing code: props and composition rules are on those pages.
 - **Use realistic data.** People reviewing the screen judge it by its content. Fill it with plausible Malaysian government data: names, IC numbers (900101-14-5678), RM amounts with two decimals, dates, reference numbers, agencies. Write labels in the language the user writes in (English or Bahasa Melayu).
 - **Make it work.** Use React state so tabs switch, dialogs open, filters filter and forms validate: the user clicks through the preview.
@@ -78,8 +79,17 @@ const text = (value: string) => ({
   content: [{ type: "text" as const, text: value }],
 });
 
-const itemLine = (item: { name: string; description: string }) =>
-  `- ${item.name}: ${item.description}`;
+const itemLine = (item: Catalogue["sections"][number]["items"][number]) =>
+  `- ${item.name}${item.framework === "astro" ? " (Astro)" : ""}: ${item.description}`;
+
+/** list_components' text: the catalogue is fixed, so it's built once. */
+const COMPONENT_INDEX = [
+  "Items are React unless marked (Astro). Screens use React items only.",
+  ...catalogue.sections.map(
+    (s) => `## ${s.category}\n\n${s.items.map(itemLine).join("\n")}`,
+  ),
+  `## Icons\n\n${catalogue.icons.length} icons, imported from @/components/ui/icons/<name>. read_docs(["icons"]) lists them.`,
+].join("\n\n");
 
 /** One fresh server per request: the Worker keeps no state between calls. */
 export function createServer(origin: string): McpServer {
@@ -113,18 +123,10 @@ export function createServer(origin: string): McpServer {
     {
       title: "List FTDS components and blocks",
       description:
-        "Every FTDS component, block and helper by category, with what each is for. Read the ones you use with read_docs.",
+        "Every FTDS component, block and helper by category, with what each is for: React items first, then Astro items, marked (Astro). Read the ones you use with read_docs.",
       annotations: { readOnlyHint: true },
     },
-    async () =>
-      text(
-        [
-          ...catalogue.sections.map(
-            (s) => `## ${s.category}\n\n${s.items.map(itemLine).join("\n")}`,
-          ),
-          `## Icons\n\n${catalogue.icons.length} icons, imported from @/components/ui/icons/<name>. read_docs(["icons"]) lists them.`,
-        ].join("\n\n"),
-      ),
+    async () => text(COMPONENT_INDEX),
   );
 
   server.registerTool(
@@ -132,7 +134,7 @@ export function createServer(origin: string): McpServer {
     {
       title: "Read FTDS docs",
       description:
-        'The documentation page of components, blocks, guides or icons: the import, props with their types, examples and rules. Pass item names from list_components (e.g. "data-table", "work-queue"), guides as "guide:<slug>", or "icons".',
+        'The documentation page of components, blocks, guides or icons: the framework, the import, props with their types, examples and rules. Pass item names from list_components (e.g. "data-table", "work-queue", "astro-button"), guides as "guide:<slug>", or "icons".',
       inputSchema: READ_DOCS_INPUT,
       annotations: { readOnlyHint: true },
     },
@@ -145,7 +147,7 @@ export function createServer(origin: string): McpServer {
     {
       title: "Render a screen",
       description:
-        "Check and render a screen (one TSX file, see get_started) and show it to the user in the chat, with a share link anyone can open in a browser. Returns errors to fix if it can't render, and design-rule warnings. Call again with the whole file to change it.",
+        "Check and render a screen (one TSX file using FTDS's React items, see get_started) and show it to the user in the chat, with a share link anyone can open in a browser. Returns errors to fix if it can't render, and design-rule warnings. Call again with the whole file to change it.",
       inputSchema: RENDER_INPUT,
       annotations: { readOnlyHint: true },
       _meta: { ui: { resourceUri: PREVIEW_URI } },
@@ -197,7 +199,7 @@ export function createServer(origin: string): McpServer {
     {
       title: "Prepare a developer handoff",
       description:
-        "Turn a finished screen into what developers need to build it: the shadcn install command for every FTDS item it uses, setup notes and the code.",
+        "Turn a finished render_screen screen (React) into what developers need to build it: the shadcn install command for every FTDS item it uses, setup notes and the code.",
       inputSchema: HANDOFF_INPUT,
       annotations: { readOnlyHint: true },
     },
@@ -264,9 +266,30 @@ function readDoc(name: string): string {
     const guide = catalogue.guides.find((g) => g.slug === key.slice(6));
     if (guide) return guide.body;
   }
-  const page = catalogue.pages[key] ?? catalogue.pages[key.split("/").pop()!];
-  if (page) return page;
+  // A path works too: @/components/ui/button, or button.astro for astro-button
+  const last = key.split("/").pop()!;
+  const astroPath = last.replace(/^(.+)\.astro$/, "astro-$1");
+  const page = catalogue.pages[key] ?? catalogue.pages[astroPath];
+  if (page) return `${frameworkNote(page)}\n\n${page.body}`;
 
-  const close = closest(key, Object.keys(catalogue.pages));
-  return `No docs for "${name}".${close.length ? ` Did you mean: ${close.join(", ")}?` : " Call list_components for the names."}`;
+  // Suggest both stacks' item: "buton" → button and astro-button. The second
+  // search finds Astro-only items by their bare name: "hero" → astro-hero.
+  const names = Object.keys(catalogue.pages);
+  const close = new Set(
+    [...closest(key, names), ...closest(`astro-${key}`, names)].flatMap((n) => [
+      n,
+      catalogue.pages[n]!.counterpart ?? n,
+    ]),
+  );
+  return `No docs for "${name}".${close.size ? ` Did you mean: ${[...close].map(nameWithFramework).join(", ")}?` : " Call list_components for the names."}`;
+}
+
+const nameWithFramework = (name: string) =>
+  `${name} (${catalogue.pages[name]!.framework === "astro" ? "Astro" : "React"})`;
+
+/** The line each docs page starts with: its framework and the other stack's item. */
+function frameworkNote({ framework, counterpart }: Catalogue["pages"][string]) {
+  return framework === "astro"
+    ? `Framework: Astro, for Astro sites. Screens can't use it${counterpart ? `; the React item is ${counterpart}` : ""}.`
+    : `Framework: React, for screens.${counterpart ? ` The Astro item is ${counterpart}.` : ""}`;
 }

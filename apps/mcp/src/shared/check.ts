@@ -92,7 +92,9 @@ function checkImports(
       problems.push({
         severity: "error",
         line,
-        message: `Can't import "${source}". ${suggestModule(source!, modules)}`,
+        message: source!.endsWith(".astro")
+          ? astroImport(source!, modules)
+          : `Can't import "${source}". ${suggestModule(source!, modules)}`,
       });
       continue;
     }
@@ -104,7 +106,7 @@ function checkImports(
       problems.push({
         severity: "error",
         line,
-        message: `"${source}" has no default export. Use a named import: import { ${exported[0]} } from "${source}".`,
+        message: `"${source}" has no default export. Use a named import: import { ${mainExport(source!, exported)} } from "${source}".`,
       });
     }
     for (const name of named) {
@@ -149,6 +151,26 @@ function parseClause(clause: string): {
     defaultName: head && !head.startsWith("*") ? head : undefined,
     named,
   };
+}
+
+/** The export named after the module (button → Button), else the first. */
+function mainExport(source: string, exported: string[]): string {
+  const name = source
+    .split("/")
+    .pop()!
+    .replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+  return exported.includes(name) ? name : exported[0]!;
+}
+
+/** Screens are React: point an Astro import at its React counterpart, if FTDS has one. */
+function astroImport(source: string, modules: ModuleExports): string {
+  const react = source.replace(/\.astro$/, "");
+  const exported = modules[react];
+  return `Can't import "${source}": it's an Astro component, and screens are React. ${
+    exported
+      ? `Use the React one: import { ${mainExport(react, exported)} } from "${react}".`
+      : "FTDS has no React version of it; build it from React components (call list_components)."
+  }`;
 }
 
 function suggestModule(source: string, modules: ModuleExports): string {

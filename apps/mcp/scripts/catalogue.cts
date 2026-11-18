@@ -20,7 +20,7 @@ import type { Catalogue } from "../src/shared/catalogue";
  * agents read on the docs site (scripts/llms), so the two never disagree:
  *
  *   intro       llms.txt up to the guides: what FTDS is and the rules
- *   sections    the component index, by category
+ *   sections    the component index, by category, React then Astro
  *   pages       components/<name>.md for every component, block and helper
  *   guides      guides/<slug>.md
  *   icons       every icon and its export
@@ -28,8 +28,8 @@ import type { Catalogue } from "../src/shared/catalogue";
  *               for checking a screen's imports
  *   items       import path → registry item, for `shadcn add`
  *
- * React only for now: render_screen renders React, so the Astro sections and
- * pages of llms.txt are left out until the tools know the framework (#30).
+ * Sections and pages carry each item's framework. modules and items are React
+ * only: render_screen renders React, and Astro items are documented, not rendered.
  *
  * Writes src/generated/catalogue.json, which the Worker bundles.
  *
@@ -59,8 +59,11 @@ execFileSync(
   { cwd: ROOT_DIR, stdio: "inherit" },
 );
 
-const reactItems = readItems().filter((item) => item.framework === "react");
-const reactPages = new Set(reactItems.map((item) => item.entry.name));
+const allItems = readItems();
+const reactItems = allItems.filter((item) => item.framework === "react");
+const frameworks = new Map(
+  allItems.map((item) => [item.entry.name, item.framework]),
+);
 
 const read = (file: string) =>
   fs.readFileSync(path.join(LLMS_DIR, file), "utf-8");
@@ -76,15 +79,28 @@ for (const line of index.split("\n")) {
     continue;
   }
   const item = line.match(/^- \[.+?\]\(.+?\/components\/([\w-]+)\.md\): (.*)$/);
-  if (item && sections.length && reactPages.has(item[1]!)) {
-    sections.at(-1)!.items.push({ name: item[1]!, description: item[2]! });
+  const framework = item && frameworks.get(item[1]!);
+  if (framework && sections.length) {
+    sections.at(-1)!.items.push({
+      name: item[1]!,
+      description: item[2]!,
+      framework,
+    });
   }
 }
 
 const pages: Catalogue["pages"] = {};
 for (const file of fs.readdirSync(path.join(LLMS_DIR, "components"))) {
   const name = file.replace(/\.md$/, "");
-  if (reactPages.has(name)) pages[name] = read(`components/${file}`);
+  const framework = frameworks.get(name);
+  if (framework) pages[name] = { framework, body: read(`components/${file}`) };
+}
+// Pair each item with its namesake in the other stack: button ↔ astro-button
+for (const [name, page] of Object.entries(pages)) {
+  const other =
+    page.framework === "astro" ? name.replace(/^astro-/, "") : `astro-${name}`;
+  if (pages[other])
+    page.counterpart = other;
 }
 
 // The section index comes from llms.txt above: build.ts groups blocks there
