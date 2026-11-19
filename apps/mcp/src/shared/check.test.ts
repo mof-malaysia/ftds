@@ -4,7 +4,7 @@ import { checkRules, checkScreen, compile, screenImports } from "./check";
 import { decodeScreen, encodeScreen, type Screen } from "./screen";
 
 const modules = {
-  "@/components/ui/button": ["Button", "ButtonIcon", "ButtonProps"],
+  "@/components/ui/button": ["ButtonProps", "Button", "ButtonIcon"],
   "@/components/ui/icons/check": ["CheckIcon"],
 };
 
@@ -36,6 +36,26 @@ test("unknown modules and names are errors with a hint", () => {
     `import { Buton } from "@/components/ui/button";\nexport default () => null;`,
   );
   assert.match(name!.message, /doesn't export Buton. It exports: Button/);
+});
+
+test("Astro imports are errors that name the React counterpart", () => {
+  const [counterpart] = errors(
+    `import Button from "@/components/ui/button.astro";\nexport default () => null;`,
+  );
+  assert.match(counterpart!.message, /Astro component, and screens are React/);
+  assert.match(
+    counterpart!.message,
+    /import \{ Button \} from "@\/components\/ui\/button"/,
+  );
+
+  const [none] = errors(
+    `import Hero from "@/components/blocks/hero.astro";\nexport default () => null;`,
+  );
+  assert.match(
+    none!.message,
+    /Can't import "@\/components\/blocks\/hero.astro"/,
+  );
+  assert.match(none!.message, /no React version/);
 });
 
 test("default imports, other packages and CSS imports are errors", () => {
