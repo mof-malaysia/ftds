@@ -31,6 +31,39 @@ export function sectionsOf(html: string): Section[] {
   }));
 }
 
+export type StackSection = Section & { for?: "react" | "astro" };
+
+/** The same section from the Astro page, with its ids (and links to them) prefixed `astro-` so they don't clash with React's. */
+function asAstro(section: Section): StackSection {
+  return {
+    id: `astro-${section.id}`,
+    label: section.label,
+    html: section.html.replace(/ (id="|href="#)/g, " $1astro-"),
+    for: "astro",
+  };
+}
+
+/**
+ * Pair a component's React and Astro sections by heading. An identical pair
+ * reads for both stacks; otherwise each shows only under its own stack, the
+ * Astro copy right after the React one. With one page, its sections read for
+ * the stack the page has.
+ */
+export function pairStackSections(
+  react: Section[],
+  astro: Section[],
+): StackSection[] {
+  if (!react.length || !astro.length) return [...react, ...astro];
+  const unpaired = new Map(astro.map((s) => [s.label, s]));
+  const paired = react.flatMap((r): StackSection[] => {
+    const a = unpaired.get(r.label);
+    unpaired.delete(r.label);
+    if (a?.html === r.html) return [r];
+    return [{ ...r, for: "react" }, ...(a ? [asAstro(a)] : [])];
+  });
+  return [...paired, ...[...unpaired.values()].map(asAstro)];
+}
+
 /** A guide page's body: its own title and summary show in the plate instead. */
 export function guideBody(html: string): string {
   return html.replace(
