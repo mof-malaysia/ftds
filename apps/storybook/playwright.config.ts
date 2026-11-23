@@ -1,8 +1,9 @@
 import { defineConfig } from "@playwright/test";
 
 /**
- * Accessibility tests for the FTDS React components, run against the static
- * Storybook build (`pnpm build` first): the same bundle that gets published.
+ * Accessibility (axe) and keyboard tests for the FTDS React components, run
+ * against the static Storybook build (`pnpm build` first): the same bundle
+ * that gets published.
  */
 export default defineConfig({
   testDir: "tests",

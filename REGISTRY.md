@@ -331,7 +331,6 @@ If npm dependencies aren't installing:
 ## Future Enhancements
 
 - [ ] Support multiple style variants
-- [ ] Automated axe and keyboard tests for the React components (the Astro components have them, in `apps/storybook-astro/tests`)
 
 ## Support
 
