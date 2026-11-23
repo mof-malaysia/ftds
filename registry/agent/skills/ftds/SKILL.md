@@ -53,18 +53,13 @@ Don't change the installed theme files (`styles/ftds.css`, `styles/ftds/*`) or `
 
 ## Before you finish
 
-Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive:
+Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then run the FTDS checker on the files you changed, from the folder with `components.json`:
 
 ```bash
-# Raw palette colours
-grep -nE '(^|[^[:alnum:]_-])(bg|text|border|border-[trblxy]|ring|outline|fill|stroke|divide|from|via|to|decoration|accent|caret|placeholder)-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone|primary|danger|success|warning)-[0-9]{2,3}' <files>
-# Arbitrary colours, gradients, shadows on static elements, weights outside 400–600, side stripes
-grep -nE -- '-\[(#|rgb|hsl|oklch|color)|bg-(gradient|linear|radial|conic)-|(^|[ "`])shadow(-(sm|md|lg|xl|2xl))?([ "`]|$)|font-(thin|extralight|light|bold|extrabold|black)\b|border-[ls]-([2-9]|\[)' <files>
-# shadcn and Radix habits
-grep -nE '\basChild\b|\bcn\(|@base-ui/react|@radix-ui' <files>
-# Hand-built controls where an FTDS component exists
-grep -nE '<(button|input|select|textarea|table)[ >/]' <files>
+node .claude/skills/ftds/scripts/ftds-check.mjs <files or folders>
 ```
+
+It reports each break of the rules above that shows in code, as `file:line rule message`. Fix every problem. If one is deliberate, keep it with an `ftds-check-ignore` comment on that line or the line above that says why, and mention it in your summary. It doesn't check files FTDS installed (`components/ui`, `lib/ftds`, `styles/ftds`).
 
 Then check the result the way FTDS does, in the browser if you can:
 

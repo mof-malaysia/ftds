@@ -68,21 +68,19 @@ test("a screen needs a default export and must compile", () => {
   assert.equal(syntax!.line, 2);
 });
 
-test("design rules warn on raw colours, weights, shadows and hand-built controls", () => {
-  const rules = (line: string) => checkRules(line).map((p) => p.rule);
-  assert.deepEqual(rules(`<div className="bg-blue-600 hover:text-gray-500">`), [
-    "tokens",
+// Each rule is tested in ftds-check.test.ts; this is what checkRules adds
+test("design rules are warnings that say what they found, imports aside", () => {
+  assert.deepEqual(checkRules(`<p className="font-bold">`), [
+    {
+      severity: "warning",
+      rule: "weights",
+      line: 1,
+      message: `Font weight outside 400, 500 and 600. Use font-normal, font-medium or font-semibold. Found: font-bold`,
+    },
   ]);
-  assert.deepEqual(rules(`<div className="bg-[#2563eb]">`), ["tokens"]);
-  assert.deepEqual(rules(`<p className="font-bold">`), ["weights"]);
-  assert.deepEqual(rules(`<div className="rounded shadow-lg">`), ["flat"]);
-  assert.deepEqual(rules(`<button onClick={go}>`), ["use-components"]);
-  assert.deepEqual(rules(`<div className="border-l-4">`), ["no-side-stripes"]);
-  // FTDS tokens are fine
+  // checkImports already stops a screen that imports a primitive
   assert.deepEqual(
-    rules(
-      `<div className="bg-bg-primary-600 text-txt-black-700 border-otl-gray-200 font-semibold">`,
-    ),
+    checkRules(`import { Dialog } from "@base-ui/react/dialog";`),
     [],
   );
 });

@@ -4,6 +4,9 @@
     "declaration": false,
     "declarationMap": false,
     "noEmit": true,
+    // check.ts imports the ftds skill's checker, plain JS typed with JSDoc
+    "allowJs": true,
+    "checkJs": true,
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",

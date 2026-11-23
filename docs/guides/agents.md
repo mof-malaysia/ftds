@@ -61,7 +61,15 @@ If a component of yours is something other services would need too, such as a co
 
 ## Check it before you merge
 
-The agent searches its changes for the patterns FTDS forbids, but a search misses things. Before you merge, take two minutes yourself:
+The skill comes with a checker for the design rules that can be read from code: raw palette colours, shadows on static elements, font weights, hand-built controls, `asChild` and `cn`, and more than one primary button. The agent runs it on its changes. Run it in your own pre-commit hook or CI too, so it covers every change, not only the agent's. It needs Node and nothing else:
+
+```bash
+node .claude/skills/ftds/scripts/ftds-check.mjs src
+```
+
+It prints each problem as `file:line` and exits with 1 if it finds any. It skips the files FTDS installed. To keep something it flags on purpose, add an `ftds-check-ignore` comment on that line that says why.
+
+A checker can't see the screen, though. Before you merge, take two minutes yourself:
 
 - Switch to dark mode, if your project has one, then narrow the window to phone width.
 - Use the page with the keyboard alone.

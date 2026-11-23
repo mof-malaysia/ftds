@@ -20,6 +20,16 @@
           "target": "~/.claude/skills/ftds/references/extending.md"
         },
         {
+          "path": "skills/ftds/scripts/ftds-check.mjs",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds/scripts/ftds-check.mjs"
+        },
+        {
+          "path": "skills/ftds/scripts/ftds-rules.mjs",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds/scripts/ftds-rules.mjs"
+        },
+        {
           "path": "skills/ftds/SKILL.md",
           "type": "registry:file",
           "target": "~/.claude/skills/ftds/SKILL.md"
