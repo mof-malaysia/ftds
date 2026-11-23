@@ -1,6 +1,6 @@
 # The prototype picker
 
-A floating bar that switches between variants, one at a time and at full size. It is the same in every project, so copy the file for your stack into the prototype folder unchanged; don't redesign it. The files end in `.txt` so the project's own tooling ignores them here; drop that when you copy. Switching is instant, with no transition, and a shared link opens the variant it names.
+A floating bar that switches between variants, one at a time and at full size. It is the same in every project, so copy the file for your stack into the prototype folder unchanged; don't redesign it. The files end in `.txt` so the project's own tooling ignores them here; drop that when you copy. Switching is instant, with no transition, and a shared link opens the variant it names. The bar floats over the page, so it has the floating-layer shadow FTDS allows (`shadow-context-menu`); that is not a rule break.
 
 ## React
 

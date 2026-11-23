@@ -39,7 +39,7 @@ Don't change the installed theme files (`styles/ftds.css`, `styles/ftds/*`) or `
 
 ## Before you finish
 
-Run the project's own lint, typecheck and tests. Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive:
+Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive:
 
 ```bash
 # Raw palette colours
@@ -54,7 +54,7 @@ grep -nE '<(button|input|select|textarea|table)[ >/]' <files>
 
 Then check the result the way FTDS does, in the browser if you can:
 
-- Light and dark mode, and phone width.
+- Light and dark mode (if the project has dark mode), and phone width.
 - Keyboard: every control is reachable with Tab, in order, with a visible focus ring.
 - Squint at it. If you still see a grid of grey rectangles, there are too many lines and boxes.
 

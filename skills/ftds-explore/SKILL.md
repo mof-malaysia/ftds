@@ -24,6 +24,7 @@ Variants differ in **structure**, and each must take a different position on one
 | Interaction    | Edit in place · edit in a dialog · edit on its own page                                |
 | Disclosure     | Everything visible · details behind disclosures · a summary that links to each section |
 | Finding things | Search first · filters first · a browsable list                                        |
+| Placement      | Its own button · a panel or tab beside the content · a step in a flow that exists      |
 
 Density (comfortable or compact) is set by who the screen is for, citizens or officers, not by taste. Vary it only when the brief doesn't say who will use the screen.
 
@@ -47,16 +48,23 @@ Before writing code, list them: a name that describes the direction ("Stepped", 
 
 Keep exploration out of production code:
 
-- **In a project with a dev server:** a prototype route, such as `/prototypes/<slug>`, with one file per variant and a harness file, under a folder of its own (for example `src/prototypes/<slug>/`). Nothing outside it imports from it. Build the picker from [references/picker.md](references/picker.md).
+- **In a project with a dev server:** a prototype route, such as `/prototypes/<slug>`, with one file per variant and a harness file, under a folder of its own (for example `src/prototypes/<slug>/`). Build the picker from [references/picker.md](references/picker.md). Nothing outside the folder imports from it, except the one line that registers the route. Keep that route out of production builds (for example behind `import.meta.env.DEV` and a lazy import), and put it wherever the real screen would be: inside the signed-in shell for an officer screen.
 - **No project yet:** if the FTDS playground MCP server is connected (its tools are `get_started` and `render_screen`), render each variant there instead and share the links.
 
-Show one variant at a time, at full size, inside the page it will live in: the masthead, the page header, the neighbours. Never shrink variants side by side to compare them.
+Show one variant at a time, at full size, inside the page it will live in: the masthead, the page header, the neighbours. Never shrink variants side by side to compare them. When that page runs on live data the feature doesn't have yet, build a stand-in of it from the project's own layout components, as close to the real one as you can, and say in the hand-over that it is one.
 
-Every variant must work: real content, buttons that respond, forms that validate and show their errors. No lorem ipsum, no "imagine this part".
+Every variant must work: real content, buttons that respond, forms that validate and show their errors. No lorem ipsum, no "imagine this part". When the flow involves someone else (an approver, a citizen replying), add a strip labelled "Prototype" with buttons that act out what they do, so the user can see the whole loop.
+
+Prototypes are throwaway, so some project rules relax inside the prototype folder, and only there:
+
+- Hard-code the data and the text, in the language the service uses. Don't add translation keys, API routes, schemas or migrations for a prototype.
+- Don't add dependencies. An FTDS item the final screen would use may be installed with the shadcn CLI; list it in the hand-over.
+
+Every other rule still holds, including the `ftds` skill's.
 
 ### 5. Check, then hand over
 
-Flip through every variant yourself: each renders, each responds, the console is clean. Run the `ftds` skill's checks on the prototype files. If you can, take a screenshot of each.
+Flip through every variant yourself: each renders, each responds, the console is clean. Run the `ftds` skill's checks on the prototype files. If you can, take a screenshot of each. If you can't open a browser, say so in the hand-over, plainly, as the first thing the user should check.
 
 Then present them and **stop, because the choice is the user's**:
 
@@ -65,7 +73,9 @@ Then present them and **stop, because the choice is the user's**:
 | Stepped     | Flow: one question a page | Citizens filling it in once, on a phone | More pages, slower for repeat users |
 | At a glance | Disclosure: all visible   | Officers checking many of these a day   | Long page for a first-time citizen  |
 
-Say where the picker runs (the URL) and how to switch. Don't pick a favourite in the table. If asked which you would choose, answer from who uses the screen and how often, not from taste.
+If a variant would decide something beyond the screen (a new rule, a policy, a question the project's product docs leave open), say so in its cost, and name the doc. That decision is the project owner's, not the screen's.
+
+Say where the picker runs (the URL), what to sign in as if it's behind sign-in, and how to switch. List any stand-ins and FTDS items you installed. Don't pick a favourite in the table. If asked which you would choose, answer from who uses the screen and how often, not from taste.
 
 ### 6. Next round, or keep one
 

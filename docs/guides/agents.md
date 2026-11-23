@@ -14,7 +14,7 @@ Install the skill with the shadcn CLI, after [setup](https://mof-malaysia.github
 npx shadcn@latest add @ftds/ftds-skill
 ```
 
-It adds `.claude/skills/ftds/`. Commit it, so everyone on the team and every agent session works from the same rules. When you update your FTDS components to a new release, install the skill again so its rules match.
+It adds `.claude/skills/ftds/` beside the project's `components.json`. In a monorepo that is the app's folder, such as `apps/admin/`; Claude Code finds the skills when it works in that folder, so start it there. Commit the folder, so everyone on the team and every agent session works from the same rules. When you update your FTDS components to a new release, install the skill again so its rules match.
 
 Claude Code loads the skill on its own whenever you ask for UI work. Other agents may not look in `.claude/skills/`; point them at `.claude/skills/ftds/SKILL.md` in your `AGENTS.md`.
 
@@ -63,7 +63,7 @@ If a component of yours is something other services would need too, such as a co
 
 The agent searches its changes for the patterns FTDS forbids, but a search misses things. Before you merge, take two minutes yourself:
 
-- Switch to dark mode, then narrow the window to phone width.
+- Switch to dark mode, if your project has one, then narrow the window to phone width.
 - Use the page with the keyboard alone.
 - Look for lines and boxes: FTDS groups things with space and tone, so a screen full of outlines has drifted.
 
