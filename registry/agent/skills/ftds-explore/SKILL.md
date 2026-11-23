@@ -64,7 +64,7 @@ Every other rule still holds, including the `ftds` skill's.
 
 ### 5. Check, then hand over
 
-Flip through every variant yourself: each renders, each responds, the console is clean. Run the `ftds` skill's checks on the prototype files. If you can, take a screenshot of each. If you can't open a browser, say so in the hand-over, plainly, as the first thing the user should check.
+Flip through every variant yourself: each renders, each responds, the console is clean. Run the `ftds` skill's checker (`node .claude/skills/ftds/scripts/ftds-check.mjs`) on the prototype files. If you can, take a screenshot of each. If you can't open a browser, say so in the hand-over, plainly, as the first thing the user should check.
 
 Then present them and **stop, because the choice is the user's**:
 

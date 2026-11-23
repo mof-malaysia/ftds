@@ -58,6 +58,16 @@ If other services would need it too, propose it in [Discussions](https://github.
 
 ## Before you merge
 
+Run the design checker, and add it to your pre-commit hook or CI:
+
+```bash
+node .claude/skills/ftds/scripts/ftds-check.mjs src
+```
+
+Run it beside `components.json`. It lists problems as `file:line` and allows your project's own colours. To keep a line it flags, add `ftds-check-ignore` with a reason.
+
+Then check what it can't see:
+
 - Check dark mode, if you have it, and phone width.
 - Use the page with the keyboard alone.
 - Look for outlines and boxes. FTDS separates things with space and tone.

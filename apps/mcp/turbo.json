@@ -10,6 +10,7 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
+        "$TURBO_ROOT$/skills/**",
         "$TURBO_ROOT$/registry/**",
         "$TURBO_ROOT$/packages/astro/src/**"
       ],
@@ -25,6 +26,7 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
+        "$TURBO_ROOT$/skills/**",
         "$TURBO_ROOT$/registry/**",
         "$TURBO_ROOT$/packages/astro/src/**"
       ],
@@ -36,6 +38,10 @@
     "test": {
       "dependsOn": [
         "^transit"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/skills/**"
       ]
     }
   }

@@ -238,17 +238,20 @@ async function main() {
       lang: "tsx" as const,
     })),
     // Skill docs by their tsx fences; code files (picker.tsx.txt, shipped as
-    // .txt so a project's tooling skips them) as whole files
-    ...readSkills().map(({ path: skillPath, file, text }) => {
-      const ext = path.extname(file.replace(/\.txt$/, "")).slice(1);
-      const lang = ext === "astro" ? ("astro" as const) : ("tsx" as const);
-      const body = ext === "md" ? text : `\`\`\`${lang}\n${text}\`\`\`\n`;
-      return {
-        name: `skill-${skillPath.replace(/(\.\w+)+$/, "").replaceAll("/", "-")}-${ext}`,
-        doc: { file, title: skillPath, description: "", body },
-        lang,
-      };
-    }),
+    // .txt so a project's tooling skips them) as whole files. Other files
+    // are code, not examples: scripts/*.mjs is typechecked by apps/mcp.
+    ...readSkills()
+      .filter(({ file }) => /\.(md|txt)$/.test(file))
+      .map(({ path: skillPath, file, text }) => {
+        const ext = path.extname(file.replace(/\.txt$/, "")).slice(1);
+        const lang = ext === "astro" ? ("astro" as const) : ("tsx" as const);
+        const body = ext === "md" ? text : `\`\`\`${lang}\n${text}\`\`\`\n`;
+        return {
+          name: `skill-${skillPath.replace(/(\.\w+)+$/, "").replaceAll("/", "-")}-${ext}`,
+          doc: { file, title: skillPath, description: "", body },
+          lang,
+        };
+      }),
   ].filter(({ name }) => !only || only.has(name));
   // Separate folders, so tsc and astro check run at once
   const [react, astro] = await Promise.all([

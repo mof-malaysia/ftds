@@ -1,4 +1,3 @@
-import { COLOUR_UTILITY, PALETTE } from "../../apps/mcp/src/shared/palette";
 import { INTRO_FILE, readDoc, readSkills } from "../llms/content";
 import {
   describeItem,
@@ -34,12 +33,6 @@ const SKILLS: Record<
 const PLACEHOLDERS: Record<string, string> = {
   /** The rules at the top of llms.txt. */
   rules: readDoc(INTRO_FILE).body.trim(),
-  /**
-   * Raw palette colours (`bg-blue-600`, `hover:text-gray-500`) as POSIX ERE,
-   * from the playground's checks. grep has no lookbehind, so the utility must
-   * start a word: `bg-bg-primary-600` is a token, not `bg-primary-600`.
-   */
-  palette: `(^|[^[:alnum:]_-])(${COLOUR_UTILITY})-(${PALETTE})-[0-9]{2,3}`,
 };
 
 function fill(text: string, file: string): string {
