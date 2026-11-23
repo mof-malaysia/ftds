@@ -13,7 +13,7 @@ When you edit an installed block, add a comment at its top that says what change
 A project component is a composition, not a new look:
 
 - Use FTDS components for every control, tag, callout, table and overlay inside it. Never hand-build a `<button>`, `<input>` or `<table>`.
-- Style the frame by the [styling guide](https://mof-malaysia.github.io/ftds/guides/styling.md): surface, text and status tokens, the density spacing (`p-surface`, `gap-stack-*`), the type utilities, and the control utilities for anything that sits beside FTDS controls. No borders except row hairlines, and no shadows.
+- Style the frame by the [styling guide](https://mof-malaysia.github.io/ftds/guides/styling.md): surface, text and status tokens (the project's own colour tokens first, where it has them), the density spacing (`p-surface`, `gap-stack-*`), the type utilities, and the control utilities for anything that sits beside FTDS controls. No borders except row hairlines, and no shadows.
 - Need a look FTDS already has, such as a button style? Import the shared classes from the installed `*.variants.ts` file (for example `button_cva` from `@/components/ui/button.variants`) instead of copying class strings.
 - Give it an API like FTDS's, by the [conventions guide](https://mof-malaysia.github.io/ftds/guides/conventions.md): `className` merged with `clx`, Base UI's names for state, and a `labels` prop for built-in text. In Astro, take `class` and `lang` props instead.
 

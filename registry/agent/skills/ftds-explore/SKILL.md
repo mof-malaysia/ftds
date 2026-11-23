@@ -12,7 +12,7 @@ It builds on the `ftds` skill: read `.claude/skills/ftds/SKILL.md` first. Every 
 
 ## How FTDS variants differ
 
-FTDS fixes colour, type, radius, shadow and motion, so variants never differ in those. Two versions that differ only in those are the same design.
+Colour, type, radius, shadow and motion come from the tokens (the project's, then FTDS's), so variants never differ in those. Two versions that differ only in those are the same design.
 
 Variants differ in **structure**, and each must take a different position on one of these axes:
 

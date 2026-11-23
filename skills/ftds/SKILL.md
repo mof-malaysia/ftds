@@ -23,7 +23,7 @@ Go down this list and stop at the first step that does the job:
 2. **A component as it is**, with its `variant`, `size` and other documented props.
 3. **Components composed together**, using `render` to change the element, and `className` for layout only (margins, width, grid placement).
 4. **An edited block.** Edit the installed block file. Don't edit `components/ui/*` to get a different look.
-5. **A project component** built from FTDS tokens and parts, when nothing above fits. Follow [references/extending.md](references/extending.md).
+5. **A project component** built from the project's tokens and FTDS parts, when nothing above fits. Follow [references/extending.md](references/extending.md).
 
 If you reach step 5 for something many services would need (a common government screen, a form pattern, an official element, not this project's business logic), say so in your summary: it may belong in FTDS, through [FTDS Discussions](https://github.com/mof-malaysia/ftds/discussions).
 
@@ -33,13 +33,15 @@ These are the rules from llms.txt. They apply to every file you touch, including
 
 {{rules}}
 
-## Don't change the system
+## Colour comes from the project's tokens
 
-Don't change the installed theme files (`styles/ftds.css`, `styles/ftds/*`) or `*.variants.ts` files, and don't add colour, type, radius, shadow or spacing values of your own. They are FTDS's, not the project's. If the task seems to need it, stop and tell the user why instead.
+If the project sets its own colours (a brand primary, its own tokens, a theme it writes at run time), they take precedence over FTDS's defaults: use them, the way the project applies them. Otherwise use FTDS's tokens. Never hard-code a colour value or a raw palette class.
+
+Don't edit the installed FTDS files (`styles/ftds.css`, `styles/ftds/*`, `*.variants.ts`): a project overrides FTDS in its own styles. Don't invent type, radius, shadow or spacing values either. If the task seems to need one, stop and tell the user why.
 
 ## Before you finish
 
-Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive:
+Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive (a token the project defines itself is not a problem):
 
 ```bash
 # Raw palette colours

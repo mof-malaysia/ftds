@@ -51,7 +51,7 @@ Review those first: that is where a project's look drifts from FTDS. If both lis
 
 ## When the agent stops and asks
 
-The agent stops instead of adding a colour, a font weight, a shadow or a change to the FTDS theme files. That is the skill doing its job, so don't tell it to go ahead anyway. Either the design changes to fit FTDS, or the need goes to the FTDS team in [Discussions](https://github.com/mof-malaysia/ftds/discussions).
+The agent uses your project's own colour tokens, such as an agency's primary, where you have them. It stops instead of inventing a colour, a font weight or a shadow, or editing FTDS's own files. That is the skill doing its job, so don't tell it to go ahead anyway. Either the design changes to fit FTDS, or the need goes to the FTDS team in [Discussions](https://github.com/mof-malaysia/ftds/discussions).
 
 ## Your own components
 

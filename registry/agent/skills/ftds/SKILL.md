@@ -23,7 +23,7 @@ Go down this list and stop at the first step that does the job:
 2. **A component as it is**, with its `variant`, `size` and other documented props.
 3. **Components composed together**, using `render` to change the element, and `className` for layout only (margins, width, grid placement).
 4. **An edited block.** Edit the installed block file. Don't edit `components/ui/*` to get a different look.
-5. **A project component** built from FTDS tokens and parts, when nothing above fits. Follow [references/extending.md](references/extending.md).
+5. **A project component** built from the project's tokens and FTDS parts, when nothing above fits. Follow [references/extending.md](references/extending.md).
 
 If you reach step 5 for something many services would need (a common government screen, a form pattern, an official element, not this project's business logic), say so in your summary: it may belong in FTDS, through [FTDS Discussions](https://github.com/mof-malaysia/ftds/discussions).
 
@@ -37,7 +37,7 @@ FTDS components are not an npm package: the shadcn CLI copies their source into 
 - **Use FTDS components before writing your own.** Check the FTDS component list first: FTDS covers government chrome, forms, tables, overlays, service screens and officer workstations. Only build a custom component when nothing in FTDS fits, and then build it from FTDS tokens and parts.
 - **Built on Base UI, not Radix.** Compose with the `render` prop (`<Button render={<a href="/apply" />}>Apply</Button>`), never `asChild`. State props follow Base UI: `value`/`defaultValue` with `onValueChange`, `open`/`defaultOpen` with `onOpenChange`.
 - **Merge classes with `clx` from `@/lib/ftds/utils`**, not shadcn's `cn`. Pass `className` to adjust layout; don't restyle a component's colours.
-- **Style with FTDS tokens, not raw Tailwind colours.** Backgrounds `bg-bg-*`, text `text-txt-*`, borders `border-otl-*`, focus `focus-ring`; for example `bg-bg-primary-600`, `text-txt-black-900`, `bg-bg-washed`. Never `bg-blue-600` or `text-gray-500`: tokens switch with dark mode and raw colours don't.
+- **Style with tokens, not raw Tailwind colours.** Where the project sets its own colour tokens (such as an agency's primary), they take precedence; otherwise use FTDS's. Backgrounds `bg-bg-*`, text `text-txt-*`, borders `border-otl-*`, focus `focus-ring`; for example `bg-bg-primary-600`, `text-txt-black-900`, `bg-bg-washed`. Never `bg-blue-600` or `text-gray-500`: tokens switch with dark mode and raw colours don't.
 - **Wrap every form control in `Field`** with a `FieldLabel`, and put the message in `FieldError`. Never place a bare `Input`, `Select` or `Checkbox` without a visible label. After a failed submit, show an `ErrorSummary` at the top of the form.
 - **Follow the design rules.** One primary (blue) action per screen; secondary actions use `variant="default-outline"`, which is a tonal fill, not an outline. Don't add borders, shadows or outlines to group content: use spacing and the `bg-bg-washed` tone. Status is a wash `Tag` plus text, never colour alone. Amounts use tabular figures (`tabular-nums`) and right-align in tables.
 - **Two densities.** Citizen services use the default comfortable density. Officer tools set `data-density="compact"` on a container (`DeskShell` does it for you). Never resize controls by hand; their `size` prop is relative to the density.
@@ -47,13 +47,15 @@ FTDS components are not an npm package: the shadcn CLI copies their source into 
 - **Say less.** Let clear labels do the work: a heading, a field label, a button verb. Add a description or hint only where people would otherwise get it wrong, in one short sentence. No paragraph under every heading, no callout repeating what the screen already shows, no hint restating its label.
 - **Astro differs in three places.** Astro items are named `astro-<name>` and import from `@/components/ui/<name>.astro`, and there are no officer-workstation components. Use the platform first (`<details>`, `<dialog>`, the Popover API) and write a small script only where it has no answer. Built-in text comes from the BM and EN dictionary in `@/lib/ftds/i18n`, BM by default: each component takes its language from its `lang` prop, then the page's locale.
 
-## Don't change the system
+## Colour comes from the project's tokens
 
-Don't change the installed theme files (`styles/ftds.css`, `styles/ftds/*`) or `*.variants.ts` files, and don't add colour, type, radius, shadow or spacing values of your own. They are FTDS's, not the project's. If the task seems to need it, stop and tell the user why instead.
+If the project sets its own colours (a brand primary, its own tokens, a theme it writes at run time), they take precedence over FTDS's defaults: use them, the way the project applies them. Otherwise use FTDS's tokens. Never hard-code a colour value or a raw palette class.
+
+Don't edit the installed FTDS files (`styles/ftds.css`, `styles/ftds/*`, `*.variants.ts`): a project overrides FTDS in its own styles. Don't invent type, radius, shadow or spacing values either. If the task seems to need one, stop and tell the user why.
 
 ## Before you finish
 
-Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive:
+Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then search the files you changed for the patterns FTDS forbids, and fix every hit that isn't a false positive (a token the project defines itself is not a problem):
 
 ```bash
 # Raw palette colours
