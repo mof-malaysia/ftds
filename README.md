@@ -107,6 +107,12 @@ Browse them in the [component catalogue](https://mof-malaysia.github.io/ftds/com
 
 - **Try a screen in the chat.** The [FTDS MCP server](https://mof-malaysia.github.io/ftds/mcp) lets Claude or ChatGPT mock up screens with real components, ready to share with your team.
 - **Give your agent the docs.** [`llms.txt`](https://mof-malaysia.github.io/ftds/llms.txt) is the index and rules, and [`llms-full.txt`](https://mof-malaysia.github.io/ftds/llms-full.txt) is everything in one file. Add it to your project's `AGENTS.md` or `CLAUDE.md`.
+- **Teach your agent FTDS.** The `ftds-skill` item installs the FTDS agent skill to `.claude/skills/ftds/`, where Claude Code loads it on its own.
+
+```bash
+npx shadcn@latest add @ftds/ftds-skill
+```
+
 - **Install by search.** With the `@ftds` namespace set, the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) can find and install items for an agent:
 
 ```bash

@@ -6,6 +6,7 @@ import {
   examples,
   readGuides,
   readItems,
+  readSkill,
   rel,
   ROOT_DIR,
   type Doc,
@@ -13,7 +14,7 @@ import {
 } from "./content";
 
 /**
- * Typecheck every example in the component docs and guides against the real
+ * Typecheck every example in the component docs, guides and agent skill against the real
  * source, with the import paths a project has after `shadcn add`:
  *
  *   ```tsx     React docs and guides, with tsc   (@/components/ui/button, @/lib/ftds/utils, ...)
@@ -234,6 +235,11 @@ async function main() {
     ...readGuides().map((guide) => ({
       name: `guide-${guide.slug}`,
       doc: guide,
+      lang: "tsx" as const,
+    })),
+    ...readSkill().map(({ name, file, text }) => ({
+      name: `skill-${name.replace(/\.md$/, "").replaceAll("/", "-")}`,
+      doc: { file, title: name, description: "", body: text },
       lang: "tsx" as const,
     })),
   ].filter(({ name }) => !only || only.has(name));

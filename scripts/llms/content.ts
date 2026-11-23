@@ -49,6 +49,8 @@ const REACT_SRC = path.join(ROOT_DIR, "packages/react/src");
 const ASTRO_SRC = path.join(ROOT_DIR, "packages/astro/src");
 export const GUIDES_DIR = path.join(ROOT_DIR, "docs/guides");
 export const INTRO_FILE = path.join(ROOT_DIR, "docs/llms-intro.md");
+/** The FTDS agent skill, published as the ftds-skill registry item. */
+export const SKILL = "skills/ftds";
 
 export { CATEGORIES, type Category };
 
@@ -230,6 +232,23 @@ export function readItems(entries = readRegistry()): Item[] {
       },
     ];
   });
+}
+
+/** Every file of the agent skill: its path inside the skill, and its text. */
+export function readSkill(): { name: string; file: string; text: string }[] {
+  const dir = path.join(ROOT_DIR, SKILL);
+  return fs
+    .readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => {
+      const file = path.join(entry.parentPath, entry.name);
+      return {
+        name: path.relative(dir, file),
+        file,
+        text: fs.readFileSync(file, "utf-8"),
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function readGuides(): (Doc & { slug: string })[] {

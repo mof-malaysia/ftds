@@ -126,7 +126,8 @@ export type RegistryName =
   | "style"
   | "astro-core"
   | "astro-marketing"
-  | "astro-icons";
+  | "astro-icons"
+  | "agent";
 
 export const COMPONENTS_DIR = path.join(
   __dirname,

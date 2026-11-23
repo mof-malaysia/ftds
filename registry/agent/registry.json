@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "ftds-agent",
+  "homepage": "https://github.com/mof-malaysia/ftds",
+  "items": [
+    {
+      "name": "ftds-skill",
+      "title": "FTDS agent skill",
+      "description": "An agent skill, installed to .claude/skills/ftds/, that teaches coding agents to build with FTDS: which docs to read, the smallest step that does the job, the design rules, and how to extend FTDS in a project without breaking its look.",
+      "categories": [
+        "agent"
+      ],
+      "type": "registry:file",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "skills/ftds/references/extending.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds/references/extending.md"
+        },
+        {
+          "path": "skills/ftds/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds/SKILL.md"
+        }
+      ]
+    }
+  ]
+}

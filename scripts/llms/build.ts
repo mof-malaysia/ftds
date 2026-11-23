@@ -17,6 +17,7 @@ import {
   readGuides,
   readItems,
   readRegistry,
+  readSkill,
   readDoc,
   rel,
   currentTag,
@@ -376,6 +377,7 @@ function main() {
     if (item.doc) checkNames(item.docFile, item.doc.body);
   for (const guide of readGuides()) checkNames(guide.file, guide.body);
   checkNames(INTRO_FILE, readDoc(INTRO_FILE).body);
+  for (const { file, text } of readSkill()) checkNames(file, text);
 
   if (problems.length) {
     console.error(
