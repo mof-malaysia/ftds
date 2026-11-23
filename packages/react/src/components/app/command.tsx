@@ -25,7 +25,7 @@ import {
   menu_separator_class,
   MenuShortcut,
 } from "../core/menu";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * Command is a searchable list of actions and destinations: the officer's
@@ -53,7 +53,7 @@ const Command = forwardRef<ComponentRef<typeof CommandPrimitive>, CommandProps>(
   ({ className, ...props }, ref) => (
     <CommandPrimitive
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-white text-txt-black-900 font-body flex h-full w-full flex-col overflow-hidden rounded-lg",
         className,
       )}
@@ -79,7 +79,7 @@ const CommandInput = forwardRef<
     />
     <CommandInputPrimitive
       ref={ref}
-      className={clx(
+      className={cn(
         "text-txt-black-900 placeholder:text-txt-black-500 text-field-md h-[var(--ctl-h-md)] w-full min-w-0 bg-transparent outline-none",
         "disabled:text-txt-black-disabled disabled:cursor-not-allowed",
         className,
@@ -98,7 +98,7 @@ const CommandList = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandListPrimitive
     ref={ref}
-    className={clx(
+    className={cn(
       "max-h-[min(24rem,60dvh)] scroll-py-2 overflow-y-auto overscroll-contain px-2 pb-2",
       className,
     )}
@@ -114,7 +114,7 @@ const CommandEmpty = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandEmptyPrimitive
     ref={ref}
-    className={clx(
+    className={cn(
       "text-txt-black-700 text-content px-4 py-6 text-center",
       className,
     )}
@@ -129,7 +129,7 @@ const CommandLoading = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandLoadingPrimitive
     ref={ref}
-    className={clx(
+    className={cn(
       "text-txt-black-700 text-content px-4 py-6 text-center",
       className,
     )}
@@ -145,11 +145,11 @@ const CommandGroup = forwardRef<
 >(({ className, heading, ...props }, ref) => (
   <CommandGroupPrimitive
     ref={ref}
-    className={clx("py-1", className)}
+    className={cn("py-1", className)}
     // Menu's group label (Label Compact, Ink Secondary)
     heading={
       heading ? (
-        <span className={clx("block", menu_group_label_class)}>{heading}</span>
+        <span className={cn("block", menu_group_label_class)}>{heading}</span>
       ) : undefined
     }
     {...props}
@@ -172,7 +172,7 @@ const CommandSeparator = forwardRef<
     <div
       ref={ref}
       aria-hidden
-      className={clx(menu_separator_class, "-mx-2", className)}
+      className={cn(menu_separator_class, "-mx-2", className)}
       {...props}
     />
   );
@@ -188,7 +188,7 @@ const CommandItem = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandItemPrimitive
     ref={ref}
-    className={clx(
+    className={cn(
       menu_item_layout_class,
       "text-txt-black-700 motion-reduce:transition-none",
       // cmdk sets data-selected/data-disabled to "true" or "false", so match the value
@@ -226,7 +226,7 @@ const CommandDialog = ({
   <Dialog {...props}>
     <DialogBody
       hideClose
-      className={clx(
+      className={cn(
         "top-[12dvh] translate-y-0 overflow-hidden p-0 sm:max-w-xl",
         className,
       )}

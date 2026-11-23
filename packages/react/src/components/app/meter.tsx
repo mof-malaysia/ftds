@@ -4,7 +4,7 @@ import React, { ComponentRef, ReactNode, forwardRef } from "react";
 import { Meter as MeterPrimitive } from "@base-ui/react/meter";
 import { cva, type VariantProps } from "class-variance-authority";
 import { WarningCircleIcon } from "../../icons/warning-circle";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 import {
   progress_indicator_base_class,
   progress_label_class,
@@ -95,7 +95,7 @@ const Meter = forwardRef<ComponentRef<typeof MeterPrimitive.Root>, MeterProps>(
           getAriaValueText ??
           (toneLabel ? (formatted) => `${formatted}, ${toneLabel}` : undefined)
         }
-        className={clx(
+        className={cn(
           "group/meter font-body grid w-full grid-cols-[1fr_auto] items-center gap-x-4 gap-y-2",
           className,
         )}
@@ -129,7 +129,7 @@ const MeterTrack = forwardRef<
 >(({ className, size, children, ...props }, ref) => (
   <MeterPrimitive.Track
     ref={ref}
-    className={clx(meter_track_cva({ size }), className)}
+    className={cn(meter_track_cva({ size }), className)}
     {...props}
   >
     {children ?? <MeterIndicator />}
@@ -151,7 +151,7 @@ const MeterIndicator = forwardRef<
 >(({ className, ...props }, ref) => (
   <MeterPrimitive.Indicator
     ref={ref}
-    className={clx(meter_indicator_cva(), className)}
+    className={cn(meter_indicator_cva(), className)}
     {...props}
   />
 ));
@@ -164,7 +164,7 @@ const MeterLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <MeterPrimitive.Label
     ref={ref}
-    className={clx(progress_label_class, className)}
+    className={cn(progress_label_class, className)}
     {...props}
   />
 ));
@@ -181,7 +181,7 @@ const MeterValue = forwardRef<
   WithClassName<MeterPrimitive.Value.Props>
 >(({ className, children, ...props }, ref) => (
   <span
-    className={clx(
+    className={cn(
       progress_value_class,
       "text-txt-black-700 inline-flex items-center gap-1.5",
       "group-data-[tone=warning]/meter:text-txt-warning group-data-[tone=danger]/meter:text-txt-danger",

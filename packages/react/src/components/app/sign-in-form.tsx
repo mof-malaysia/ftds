@@ -21,7 +21,7 @@ import {
   ErrorSummaryTitle,
 } from "./error-summary";
 import { PasswordInput } from "./password-input";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * SignInForm offers one or more ways in, in the order given by `methods`:
@@ -297,7 +297,7 @@ const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
     return (
       <div
         ref={ref}
-        className={clx("gap-stack-lg flex flex-col", className)}
+        className={cn("gap-stack-lg flex flex-col", className)}
         {...props}
       >
         {error && (

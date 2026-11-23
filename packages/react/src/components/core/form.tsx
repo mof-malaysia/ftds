@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Form as FormPrimitive } from "@base-ui/react/form";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * Form collects the values of the Fields inside it and validates them together.
@@ -28,7 +28,7 @@ function Form<Values extends Record<string, any> = Record<string, any>>({
 }: FormProps<Values>) {
   return (
     <FormPrimitive<Values>
-      className={clx("gap-stack-lg flex w-full flex-col", className)}
+      className={cn("gap-stack-lg flex w-full flex-col", className)}
       {...props}
     />
   );

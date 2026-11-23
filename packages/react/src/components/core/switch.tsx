@@ -3,7 +3,7 @@
 import React, { forwardRef } from "react";
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * Switch turns a setting on or off immediately, with no submit step.
@@ -74,7 +74,7 @@ const Switch = forwardRef<HTMLElement, SwitchProps>(
   ({ className, size, ...props }, ref) => (
     <SwitchPrimitive.Root
       ref={ref}
-      className={clx(switch_cva({ size }), className)}
+      className={cn(switch_cva({ size }), className)}
       {...props}
     >
       <SwitchPrimitive.Thumb className={switch_thumb_cva({ size })} />

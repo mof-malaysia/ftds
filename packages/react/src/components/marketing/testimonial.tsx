@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../core/avatar";
 import { SectionHeading } from "./section-heading";
 
@@ -85,14 +85,14 @@ const Testimonial: ForwardRefExoticComponent<
     <section
       ref={ref}
       aria-labelledby={title ? titleId : undefined}
-      className={clx("bg-bg-gray-50 font-body w-full", className)}
+      className={cn("bg-bg-gray-50 font-body w-full", className)}
       {...props}
     >
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-4 py-12 md:px-6 md:py-16 lg:py-24">
         <SectionHeading
           titleId={titleId}
           title={title}
-          className={clx(single && "text-center")}
+          className={cn(single && "text-center")}
         />
         {single && first ? (
           <figure className="mx-auto flex max-w-[860px] flex-col items-center gap-8 text-center">
@@ -103,7 +103,7 @@ const Testimonial: ForwardRefExoticComponent<
           </figure>
         ) : (
           <ul
-            className={clx(
+            className={cn(
               "grid grid-cols-1 gap-6 md:grid-cols-2",
               shown.length === 3 && "lg:grid-cols-3",
             )}

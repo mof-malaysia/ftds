@@ -2,7 +2,7 @@
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { formatDate, isoDate, label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Section from "@/components/ui/section.astro";
 import {
@@ -129,7 +129,7 @@ const details = (file: DownloadFile) =>
         const info = details(file);
         return (
           <li
-            class={clx(
+            class={cn(
               linked_item_class,
               link_item_cva({ layout }),
               layout === "cards" && "flex-col",
@@ -163,7 +163,7 @@ const details = (file: DownloadFile) =>
             </div>
             <span
               aria-hidden="true"
-              class={clx(link_chip_class, layout === "cards" && "absolute top-5 right-5")}
+              class={cn(link_chip_class, layout === "cards" && "absolute top-5 right-5")}
             >
               <DownloadIcon />
             </span>

@@ -5,7 +5,7 @@ import { CheckboxGroup as CheckboxGroupPrimitive } from "@base-ui/react/checkbox
 import { cva, type VariantProps } from "class-variance-authority";
 import { Checkbox, type CheckboxProps } from "@/components/ui/checkbox";
 import { FieldDescription, FieldItem, FieldLabel } from "@/components/ui/field";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * CheckboxGroup holds a set of checkboxes that share one value (an array of the
@@ -62,7 +62,7 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
       ref={ref}
       data-orientation={orientation ?? "vertical"}
       // Orientation wins over classes merged in from `<Fieldset render={<CheckboxGroup />}>`
-      className={clx(className, checkbox_group_cva({ orientation }))}
+      className={cn(className, checkbox_group_cva({ orientation }))}
       {...props}
     />
   ),
@@ -91,7 +91,7 @@ const CheckboxGroupItem = forwardRef<HTMLElement, CheckboxGroupItemProps>(
     <FieldItem
       data-slot="checkbox-group-item"
       disabled={disabled}
-      className={clx("gap-stack-sm items-start", className)}
+      className={cn("gap-stack-sm items-start", className)}
     >
       {/* Optical alignment of the box with the first line of the label */}
       <span className="flex h-[var(--content-leading)] shrink-0 items-center">
@@ -115,7 +115,7 @@ const CheckboxGroupNested = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={clx(
+    className={cn(
       "gap-stack-md flex flex-col pl-8 in-data-[density=compact]:pl-6",
       className,
     )}

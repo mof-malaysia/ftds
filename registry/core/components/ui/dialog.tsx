@@ -17,7 +17,7 @@ import {
   useRef,
 } from "react";
 import { CrossIcon } from "@/components/ui/icons/cross";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
 
@@ -152,7 +152,7 @@ const DialogBody: ForwardRefExoticComponent<
     return (
       <DialogPrimitive.Portal>
         <DialogPrimitive.Backdrop
-          className={clx(
+          className={cn(
             "z-overlay fixed inset-0",
             "h-full w-full",
             "bg-scrim/40",
@@ -164,7 +164,7 @@ const DialogBody: ForwardRefExoticComponent<
         />
         <DialogPrimitive.Popup
           ref={ref}
-          className={clx(
+          className={cn(
             "z-modal fixed top-[50%] left-[50%] box-border translate-x-[-50%] translate-y-[-50%]",
             "w-full max-w-[calc(100dvw-36px)] min-w-[300px] sm:max-w-lg",
             "flex flex-col items-start",
@@ -184,7 +184,7 @@ const DialogBody: ForwardRefExoticComponent<
             {children}
             {!hideClose && (
               <DialogClose
-                className={clx(
+                className={cn(
                   "absolute top-4 right-4",
                   "grid place-content-center",
                   "text-txt-black-900",
@@ -228,7 +228,7 @@ const DialogHeader: ForwardRefExoticComponent<DialogHeaderProps> = forwardRef(
     return (
       <div
         ref={ref}
-        className={clx(dialog_header_cva({ border }), className)}
+        className={cn(dialog_header_cva({ border }), className)}
         {...props}
       />
     );
@@ -241,7 +241,7 @@ interface DialogContentProps extends ComponentProps<"div"> {}
 const DialogContent: ForwardRefExoticComponent<DialogContentProps> = forwardRef(
   ({ className, ...props }, ref) => {
     return (
-      <div ref={ref} className={clx("w-full px-6", className)} {...props} />
+      <div ref={ref} className={cn("w-full px-6", className)} {...props} />
     );
   },
 );
@@ -301,7 +301,7 @@ const dialog_action_cva = cva(
 const DialogFooter: ForwardRefExoticComponent<DialogFooterProps> = forwardRef(
   ({ action, border, className, align = "end", ...props }, ref) => {
     return (
-      <div className={clx(dialog_footer_cva({ border, align }), className)}>
+      <div className={cn(dialog_footer_cva({ border, align }), className)}>
         {action}
         <div ref={ref} className={dialog_action_cva({ align })} {...props} />
       </div>
@@ -322,7 +322,7 @@ const DialogTitle: ForwardRefExoticComponent<DialogTitleProps> = forwardRef(
   ({ className, ...props }, ref) => (
     <DialogPrimitive.Title
       ref={ref}
-      className={clx(
+      className={cn(
         "text-body-lg text-txt-black-900 font-body font-semibold",
         className,
       )}
@@ -343,7 +343,7 @@ const DialogDescription: ForwardRefExoticComponent<DialogDescriptionProps> =
   forwardRef(({ className, ...props }, ref) => (
     <DialogPrimitive.Description
       ref={ref}
-      className={clx("text-txt-black-700 text-body-sm font-normal", className)}
+      className={cn("text-txt-black-700 text-body-sm font-normal", className)}
       {...props}
     />
   ));
@@ -387,7 +387,7 @@ const DialogIcon: ForwardRefExoticComponent<DialogIconProps> = forwardRef(
     return useRender({
       render: children,
       ref,
-      props: { className: clx(dialog_icon_cva({ variant }), className) },
+      props: { className: cn(dialog_icon_cva({ variant }), className) },
     });
   },
 );

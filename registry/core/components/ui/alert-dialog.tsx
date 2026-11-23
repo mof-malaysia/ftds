@@ -21,7 +21,7 @@ import {
   FunctionComponent,
   useContext,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 const AlertDialogTrigger = DialogTrigger;
 const AlertDialogTitle: typeof DialogTitle = DialogTitle;
@@ -29,7 +29,7 @@ const AlertDialogDescription: ForwardRefExoticComponent<
   ComponentProps<typeof DialogDescription>
 > = forwardRef(({ children, className, ...props }, ref) => {
   return (
-    <DialogDescription ref={ref} className={clx("pt-2", className)} {...props}>
+    <DialogDescription ref={ref} className={cn("pt-2", className)} {...props}>
       {children}
     </DialogDescription>
   );
@@ -65,11 +65,7 @@ interface AlertDialogActionProps extends Omit<
 const AlertDialogAction: ForwardRefExoticComponent<AlertDialogActionProps> =
   forwardRef(({ children, className, ...props }, ref) => {
     return (
-      <DialogFooter
-        ref={ref}
-        className={clx("px-0 pb-0", className)}
-        {...props}
-      >
+      <DialogFooter ref={ref} className={cn("px-0 pb-0", className)} {...props}>
         {children}
       </DialogFooter>
     );

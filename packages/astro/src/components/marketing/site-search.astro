@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { input_box_class, input_cva, input_icon_cva } from "@mof-malaysia/ftds-style/variants/input";
 import { kbd_cva } from "@mof-malaysia/ftds-style/variants/kbd";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
@@ -72,20 +72,20 @@ const lang = resolveLang(langProp, Astro.currentLocale);
   action={action}
   method="get"
   role="search"
-  class={clx("font-body flex w-full flex-col gap-2", className)}
+  class={cn("font-body flex w-full flex-col gap-2", className)}
   data-ftds-site-search
   data-shortcut={shortcut ? "" : undefined}
   {...props}
 >
   <label
     for={inputId}
-    class={clx("text-txt-black-900 text-label-sm font-medium", !showLabel && "sr-only")}
+    class={cn("text-txt-black-900 text-label-sm font-medium", !showLabel && "sr-only")}
   >
     {labels.label ?? label(lang, "siteSearchLabel")}
   </label>
   <div class="flex w-full gap-2">
     {/* React SiteSearch's Input, InputIcon and Kbd, from the same classes */}
-    <div class={clx(input_box_class, "min-w-0 flex-1")}>
+    <div class={cn(input_box_class, "min-w-0 flex-1")}>
       <div class="relative w-full">
         <input
           id={inputId}
@@ -96,7 +96,7 @@ const lang = resolveLang(langProp, Astro.currentLocale);
           autocomplete="off"
           data-has-left-icon="true"
           data-has-right-icon={shortcut ? "true" : undefined}
-          class={clx(input_cva({ size }), "peer")}
+          class={cn(input_cva({ size }), "peer")}
         />
         <SearchIcon aria-hidden="true" class={input_icon_cva({ position: "left", size })} />
         {
@@ -107,7 +107,7 @@ const lang = resolveLang(langProp, Astro.currentLocale);
               hidden
               data-ftds-requires-js
               aria-hidden="true"
-              class={clx(
+              class={cn(
                 input_icon_cva({ position: "right", size }),
                 "flex w-auto items-center max-sm:hidden peer-focus:hidden peer-not-placeholder-shown:hidden",
               )}

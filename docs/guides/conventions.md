@@ -1,6 +1,6 @@
 ---
 title: Code conventions
-description: How FTDS code is written, so projects stay consistent and easy to pick up: Base UI parts, the render prop, controlled state, clx, labels for translation, and what to avoid.
+description: How FTDS code is written, so projects stay consistent and easy to pick up: Base UI parts, the render prop, controlled state, cn, labels for translation, and what to avoid.
 order: 2
 ---
 
@@ -94,17 +94,17 @@ export function StateSelect() {
 }
 ```
 
-## Classes: `clx` and `className`
+## Classes: `cn` and `className`
 
-Use `clx` from `@/lib/ftds/utils` to join and merge Tailwind classes (it resolves conflicts, so a later `p-4` beats an earlier `p-2`). Every component takes `className`; use it for layout (margins, width, grid placement), not to recolour or reshape a component. If a component needs a different look, check its `variant` and `size` props first.
+Use `cn` from `@/lib/ftds/utils` (not shadcn's `@/lib/utils`, whose tailwind-merge doesn't know FTDS tokens) to join and merge Tailwind classes, so a later `p-4` beats an earlier `p-surface`. Every component takes `className`; use it for layout (margins, width, grid placement), not to recolour or reshape a component. If a component needs a different look, check its `variant` and `size` props first.
 
 ```tsx
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Button } from "@/components/ui/button";
 
 export function FullWidthOnMobile({ wide }: { wide: boolean }) {
   return (
-    <Button className={clx("w-full sm:w-fit", wide && "sm:min-w-48")}>
+    <Button className={cn("w-full sm:w-fit", wide && "sm:min-w-48")}>
       Continue
     </Button>
   );
@@ -145,7 +145,7 @@ Blocks (`@/components/blocks/...`) are whole screens and page sections built fro
 ## Things to avoid
 
 - Don't import from `@mof-malaysia/ftds-react` or `@base-ui/react` directly in app code when an FTDS component exists.
-- Don't use `asChild`, `cn` or Radix-style prop names (`onSelect` for menus is fine where documented; check the page).
+- Don't use `asChild`, `cn` from `@/lib/utils`, or Radix-style prop names (`onSelect` for menus is fine where documented; check the page).
 - Don't add borders, shadows or ring outlines to FTDS components, and don't wrap content in bordered boxes: use spacing and the `bg-bg-washed` tone.
 - Don't use raw Tailwind palette colours (`bg-blue-600`, `text-gray-500`); use tokens (see the styling guide).
 - Don't fill more than one action per screen in blue.

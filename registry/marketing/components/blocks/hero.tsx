@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Tag } from "@/components/ui/tag";
 import { renderAction, type BlockAction } from "@/components/ui/section-heading";
 import { band_cva } from "@/components/ui/section.variants";
@@ -110,7 +110,7 @@ const Hero: ForwardRefExoticComponent<HeroProps & RefAttributes<HTMLElement>> =
         <section
           ref={ref}
           aria-labelledby={titleId}
-          className={clx(band_cva({ tone }), band_class, className)}
+          className={cn(band_cva({ tone }), band_class, className)}
           {...props}
         >
           <div className={container_cva({ layout })}>

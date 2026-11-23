@@ -10,7 +10,7 @@ import React, {
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Tag } from "@/components/ui/tag";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 type TagProps = React.ComponentProps<typeof Tag>;
 
@@ -46,7 +46,7 @@ const TaskList: ForwardRefExoticComponent<TaskListProps> = forwardRef(
       ref,
       props: mergeProps<"ul">(
         {
-          className: clx(
+          className: cn(
             "font-body border-otl-gray-200 m-0 flex w-full list-none flex-col border-t p-0",
             className,
           ),
@@ -77,7 +77,7 @@ const TaskListItem: ForwardRefExoticComponent<TaskListItemProps> = forwardRef(
       ref,
       props: mergeProps<"li">(
         {
-          className: clx(
+          className: cn(
             "border-otl-gray-200 relative grid grid-cols-[1fr_auto] items-start gap-x-4 gap-y-1 border-b px-3 py-4",
             "in-data-[density=compact]:gap-x-3 in-data-[density=compact]:py-3",
             // Rows that open a task fill with Well on hover (task-list.mdx)
@@ -120,7 +120,7 @@ const TaskListItemTitle: ForwardRefExoticComponent<TaskListItemTitleProps> =
         {
           href,
           "aria-describedby": isLink ? describedBy : undefined,
-          className: clx(
+          className: cn(
             "col-start-1 row-start-1 text-content text-txt-black-900 font-medium",
             isLink && [
               "text-txt-primary rounded-xs underline decoration-1 underline-offset-[3px] outline-none",
@@ -156,7 +156,7 @@ const TaskListItemHint: ForwardRefExoticComponent<TaskListItemHintProps> =
           // Lets the status span the hint line; spread so TS allows a data-* key here
           // eslint-disable-next-line unicorn/no-useless-spread
           ...{ "data-slot": "task-list-item-hint" },
-          className: clx(
+          className: cn(
             "text-txt-black-700 text-content col-start-1 row-start-2",
             className,
           ),
@@ -198,7 +198,7 @@ const TaskListItemStatus = forwardRef<HTMLSpanElement, TaskListItemStatusProps>(
         id={itemId ? statusId(itemId) : undefined}
         variant={variant ?? style.variant}
         size="medium"
-        className={clx(
+        className={cn(
           "col-start-2 row-start-1 self-start",
           // Span the hint line too, when the row has one
           "[li:has(>[data-slot=task-list-item-hint])>&]:row-span-2",

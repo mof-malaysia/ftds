@@ -23,7 +23,7 @@ import { Radio, RadioButton } from "../core/radio";
 import { TextArea } from "../core/textarea";
 import { WarningCircleIcon } from "../../icons/warning-circle";
 import { useControllableState } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * DecisionPanel records an officer's decision on a case: approve, return for
@@ -180,7 +180,7 @@ const DecisionPanel = forwardRef<HTMLFormElement, DecisionPanelProps>(
         ref={ref}
         noValidate
         aria-labelledby={`${id}-title`}
-        className={clx("font-body flex flex-col gap-4", className)}
+        className={cn("font-body flex flex-col gap-4", className)}
         onSubmit={(event) => {
           event.preventDefault();
           setChecked(true);

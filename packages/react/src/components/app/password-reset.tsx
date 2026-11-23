@@ -16,7 +16,7 @@ import { ErrorSummary } from "./error-summary";
 import { ResendButton } from "./otp-verify";
 import { NewPasswordFields, type PasswordRule } from "./sign-up-form";
 import { EmailIcon } from "../../icons/email";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * The two halves of resetting a password.
@@ -132,7 +132,7 @@ const ForgotPasswordForm = forwardRef<HTMLDivElement, ForgotPasswordFormProps>(
         <div
           ref={ref}
           role="status"
-          className={clx("gap-stack-md flex flex-col", className)}
+          className={cn("gap-stack-md flex flex-col", className)}
           {...props}
         >
           <div className="bg-bg-primary-50 text-txt-primary grid size-12 place-content-center rounded-full">
@@ -290,7 +290,7 @@ const ResetPasswordForm = forwardRef<HTMLFormElement, ResetPasswordFormProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={handleSubmit}
-        className={clx("gap-stack-lg flex flex-col", className)}
+        className={cn("gap-stack-lg flex flex-col", className)}
         {...props}
       >
         {summary.length > 0 && (

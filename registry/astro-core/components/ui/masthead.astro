@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import MalaysiaFlag from "@/components/ui/icons/malaysia-flag.astro";
 import ChevronDown from "@/components/ui/icons/chevron-down.astro";
@@ -62,7 +62,7 @@ const sections = [
 
 <div
   id="masthead"
-  class={clx("bg-bg-washed print:hidden", className)}
+  class={cn("bg-bg-washed print:hidden", className)}
   data-nosnippet
   {...props}
 >

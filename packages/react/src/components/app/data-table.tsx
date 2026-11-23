@@ -40,7 +40,7 @@ import {
 } from "react";
 import { ColumnCollapseIcon } from "../../icons/column-collapse";
 import { ColumnExpandIcon } from "../../icons/column-expand";
-import { clx, pick } from "../../utils";
+import { cn, pick } from "../../utils";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -154,7 +154,7 @@ const pinning = <TData extends Record<string, any>>(
   if (!side) return {};
   const last = column.getIsLastColumn(side);
   return {
-    className: clx(
+    className: cn(
       "sticky z-10",
       side === "left"
         ? "before:absolute before:inset-y-0 before:-left-px before:w-px before:bg-inherit before:content-['']"
@@ -174,7 +174,7 @@ const pinning = <TData extends Record<string, any>>(
   };
 };
 
-const cell_class = clx(
+const cell_class = cn(
   "md:whitespace-nowrap whitespace-normal break-words",
   "data-[expanded=false]:truncate data-[expanded=false]:max-w-[230px]",
 );
@@ -334,7 +334,7 @@ const DataTableHeader: FunctionComponent = () => {
                   <td
                     key={header.id}
                     colSpan={header.colSpan}
-                    className={clx("bg-bg-gray-50", pin.className)}
+                    className={cn("bg-bg-gray-50", pin.className)}
                     style={pin.style}
                   />
                 );
@@ -350,7 +350,7 @@ const DataTableHeader: FunctionComponent = () => {
                   }
                   data-expanded={expandableColumns[header.id]}
                   data-pinned={header.column.getIsPinned()}
-                  className={clx(
+                  className={cn(
                     "group/head",
                     pin.className,
                     header.column.columnDef.meta?.className?.header,
@@ -361,7 +361,7 @@ const DataTableHeader: FunctionComponent = () => {
                     <span className="sr-only">{labels.selection}</span>
                   )}
                   <div
-                    className={clx(
+                    className={cn(
                       "flex w-full items-center gap-1 whitespace-nowrap",
                       numeric && "justify-end",
                     )}
@@ -371,7 +371,7 @@ const DataTableHeader: FunctionComponent = () => {
                         type="button"
                         onClick={header.column.getToggleSortingHandler()}
                         data-sorted={sorted || undefined}
-                        className={clx(
+                        className={cn(
                           "-mx-1 inline-flex cursor-pointer items-center gap-1 rounded-sm px-1 font-medium",
                           "hover:text-txt-black-900 data-[sorted]:text-txt-black-900 focus-ring transition-colors duration-150 motion-reduce:transition-none",
                           numeric && "flex-row-reverse",
@@ -380,7 +380,7 @@ const DataTableHeader: FunctionComponent = () => {
                         {label}
                         <SortIcon
                           aria-hidden
-                          className={clx(
+                          className={cn(
                             "size-3.5 shrink-0 transition-opacity duration-150 motion-reduce:transition-none",
                             sorted
                               ? "opacity-100"
@@ -408,7 +408,7 @@ const DataTableHeader: FunctionComponent = () => {
                         }
                         aria-pressed={Boolean(expandableColumns[header.id])}
                         onClick={() => toggleColumnWidth(header.id)}
-                        className={clx(
+                        className={cn(
                           icon_button,
                           !numeric && "ml-auto",
                           "max-lg:hidden",
@@ -459,7 +459,7 @@ const DataTableBody: FunctionComponent = () => {
             <TableRow
               key={row.id}
               data-selected={row.getIsSelected() || undefined}
-              className={clx(
+              className={cn(
                 "group/row hover:bg-bg-washed transition-colors duration-100 motion-reduce:transition-none",
                 "data-[selected]:hover:bg-bg-primary-50",
               )}
@@ -472,7 +472,7 @@ const DataTableBody: FunctionComponent = () => {
                     numeric={cell.column.columnDef.meta?.numeric}
                     data-expanded={expandableColumns[cell.column.id]}
                     data-pinned={cell.column.getIsPinned()}
-                    className={clx(
+                    className={cn(
                       cell_class,
                       pinning(cell.column, true).className,
                       cell.column.columnDef.meta?.className?.cell,
@@ -523,7 +523,7 @@ const DataTableFooter: FunctionComponent = () => {
               numeric={header.column.columnDef.meta?.numeric}
               data-expanded={expandableColumns[header.column.id]}
               data-pinned={header.column.getIsPinned()}
-              className={clx(
+              className={cn(
                 cell_class,
                 pinning(header.column, true).className,
                 header.column.columnDef.meta?.className?.cell,
@@ -592,7 +592,7 @@ const ClearSelectionButton = <TData extends Record<string, any>>({
       aria-label={labels.clearSelection}
       onClick={() => table.resetRowSelection(false)}
       // Nothing to clear: hidden and out of the tab order
-      className={clx(icon_button, !hasSelection && "invisible")}
+      className={cn(icon_button, !hasSelection && "invisible")}
     >
       <CrossIcon aria-hidden />
     </button>
@@ -614,7 +614,7 @@ const SelectRowRadio = <TData extends Record<string, any>>({
       checked={row.getIsSelected()}
       disabled={!row.getCanSelect()}
       onChange={() => row.toggleSelected(true)}
-      className={clx(
+      className={cn(
         // Matches Checkbox: Control Edge stroke, FTDS Blue when checked
         "border-otl-control hover:border-otl-control-hover bg-bg-white block size-4 shrink-0 cursor-pointer appearance-none rounded-full border-[1.5px]",
         "checked:border-bg-primary-600 checked:hover:border-bg-primary-700 checked:border-[5px]",
@@ -665,7 +665,7 @@ const ExpandToggle = <TData extends Record<string, any>>({
     >
       <ChevronRightIcon
         aria-hidden
-        className={clx(
+        className={cn(
           "transition-transform duration-150 motion-reduce:transition-none",
           expanded && "rotate-90",
         )}

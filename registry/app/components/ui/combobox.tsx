@@ -19,7 +19,7 @@ import {
   menu_separator_class,
 } from "@/components/ui/menu";
 import {
-  clx,
+  cn,
   splitPositionerProps,
   type PositionerProps,
   type WithClassName,
@@ -79,7 +79,7 @@ const useComboboxFilter = ComboboxPrimitive.useFilter;
 /*========================================================================================================================*/
 
 /** Stroke, fill and states of a single-element field (toolbar input, OTP slot). */
-const combobox_field_box_class = clx(
+const combobox_field_box_class = cn(
   "bg-bg-white border-otl-control text-txt-black-900 rounded-md border outline-none",
   "transition-colors duration-150 motion-reduce:transition-none",
   "focus-visible:border-otl-primary-300 focus-visible:ring focus-visible:ring-fr-primary",
@@ -224,7 +224,7 @@ interface ComboboxContentProps
 }
 
 /** Popup styling shared with Autocomplete: the Menu popup, as wide as the input. */
-const combobox_popup_class = clx(
+const combobox_popup_class = cn(
   menu_popup_cva(),
   "w-[var(--anchor-width)] min-w-[var(--anchor-width)] max-h-[min(var(--available-height),24rem)]",
 );
@@ -273,7 +273,7 @@ const createComboboxParts = (
         aria-label={defaults.triggerLabel}
         className={combobox_icon_button_cva({
           size,
-          className: clx(
+          className: cn(
             "[&>svg]:transition-transform [&>svg]:duration-150 data-[popup-open]:[&>svg]:rotate-180 motion-reduce:[&>svg]:transition-none",
             className,
           ),
@@ -340,7 +340,7 @@ const createComboboxParts = (
           >
             <ComboboxPrimitive.Popup
               ref={ref}
-              className={clx(combobox_popup_class, className)}
+              className={cn(combobox_popup_class, className)}
               {...popupProps}
             />
           </ComboboxPrimitive.Positioner>
@@ -357,7 +357,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.List
       ref={ref}
-      className={clx("scroll-py-1 outline-none", className)}
+      className={cn("scroll-py-1 outline-none", className)}
       {...props}
     />
   ));
@@ -370,7 +370,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.Empty
       ref={ref}
-      className={clx(combobox_message_class, className)}
+      className={cn(combobox_message_class, className)}
       {...props}
     />
   ));
@@ -383,7 +383,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.Status
       ref={ref}
-      className={clx(combobox_message_class, className)}
+      className={cn(combobox_message_class, className)}
       {...props}
     />
   ));
@@ -395,7 +395,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.Group
       ref={ref}
-      className={clx("[&+&]:mt-1", className)}
+      className={cn("[&+&]:mt-1", className)}
       {...props}
     />
   ));
@@ -407,7 +407,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.GroupLabel
       ref={ref}
-      className={clx(menu_group_label_class, className)}
+      className={cn(menu_group_label_class, className)}
       {...props}
     />
   ));
@@ -420,7 +420,7 @@ const createComboboxParts = (
   >(({ className, ...props }, ref) => (
     <ComboboxPrimitive.Separator
       ref={ref}
-      className={clx(menu_separator_class, className)}
+      className={cn(menu_separator_class, className)}
       {...props}
     />
   ));
@@ -511,7 +511,7 @@ const ComboboxChipsInput = forwardRef<
       ref={ref}
       className={combobox_input_cva({
         size,
-        className: clx("h-auto min-w-[8ch] self-stretch px-1.5", className),
+        className: cn("h-auto min-w-[8ch] self-stretch px-1.5", className),
       })}
       {...props}
     />
@@ -526,7 +526,7 @@ const ComboboxChip = forwardRef<
 >(({ className, ...props }, ref) => (
   <ComboboxPrimitive.Chip
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-washed-active text-txt-black-900 inline-flex max-w-full items-center gap-0.5 rounded-full py-0.5 pr-0.5 pl-2.5",
       "font-body text-body-sm in-data-[density=compact]:text-label-compact font-medium",
       "focus-visible:outline-fr-primary outline-none focus-visible:outline-2 focus-visible:outline-solid",
@@ -546,7 +546,7 @@ const ComboboxChipRemove = forwardRef<
   <ComboboxPrimitive.ChipRemove
     ref={ref}
     aria-label="Remove"
-    className={clx(
+    className={cn(
       "text-txt-black-700 inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full outline-none",
       "hover:bg-bg-black-300 hover:text-txt-black-900 transition-colors duration-150 motion-reduce:transition-none",
       "focus-visible:outline-fr-primary focus-visible:outline-2 focus-visible:outline-solid",
@@ -571,7 +571,7 @@ const ComboboxItem = forwardRef<
     ref={ref}
     className={menu_item_cva({
       inset: true,
-      className: clx("data-[selected]:text-txt-black-900", className),
+      className: cn("data-[selected]:text-txt-black-900", className),
     })}
     {...props}
   >

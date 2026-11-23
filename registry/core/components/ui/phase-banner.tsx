@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Tag } from "@/components/ui/tag";
 import { Link } from "@/components/ui/link";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 type TagProps = React.ComponentProps<typeof Tag>;
 
@@ -47,13 +47,13 @@ const PhaseBanner: ForwardRefExoticComponent<PhaseBannerProps> = forwardRef(
       ref,
       props: mergeProps<"div">(
         {
-          className: clx(
+          className: cn(
             "bg-bg-gray-50 border-otl-gray-200 font-body w-full border-b",
             className,
           ),
           children: (
             <div
-              className={clx(
+              className={cn(
                 "gap-stack-sm mx-auto flex w-full max-w-[1280px] items-start px-[18px] py-3 md:items-center md:px-6",
                 "in-data-[density=compact]:py-2",
                 containerClassName,
@@ -87,7 +87,7 @@ const PhaseBannerLink: ForwardRefExoticComponent<PhaseBannerLinkProps> =
       ref={ref}
       primary
       underline="always"
-      className={clx("font-medium", className)}
+      className={cn("font-medium", className)}
       {...props}
     />
   ));

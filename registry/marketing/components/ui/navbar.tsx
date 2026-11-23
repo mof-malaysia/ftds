@@ -7,7 +7,7 @@ import {
   ComponentProps,
   useId,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible";
@@ -78,7 +78,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({
     <NavbarContext.Provider value={{ id, show, setShow }}>
       <header
         id={id}
-        className={clx(navbar_header_class, className)}
+        className={cn(navbar_header_class, className)}
         data-nosnippet
         {...props}
       >
@@ -109,7 +109,7 @@ const NavbarLogo: FunctionComponent<NavbarLogoProps> = ({
     <Link
       href={href}
       underline="none"
-      className={clx(navbar_brand_class, className)}
+      className={cn(navbar_brand_class, className)}
       {...props}
     >
       <img
@@ -149,7 +149,7 @@ const NavbarMenu: FunctionComponent<NavigationMenuProps> = ({
     <NavigationMenuPrimitive.Root className="grow">
       {/* Desktop */}
       <NavigationMenuPrimitive.List
-        className={clx(
+        className={cn(
           "hidden xl:flex xl:justify-start xl:gap-1",
           classNameNavDesktop,
         )}
@@ -164,7 +164,7 @@ const NavbarMenu: FunctionComponent<NavigationMenuProps> = ({
        */}
       <NavigationMenuPrimitive.Portal>
         <NavigationMenuPrimitive.Positioner
-          className={clx(
+          className={cn(
             "z-popup outline-none",
             "h-[var(--positioner-height)] w-[var(--positioner-width)] max-w-[var(--available-width)]",
             "ease-standard transition-[top,left,right,bottom] duration-200 data-[instant]:transition-none motion-reduce:transition-none",
@@ -175,7 +175,7 @@ const NavbarMenu: FunctionComponent<NavigationMenuProps> = ({
           collisionPadding={16}
         >
           <NavigationMenuPrimitive.Popup
-            className={clx(
+            className={cn(
               // Floating layer: dialog surface + hairline edge, which still separates in dark mode
               "bg-bg-dialog border-otl-gray-200 shadow-context-menu relative rounded-lg border outline-none",
               "h-[var(--popup-height)] w-[var(--popup-width)] origin-[var(--transform-origin)]",
@@ -190,7 +190,7 @@ const NavbarMenu: FunctionComponent<NavigationMenuProps> = ({
       </NavigationMenuPrimitive.Portal>
 
       {/* Tablet / Mobile */}
-      <NavbarMobileMenu className={clx(classNameNavMobile)}>
+      <NavbarMobileMenu className={cn(classNameNavMobile)}>
         {children}
       </NavbarMobileMenu>
     </NavigationMenuPrimitive.Root>
@@ -236,7 +236,7 @@ const NavbarMobileMenu: FunctionComponent<NavbarMobileMenuProps> = ({
           className="z-sticky xl:hidden"
         >
           <PopoverPrimitive.Popup
-            className={clx(
+            className={cn(
               "group w-[var(--anchor-width)] outline-none",
               className,
             )}
@@ -246,7 +246,7 @@ const NavbarMobileMenu: FunctionComponent<NavbarMobileMenuProps> = ({
              * the page content dims. Same Ink wash as Drawer and Dialog. A tap closes.
              */}
             <div
-              className={clx(
+              className={cn(
                 "bg-scrim/40 absolute inset-x-0 top-0 h-dvh",
                 "ease-standard transition-opacity duration-200 motion-reduce:transition-none",
                 "group-data-[ending-style]:opacity-0 group-data-[starting-style]:opacity-0",
@@ -256,7 +256,7 @@ const NavbarMobileMenu: FunctionComponent<NavbarMobileMenuProps> = ({
             />
             {/* Full-width sheet (DESIGN.md: Navigation, Mobile) */}
             <ul
-              className={clx(
+              className={cn(
                 // Fills exactly the space below the header, wherever the header sits
                 "relative max-h-[var(--available-height)] overflow-y-auto overscroll-contain px-2 pt-2 pb-4",
                 // No shadow: the scrim already separates it, and a shadow leaves a muddy band on it
@@ -318,7 +318,7 @@ const NavbarMenuItem: FunctionComponent<NavbarMenuItemProps> = ({
   const rich_content = (
     <>
       {icon != null && (
-        <span className={clx(navbar_menu_icon_tile_class)} aria-hidden>
+        <span className={cn(navbar_menu_icon_tile_class)} aria-hidden>
           {icon}
         </span>
       )}
@@ -334,7 +334,7 @@ const NavbarMenuItem: FunctionComponent<NavbarMenuItemProps> = ({
   );
 
   if (is_rich) {
-    const rich_link_className = clx(navbar_menu_rich_link_class, className);
+    const rich_link_className = cn(navbar_menu_rich_link_class, className);
     return (
       <li className="list-none" {...props}>
         {is_mobile ? (
@@ -361,7 +361,7 @@ const NavbarMenuItem: FunctionComponent<NavbarMenuItemProps> = ({
     );
   }
 
-  const item_className = clx(
+  const item_className = cn(
     navbar_menu_item_cva({ is_from_dropdown }),
     active && !is_from_dropdown && navbar_current_class,
     className,
@@ -429,7 +429,7 @@ const NavbarMenuGroup: FunctionComponent<NavbarMenuGroupProps> = ({
   const heading_id = useId();
 
   return (
-    <li className={clx(navbar_group_class, className)}>
+    <li className={cn(navbar_group_class, className)}>
       <span id={heading_id} className={navbar_group_heading_class}>
         {title}
       </span>
@@ -470,7 +470,7 @@ const NavbarMenuFeature: FunctionComponent<NavbarMenuFeatureProps> = ({
   render,
 }) => {
   const is_mobile = useContext(NavbarMobileContext);
-  const feature_className = clx(navbar_feature_class, className);
+  const feature_className = cn(navbar_feature_class, className);
   const content = (
     <>
       {eyebrow != null && (
@@ -525,7 +525,7 @@ const NavbarMenuFooterLink: FunctionComponent<NavbarMenuFooterLinkProps> = ({
   render,
 }) => {
   const is_mobile = useContext(NavbarMobileContext);
-  const link_className = clx(navbar_footer_link_class, className);
+  const link_className = cn(navbar_footer_link_class, className);
   const content = (
     <>
       {children}
@@ -583,7 +583,7 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
 }) => {
   const is_mobile = useContext(NavbarMobileContext);
 
-  const trigger_className = clx(
+  const trigger_className = cn(
     navbar_menu_item_cva({ is_from_dropdown: false }),
     navbar_trigger_class,
     active && navbar_current_class,
@@ -599,14 +599,14 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
           className="relative list-none"
         >
           <CollapsiblePrimitive.Trigger
-            className={clx(
+            className={cn(
               trigger_className,
               "data-[panel-open]:bg-bg-washed-active",
             )}
           >
             {title}
             <ChevronDownIcon
-              className={clx(
+              className={cn(
                 chevron_className,
                 "group-data-[panel-open]:rotate-180",
               )}
@@ -614,7 +614,7 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
             />
           </CollapsiblePrimitive.Trigger>
           <CollapsiblePrimitive.Panel
-            className={clx(navbar_mobile_dropdown_class, className)}
+            className={cn(navbar_mobile_dropdown_class, className)}
           >
             <ul className="flex flex-col">{children}</ul>
             {feature != null && (
@@ -632,14 +632,14 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
     <NavbarMenuDropdownContext.Provider value={true}>
       <NavigationMenuPrimitive.Item className="relative list-none">
         <NavigationMenuPrimitive.Trigger
-          className={clx(
+          className={cn(
             trigger_className,
             "data-[popup-open]:bg-bg-washed-active",
           )}
         >
           {title}
           <ChevronDownIcon
-            className={clx(
+            className={cn(
               chevron_className,
               "group-data-[popup-open]:rotate-180",
             )}
@@ -647,7 +647,7 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
           />
         </NavigationMenuPrimitive.Trigger>
         <NavigationMenuPrimitive.Content
-          className={clx(
+          className={cn(
             "w-max max-w-[min(56rem,calc(100vw-2rem))]",
             // Slide in from the side of the trigger the pointer came from
             "ease-standard transition-[opacity,translate] duration-200 motion-reduce:transition-none",
@@ -659,7 +659,7 @@ const NavbarMenuDropdown: FunctionComponent<NavbarMenuDropdownProps> = ({
         >
           <div className={navbar_dropdown_body_class}>
             <ul
-              className={clx(
+              className={cn(
                 navbar_dropdown_list_class,
                 navbar_dropdown_columns[columns],
                 // Groups are columns of their own
@@ -710,7 +710,7 @@ const NavbarAction: FunctionComponent<NavbarActionProps> = ({
       <Button
         variant="default-ghost"
         iconOnly
-        className={clx("xl:hidden", className)}
+        className={cn("xl:hidden", className)}
         onClick={handleToggle}
         aria-label={menuLabel}
         aria-expanded={show}

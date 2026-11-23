@@ -9,7 +9,7 @@ import {
   useContext,
 } from "react";
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { cva } from "class-variance-authority";
 import {
   tabs_indicator_cva,
@@ -68,7 +68,7 @@ const Tabs: ForwardRefExoticComponent<TabsProps> = forwardRef(
     <TabsContext.Provider value={{ size, activationMode }}>
       <TabsPrimitive.Root
         ref={ref}
-        className={clx("font-body flex flex-col", className)}
+        className={cn("font-body flex flex-col", className)}
         {...props}
       />
     </TabsContext.Provider>
@@ -94,7 +94,7 @@ const TabsList: ForwardRefExoticComponent<TabsListProps> = forwardRef(
       <TabsPrimitive.List
         ref={ref}
         activateOnFocus={activationMode !== "manual"}
-        className={clx(tabs_list_cva({ width }), className)}
+        className={cn(tabs_list_cva({ width }), className)}
         {...props}
       >
         {children}
@@ -156,7 +156,7 @@ const TabsCounter: ForwardRefExoticComponent<ComponentProps<"span">> =
   forwardRef(({ className, ...props }, ref) => (
     <span
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-washed-active text-txt-black-700 text-label-compact inline-flex min-w-5 justify-center rounded-full px-1.5 font-medium tabular-nums",
         className,
       )}
@@ -172,7 +172,7 @@ const TabsContent: ForwardRefExoticComponent<
 > = forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.Panel
     ref={ref}
-    className={clx(
+    className={cn(
       "text-txt-black-900 text-content focus-ring rounded-md pt-(--space-stack-md)",
       className,
     )}

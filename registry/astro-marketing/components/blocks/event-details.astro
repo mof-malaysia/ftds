@@ -2,7 +2,7 @@
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import Link from "@/components/ui/link.astro";
@@ -104,8 +104,8 @@ const facts: Fact[] = [
 ].filter((fact): fact is Fact => Boolean(fact));
 ---
 
-<section class={clx(band_cva(), className)} {...props}>
-  <div class={clx(container_cva(), "grid lg:grid-cols-12 lg:gap-12")}>
+<section class={cn(band_cva(), className)} {...props}>
+  <div class={cn(container_cva(), "grid lg:grid-cols-12 lg:gap-12")}>
     <div class="flex flex-col gap-6 lg:order-2 lg:col-span-4">
       <div class="bg-bg-white flex flex-col gap-6 rounded-lg p-surface lg:sticky lg:top-24">
         <dl class="flex flex-col gap-4">

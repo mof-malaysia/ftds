@@ -17,7 +17,7 @@ import { DocumentIcon } from "../../icons/document";
 import { CrossIcon } from "../../icons/cross";
 import { WarningCircleIcon } from "../../icons/warning-circle";
 import { useControllableState, useMergedRefs } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * FileUpload lets users attach documents to a form: a "Choose file" button and a
@@ -129,7 +129,7 @@ const FileUploadItem = forwardRef<HTMLLIElement, FileUploadItemProps>(
       <li
         ref={ref}
         aria-busy={busy || undefined}
-        className={clx(
+        className={cn(
           "font-body flex flex-col gap-2 rounded-md px-3 py-2.5",
           error ? "bg-bg-danger-50" : "bg-bg-washed",
           disabled && "text-txt-black-500",
@@ -142,7 +142,7 @@ const FileUploadItem = forwardRef<HTMLLIElement, FileUploadItemProps>(
           ) : (
             <DocumentIcon
               aria-hidden
-              className={clx(
+              className={cn(
                 "size-5 shrink-0",
                 error ? "text-txt-danger" : "text-txt-black-700",
               )}
@@ -156,7 +156,7 @@ const FileUploadItem = forwardRef<HTMLLIElement, FileUploadItemProps>(
             ) : (
               // Keep the extension visible when a long name is truncated
               <span
-                className={clx(
+                className={cn(
                   "text-content flex min-w-0 font-medium",
                   disabled ? "text-txt-black-500" : "text-txt-black-900",
                 )}
@@ -320,7 +320,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     };
 
     return (
-      <div className={clx("font-body flex w-full flex-col gap-3", className)}>
+      <div className={cn("font-body flex w-full flex-col gap-3", className)}>
         <div
           data-dragging={dragging || undefined}
           data-disabled={disabled || undefined}
@@ -347,7 +347,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             if (disabled) return;
             addFiles(event.dataTransfer.files);
           }}
-          className={clx(
+          className={cn(
             "bg-bg-washed flex flex-wrap items-center gap-3 rounded-lg border-2 border-dashed border-transparent p-4",
             "in-data-[density=compact]:gap-2 in-data-[density=compact]:p-3",
             "ease-standard transition-colors duration-150 motion-reduce:transition-none",
@@ -394,7 +394,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           </Button>
           <span
             aria-hidden
-            className={clx(
+            className={cn(
               "text-content",
               // Ink Tertiary when disabled (DESIGN.md: Inputs, Disabled)
               disabled ? "text-txt-black-500" : "text-txt-black-700",

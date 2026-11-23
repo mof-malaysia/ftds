@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import type { Lang } from "@/lib/ftds/i18n";
 import Breadcrumb from "@/components/ui/breadcrumb.astro";
 import Tag from "@/components/ui/tag.astro";
@@ -71,11 +71,11 @@ const hasMeta = meta.length > 0 || slots.has("meta");
 
 <section
   aria-labelledby={titleId}
-  class={clx(band_cva({ tone }), className)}
+  class={cn(band_cva({ tone }), className)}
   {...props}
 >
   <div
-    class={clx(container_cva({ width }), "gap-6 py-10 md:py-12")}
+    class={cn(container_cva({ width }), "gap-6 py-10 md:py-12")}
   >
     {breadcrumb?.length ? <Breadcrumb items={breadcrumb} lang={lang} /> : null}
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">

@@ -158,7 +158,7 @@ External packages that will be installed via npm/pnpm/yarn:
 
 Other FTDS items, referenced by their full address (`mof-malaysia/ftds/utils` in the repository, a URL in the Pages JSON):
 
-- `utils` - Utility functions (clx)
+- `utils` - Utility functions (cn)
 - `hooks` - Custom React hooks
 - Icons and other components (e.g., button, menu), possibly from the core registry
 

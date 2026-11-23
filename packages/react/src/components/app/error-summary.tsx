@@ -10,7 +10,7 @@ import React, {
   useRef,
 } from "react";
 import { WarningCircleIcon } from "../../icons/warning-circle";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { Link } from "../core/link";
 
 /**
@@ -115,7 +115,7 @@ const ErrorSummary = forwardRef<HTMLDivElement, ErrorSummaryProps>(
         ref={innerRef}
         role="alert"
         tabIndex={-1}
-        className={clx(
+        className={cn(
           // Danger Wash, no border, no side stripe (DESIGN.md: Don'ts)
           "bg-bg-danger-50 p-surface flex w-full items-start gap-3 rounded-lg",
           "focus-ring outline-none",
@@ -156,7 +156,7 @@ const ErrorSummaryTitle = forwardRef<
 >(({ className, as: Tag = "h2", ...props }, ref) => (
   <Tag
     ref={ref}
-    className={clx(
+    className={cn(
       "font-heading text-txt-black-900 text-title font-semibold",
       className,
     )}
@@ -172,7 +172,7 @@ const ErrorSummaryDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx("font-body text-content text-txt-black-900", className)}
+    className={cn("font-body text-content text-txt-black-900", className)}
     {...props}
   />
 ));
@@ -182,7 +182,7 @@ const ErrorSummaryList = forwardRef<HTMLUListElement, ComponentProps<"ul">>(
   ({ className, ...props }, ref) => (
     <ul
       ref={ref}
-      className={clx("flex flex-col gap-1.5", className)}
+      className={cn("flex flex-col gap-1.5", className)}
       {...props}
     />
   ),
@@ -210,7 +210,7 @@ const ErrorSummaryItem = forwardRef<HTMLAnchorElement, ErrorSummaryItemProps>(
           ref={ref}
           href={`#${targetId}`}
           onClick={handleClick}
-          className={clx(
+          className={cn(
             "font-body text-content text-txt-danger font-medium",
             className,
           )}

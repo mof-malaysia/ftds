@@ -1,6 +1,6 @@
 // registry:block — composed page section, installs to components/blocks
 import React, { ComponentProps, ReactNode, forwardRef } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * AuthLayout is the frame of every sign-in, sign-up, password and verification
@@ -54,7 +54,7 @@ const AuthLayout = forwardRef<HTMLElement, AuthLayoutProps>(
   ) => (
     <main
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-washed text-txt-black-900 font-body flex min-h-dvh w-full flex-col items-center px-4 py-10 sm:justify-center sm:py-16",
         className,
       )}
@@ -65,7 +65,7 @@ const AuthLayout = forwardRef<HTMLElement, AuthLayoutProps>(
           <div className="flex items-center justify-center">{brand}</div>
         )}
         <div
-          className={clx(
+          className={cn(
             // Sheet on the Well: tone, not a shadow, lifts the panel (DESIGN.md, Elevation)
             "bg-bg-white gap-stack-lg flex flex-col rounded-lg p-6 sm:p-8",
             panelClassName,

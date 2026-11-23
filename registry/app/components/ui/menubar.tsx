@@ -20,7 +20,7 @@ import {
   MenuSubmenuTrigger,
 } from "@/components/ui/menu";
 import { toggle_cva } from "@/components/ui/toggle";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * Menubar is the row of menus at the top of a desktop-style officer tool
@@ -48,7 +48,7 @@ const Menubar = forwardRef<HTMLDivElement, MenubarProps>(
   ({ className, ...props }, ref) => (
     <MenubarPrimitive
       ref={ref}
-      className={clx(
+      className={cn(
         "flex w-fit items-center gap-1",
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
         className,
@@ -66,7 +66,7 @@ const MenubarTrigger = forwardRef<HTMLButtonElement, MenubarTriggerProps>(
   ({ className, ...props }, ref) => (
     <MenuPrimitive.Trigger
       ref={ref}
-      className={clx(
+      className={cn(
         toggle_cva({ appearance: "standalone", size: "small" }),
         // Narrower than a standalone button: menubar labels sit close together
         "px-3 in-data-[density=compact]:px-2.5",

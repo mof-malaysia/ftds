@@ -2,7 +2,7 @@
 
 import React, { ComponentRef, forwardRef } from "react";
 import { Fieldset as FieldsetPrimitive } from "@base-ui/react/fieldset";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * Fieldset groups related fields under one legend, such as an address or the
@@ -22,7 +22,7 @@ const Fieldset = forwardRef<
 >(({ className, ...props }, ref) => (
   <FieldsetPrimitive.Root
     ref={ref}
-    className={clx(
+    className={cn(
       // Comfortable 16–24px gaps, compact 8–12px (DESIGN.md: Density)
       "gap-stack-md flex w-full min-w-0 flex-col border-none p-0",
       className,
@@ -49,7 +49,7 @@ const FieldsetLegend = forwardRef<
 >(({ className, size = "medium", ...props }, ref) => (
   <FieldsetPrimitive.Legend
     ref={ref}
-    className={clx(
+    className={cn(
       "font-heading text-txt-black-900",
       "data-[disabled]:text-txt-black-disabled",
       fieldset_legend_sizes[size],
@@ -66,10 +66,7 @@ const FieldsetDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx(
-      "font-body text-content text-txt-black-700 -mt-2",
-      className,
-    )}
+    className={cn("font-body text-content text-txt-black-700 -mt-2", className)}
     {...props}
   />
 ));

@@ -38,7 +38,7 @@ Dev servers are in `.claude/launch.json`: `astro-preview` (4330), `storybook-ast
 - After adding, moving or renaming a React component: `pnpm components:sync-exports`, write its `<name>.md` (frontmatter `title`, `description`, `category`; sections **When to use**, **Usage**, **Notes**; no props table; follow `button.md`), then `pnpm registry:build`.
 - New or changed Astro components need a story in `apps/storybook-astro/stories/`. Add a Playwright spec when there is interaction (keyboard, disclosure, search).
 - Astro: native platform features first (`<details>`, `<dialog>`, the Popover API). Use small vanilla scripts only where the platform has no answer. Built-in text comes from the BM/EN dictionary in `src/i18n`, and BM is the default.
-- React: compose with `render`, never `asChild`. Use `clx`, not `cn`. Controlled/uncontrolled props use Base UI names.
+- React: compose with `render`, never `asChild`. Use `cn` from `@/lib/ftds/utils` (FTDS-aware), not shadcn's `@/lib/utils`. Controlled/uncontrolled props use Base UI names.
 - Styling: tokens only, no raw Tailwind palette colours. No added borders, shadows or bordered boxes; use spacing and `bg-bg-washed`. Never remove focus rings.
 - If a turbo package reads files outside its folder, list them as `inputs` in its `turbo.json`, or the cache replays stale results.
 

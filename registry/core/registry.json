@@ -6,12 +6,13 @@
     {
       "name": "utils",
       "title": "Utils",
-      "description": "Helper functions shared by FTDS components, chiefly clx for joining and merging Tailwind classes with FTDS tokens. Imported from @/lib/ftds/utils.",
+      "description": "Helper functions shared by FTDS components, chiefly cn for joining and merging Tailwind classes with FTDS tokens. Imported from @/lib/ftds/utils.",
       "categories": [
         "utilities"
       ],
       "type": "registry:lib",
       "dependencies": [
+        "clsx@^2.1.1",
         "tailwind-merge@^3.4.0"
       ],
       "registryDependencies": [],

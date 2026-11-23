@@ -3,7 +3,7 @@
 import React, { forwardRef } from "react";
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible";
 import { ChevronRightIcon } from "../../icons/chevron-right";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 import { link_cva } from "./link";
 
 /**
@@ -26,7 +26,7 @@ const Details = forwardRef<
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Root
     ref={ref}
-    className={clx("font-body flex w-full flex-col", className)}
+    className={cn("font-body flex w-full flex-col", className)}
     {...props}
   />
 ));
@@ -39,7 +39,7 @@ const DetailsTrigger = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <CollapsiblePrimitive.Trigger
     ref={ref}
-    className={clx(
+    className={cn(
       "group text-txt-primary inline-flex w-fit cursor-pointer items-start gap-1.5 rounded-xs text-left font-medium",
       "text-content outline-none",
       "focus-ring",
@@ -50,7 +50,7 @@ const DetailsTrigger = forwardRef<
   >
     <ChevronRightIcon
       aria-hidden
-      className={clx(
+      className={cn(
         // Optical alignment with the first line of text
         "ease-standard mt-[0.2em] size-4 shrink-0 transition-transform duration-200",
         "group-data-[panel-open]:rotate-90 motion-reduce:transition-none",
@@ -79,7 +79,7 @@ const DetailsContent = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <CollapsiblePrimitive.Panel
     ref={ref}
-    className={clx(
+    className={cn(
       "overflow-hidden",
       "ease-standard h-[var(--collapsible-panel-height)] transition-[height,opacity] duration-200",
       "data-[ending-style]:h-0 data-[starting-style]:h-0",
@@ -89,7 +89,7 @@ const DetailsContent = forwardRef<
     {...props}
   >
     <div
-      className={clx(
+      className={cn(
         "bg-bg-washed text-txt-black-700 text-content mt-3 max-w-[70ch] rounded-lg p-4",
         "in-data-[density=compact]:mt-2 in-data-[density=compact]:p-3",
         className,

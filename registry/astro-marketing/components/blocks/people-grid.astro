@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Section from "@/components/ui/section.astro";
 import { linked_item_class, stretched_link_class } from "@/components/ui/section.variants";
 
@@ -91,14 +91,14 @@ const initials = (name: string) =>
   {
     groups.map(({ people: group, featured: isFeatured }) => (
         <ul
-          class={clx(
+          class={cn(
             "grid grid-cols-1 gap-4 md:gap-6",
             isFeatured ? "md:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-4",
           )}
         >
           {group.map((person) => (
             <li
-              class={clx(
+              class={cn(
                 linked_item_class,
                 "bg-bg-white p-surface flex gap-5 rounded-lg",
                 isFeatured ? "flex-col sm:flex-row sm:items-start" : "flex-col",
@@ -110,7 +110,7 @@ const initials = (name: string) =>
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  class={clx(
+                  class={cn(
                     "bg-bg-washed shrink-0 rounded-lg object-cover",
                     isFeatured ? "aspect-[4/5] w-32 sm:w-40" : "aspect-square w-24",
                   )}
@@ -118,7 +118,7 @@ const initials = (name: string) =>
               ) : (
                 <span
                   aria-hidden="true"
-                  class={clx(
+                  class={cn(
                     "bg-bg-primary-50 text-txt-primary flex shrink-0 items-center justify-center rounded-lg font-semibold",
                     isFeatured ? "text-heading-xs aspect-[4/5] w-32 sm:w-40" : "text-title size-24",
                   )}

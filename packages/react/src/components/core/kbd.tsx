@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useSyncExternalStore,
 } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { kbd_cva } from "@mof-malaysia/ftds-style/variants/kbd";
 
 /**
@@ -200,7 +200,7 @@ const Kbd = forwardRef<HTMLSpanElement, KbdProps>(
         ref={ref}
         role="img"
         aria-label={spokenLabel(steps, thenLabel)}
-        className={clx(
+        className={cn(
           "font-body inline-flex shrink-0 items-center gap-1 whitespace-nowrap",
           className,
         )}
@@ -211,7 +211,7 @@ const Kbd = forwardRef<HTMLSpanElement, KbdProps>(
             {i > 0 && (
               <span
                 aria-hidden
-                className={clx(
+                className={cn(
                   "text-label-compact font-normal",
                   inverse ? "text-txt-white/70" : "text-txt-black-500",
                 )}

@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * SplitPane lays out a list beside its detail. The start pane has a width the
@@ -96,7 +96,7 @@ const SplitPane = forwardRef<HTMLDivElement, SplitPaneProps>(
     return (
       <div
         ref={ref}
-        className={clx("flex h-full min-h-0 w-full min-w-0", className)}
+        className={cn("flex h-full min-h-0 w-full min-w-0", className)}
         {...props}
       >
         <section
@@ -115,7 +115,7 @@ const SplitPane = forwardRef<HTMLDivElement, SplitPaneProps>(
           aria-valuemax={maxWidth}
           tabIndex={0}
           data-dragging={dragging || undefined}
-          className={clx(
+          className={cn(
             // A 1px Hairline with a wider, invisible hit area
             "group/split-handle bg-otl-gray-200 relative w-px shrink-0 cursor-col-resize touch-none outline-none select-none",
             "before:absolute before:inset-y-0 before:-right-1 before:-left-1 before:content-['']",

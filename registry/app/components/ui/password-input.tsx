@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { EyeShowIcon } from "@/components/ui/icons/eye-show";
 import { EyeHideIcon } from "@/components/ui/icons/eye-hide";
 import { useControllableState } from "@/lib/ftds/hooks";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * PasswordInput masks what the user types, with a button to show it so they can
@@ -74,7 +74,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       : null;
 
     return (
-      <div className={clx("relative w-full", className)}>
+      <div className={cn("relative w-full", className)}>
         <Input
           ref={ref}
           size={size}
@@ -99,7 +99,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               setTouched(true);
               setVisible(!visible);
             }}
-            className={clx(
+            className={cn(
               // Trigger area matches the field height (password-input.mdx)
               "absolute inset-y-0 right-0 flex aspect-square h-full items-center justify-center rounded-r-md",
               "text-txt-black-700 hover:text-txt-black-900 cursor-pointer transition-colors duration-150 outline-none motion-reduce:transition-none",

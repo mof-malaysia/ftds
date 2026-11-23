@@ -1,5 +1,5 @@
 import { ComponentProps, forwardRef, ForwardRefExoticComponent } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { Tag } from "../core/tag";
 
 /**
@@ -26,7 +26,7 @@ const AnnounceBar: ForwardRefExoticComponent<AnnounceBarProps> = forwardRef(
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "mx-[18px] flex flex-row gap-2 py-2 md:mx-6",
           border && "border-otl-gray-200 border-b",
           className,
@@ -46,7 +46,7 @@ const AnnounceBarDescription: ForwardRefExoticComponent<ComponentProps<"div">> =
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "text-txt-black-700 font-body text-content flex min-h-[28px] items-center",
           className,
         )}

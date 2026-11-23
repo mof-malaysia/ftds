@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Section from "@/components/ui/section.astro";
 import {
@@ -96,11 +96,11 @@ const lang = resolveLang(langProp, Astro.currentLocale);
       links.map((link) => {
         const Icon = link.external ? ArrowOutgoingIcon : ArrowForwardIcon;
         return (
-          <li class={clx(linked_item_class, link_item_cva({ layout }), "items-start")}>
+          <li class={cn(linked_item_class, link_item_cva({ layout }), "items-start")}>
             <div class="flex min-w-0 flex-1 flex-col gap-1.5">
               <a
                 href={link.href}
-                class={clx(
+                class={cn(
                   stretched_link_class,
                   "text-txt-primary text-body-lg font-medium text-pretty",
                 )}

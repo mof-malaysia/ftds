@@ -2,7 +2,7 @@
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Link from "@/components/ui/link.astro";
 import SectionHeading from "@/components/ui/section-heading.astro";
@@ -80,7 +80,7 @@ const hasTitle = Boolean(title) || slots.has("title");
 
 <section
   aria-labelledby={hasTitle ? titleId : undefined}
-  class={clx(band_cva({ tone }), className)}
+  class={cn(band_cva({ tone }), className)}
   {...props}
 >
   <div

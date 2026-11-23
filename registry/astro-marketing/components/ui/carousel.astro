@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import ChevronLeft from "@/components/ui/icons/chevron-left.astro";
@@ -72,7 +72,7 @@ const per_view_class = {
 <div
   role="region"
   aria-roledescription={label(lang, "carousel")}
-  class={clx("font-body relative flex flex-col gap-4", className)}
+  class={cn("font-body relative flex flex-col gap-4", className)}
   data-ftds-carousel
   data-autoplay={autoplay || undefined}
   data-labels={JSON.stringify(labels)}
@@ -81,7 +81,7 @@ const per_view_class = {
   {/* Focusable so keyboard users can scroll it; slides are its direct children */}
   <div
     tabindex="0"
-    class={clx(
+    class={cn(
       "gap-stack-md relative flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth",
       "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
       "focus-ring rounded-lg outline-none motion-reduce:scroll-auto",

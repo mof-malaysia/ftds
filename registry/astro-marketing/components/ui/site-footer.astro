@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Link from "@/components/ui/link.astro";
 import { footer_link_class } from "@/components/ui/footer.variants";
 
@@ -65,7 +65,7 @@ const hasLogo = slots.has("logo") || Boolean(logoTitle) || slots.has("logoTitle"
 ---
 
 <Tag
-  class={clx(
+  class={cn(
     "bg-bg-washed font-body text-content text-txt-black-700 flex flex-col print:hidden",
     "gap-8 px-4 py-10 md:px-6 md:py-12 lg:py-16",
     "in-data-[density=compact]:gap-6 in-data-[density=compact]:py-8",
@@ -101,7 +101,7 @@ const hasLogo = slots.has("logo") || Boolean(logoTitle) || slots.has("logoTitle"
             class="flex flex-col gap-2 in-data-[density=compact]:gap-1.5"
           >
             {group.links.slice(0, group.linkCount).map((link) => (
-              <Link href={link.href} underline="hover" class={clx(footer_link_class, "w-fit")}>
+              <Link href={link.href} underline="hover" class={cn(footer_link_class, "w-fit")}>
                 {link.label}
               </Link>
             ))}

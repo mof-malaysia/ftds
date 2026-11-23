@@ -3,7 +3,7 @@
 import React, { forwardRef } from "react";
 import { OTPField as OTPFieldPrimitive } from "@base-ui/react/otp-field";
 import { combobox_field_box_class } from "./combobox";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * OTPField takes a one-time code split across single-character slots. Pasting a
@@ -26,7 +26,7 @@ const OTPField = forwardRef<HTMLDivElement, OTPFieldProps>(
     <OTPFieldPrimitive.Root
       ref={ref}
       autoComplete={autoComplete}
-      className={clx("flex items-center gap-2", className)}
+      className={cn("flex items-center gap-2", className)}
       {...props}
     />
   ),
@@ -40,7 +40,7 @@ const OTPFieldSlot = forwardRef<
 >(({ className, ...props }, ref) => (
   <OTPFieldPrimitive.Input
     ref={ref}
-    className={clx(
+    className={cn(
       combobox_field_box_class,
       "text-center font-medium tabular-nums",
       // Taller than a text field: the digits are the whole task
@@ -55,7 +55,7 @@ OTPFieldSlot.displayName = "OTPFieldSlot";
 /** Visual divider between groups of slots, e.g. `123 – 456`. */
 const OTPFieldSeparator = ({ className }: { className?: string }) => (
   <OTPFieldPrimitive.Separator
-    className={clx("bg-otl-control h-0.5 w-3 rounded-full", className)}
+    className={cn("bg-otl-control h-0.5 w-3 rounded-full", className)}
   />
 );
 OTPFieldSeparator.displayName = "OTPFieldSeparator";

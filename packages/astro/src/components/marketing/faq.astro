@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Accordion from "@/components/ui/accordion.astro";
 import SectionHeading from "@/components/ui/section-heading.astro";
@@ -79,7 +79,7 @@ const hasContact = Boolean(contact) || Astro.slots.has("contact");
 
 <section
   aria-labelledby={titleId}
-  class={clx(band_cva({ tone }), className)}
+  class={cn(band_cva({ tone }), className)}
   {...props}
 >
   <div

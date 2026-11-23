@@ -9,7 +9,7 @@ import {
   combobox_input_cva,
   combobox_input_group_cva,
 } from "@/components/ui/combobox";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * NumberField takes a number: a quantity, a year, an amount. It formats as people
@@ -87,7 +87,7 @@ const NumberField = forwardRef<HTMLDivElement, NumberFieldProps>(
       <NumberFieldPrimitive.Root
         ref={ref}
         format={format}
-        className={clx("w-full", className)}
+        className={cn("w-full", className)}
         {...props}
       >
         <NumberFieldPrimitive.Group
@@ -113,7 +113,7 @@ const NumberField = forwardRef<HTMLDivElement, NumberFieldProps>(
               size,
               padding: "tight",
               align: resolvedAlign,
-              className: clx(
+              className: cn(
                 "tabular-nums",
                 !steppers && "px-2.5",
                 inputClassName,

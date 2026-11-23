@@ -23,7 +23,7 @@ import { Drawer, DrawerContent } from "./drawer";
 import { HamburgerMenuIcon } from "../../icons/hamburger-menu";
 import { ChevronDownIcon } from "../../icons/chevron-down";
 import { useControllableState, useMediaQuery } from "../../hooks";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * AppShell is the frame of an officer tool: a collapsible Sidebar on the Well
@@ -265,7 +265,7 @@ const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
             ...style,
           } as CSSProperties
         }
-        className={clx(
+        className={cn(
           // Sidebar spans both rows of column 1; header and main stack in column 2.
           // On narrow screens the sidebar is a drawer, so column 1 collapses to nothing.
           "bg-bg-gray-50 text-txt-black-900 font-body grid h-dvh w-full overflow-hidden",
@@ -288,7 +288,7 @@ const AppShellHeader = forwardRef<HTMLElement, ComponentProps<"header">>(
   ({ className, ...props }, ref) => (
     <header
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-gray-50 border-otl-gray-200 col-start-2 row-start-1 flex h-14 shrink-0 items-center gap-2 border-b px-4",
         "in-data-[density=compact]:h-12 in-data-[density=compact]:px-3",
         className,
@@ -304,7 +304,7 @@ const AppShellMain = forwardRef<HTMLElement, ComponentProps<"main">>(
   ({ className, ...props }, ref) => (
     <main
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-white p-surface col-start-2 row-start-2 min-h-0 overflow-y-auto",
         className,
       )}
@@ -348,7 +348,7 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
             <aside
               ref={ref}
               aria-label={label}
-              className={clx("flex min-h-0 flex-1 flex-col", className)}
+              className={cn("flex min-h-0 flex-1 flex-col", className)}
               {...props}
             >
               {children}
@@ -369,7 +369,7 @@ const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         data-collapsible={collapsed ? collapsible : undefined}
         // Hidden off canvas: keep it out of the tab order and the accessibility tree
         inert={collapsed && collapsible === "offcanvas" ? true : undefined}
-        className={clx(
+        className={cn(
           "group/sidebar bg-bg-washed text-txt-black-900 col-start-1 row-span-2 row-start-1 flex h-full min-h-0 flex-col overflow-hidden",
           "ease-standard transition-[width] duration-200 motion-reduce:transition-none",
           "w-[var(--sidebar-width,16rem)]",
@@ -393,7 +393,7 @@ const SidebarHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "flex shrink-0 flex-col gap-2 p-3 group-data-[collapsible=icon]/sidebar:items-center",
         className,
       )}
@@ -408,7 +408,7 @@ const SidebarContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "gap-stack-md flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-3 py-2",
         className,
       )}
@@ -422,7 +422,7 @@ const SidebarFooter = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "mt-auto flex shrink-0 flex-col gap-2 p-3 group-data-[collapsible=icon]/sidebar:items-center",
         className,
       )}
@@ -437,7 +437,7 @@ const SidebarGroup = forwardRef<HTMLDivElement, ComponentProps<"div">>(
     <div
       ref={ref}
       role="group"
-      className={clx("flex min-w-0 flex-col gap-1", className)}
+      className={cn("flex min-w-0 flex-col gap-1", className)}
       {...props}
     />
   ),
@@ -449,7 +449,7 @@ const SidebarGroupLabel = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "text-txt-black-700 text-label-compact flex h-8 shrink-0 items-center truncate px-3 font-medium",
         "group-data-[collapsible=icon]/sidebar:sr-only",
         className,
@@ -464,7 +464,7 @@ const SidebarMenu = forwardRef<HTMLUListElement, ComponentProps<"ul">>(
   ({ className, ...props }, ref) => (
     <ul
       ref={ref}
-      className={clx(
+      className={cn(
         "m-0 flex min-w-0 list-none flex-col gap-0.5 p-0",
         className,
       )}
@@ -476,7 +476,7 @@ SidebarMenu.displayName = "SidebarMenu";
 
 const SidebarMenuItem = forwardRef<HTMLLIElement, ComponentProps<"li">>(
   ({ className, ...props }, ref) => (
-    <li ref={ref} className={clx("relative min-w-0", className)} {...props} />
+    <li ref={ref} className={cn("relative min-w-0", className)} {...props} />
   ),
 );
 SidebarMenuItem.displayName = "SidebarMenuItem";
@@ -541,7 +541,7 @@ const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
       ref,
       props: mergeProps<"button">(
         {
-          className: clx(sidebar_menu_button_class, className),
+          className: cn(sidebar_menu_button_class, className),
           ...(render ? {} : { type: "button" as const }),
           ...(isActive && {
             "data-active": "",
@@ -569,7 +569,7 @@ const SidebarMenuCollapsible = forwardRef<
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Root
     ref={ref}
-    className={clx("flex min-w-0 flex-col", className)}
+    className={cn("flex min-w-0 flex-col", className)}
     {...props}
   />
 ));
@@ -590,7 +590,7 @@ const SidebarMenuCollapsibleTrigger = forwardRef<
   const element = (
     <CollapsiblePrimitive.Trigger
       ref={ref}
-      className={clx(
+      className={cn(
         sidebar_menu_button_class,
         "group/sidebar-trigger",
         className,
@@ -604,7 +604,7 @@ const SidebarMenuCollapsibleTrigger = forwardRef<
       {children}
       <ChevronDownIcon
         aria-hidden
-        className={clx(
+        className={cn(
           "text-txt-black-700 ml-auto size-4 shrink-0 transition-transform duration-200 motion-reduce:transition-none",
           "group-data-[collapsible=icon]/sidebar:hidden group-data-[panel-open]/sidebar-trigger:rotate-180",
         )}
@@ -623,7 +623,7 @@ const SidebarMenuSub = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <CollapsiblePrimitive.Panel
     ref={ref}
-    className={clx(
+    className={cn(
       "h-[var(--collapsible-panel-height)] overflow-hidden",
       "ease-standard transition-[height] duration-200 motion-reduce:transition-none",
       "data-[ending-style]:h-0 data-[starting-style]:h-0",

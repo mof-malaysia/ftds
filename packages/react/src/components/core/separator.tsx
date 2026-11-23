@@ -2,7 +2,7 @@
 
 import React, { ComponentRef, forwardRef } from "react";
 import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * Separator draws a single Hairline between two groups of content, horizontal or
@@ -43,7 +43,7 @@ const Separator = forwardRef<
         ref={ref}
         orientation={orientation}
         aria-hidden={decorative || undefined}
-        className={clx(
+        className={cn(
           "bg-otl-gray-200 shrink-0",
           orientation === "vertical" ? "w-px self-stretch" : "h-px w-full",
           className,

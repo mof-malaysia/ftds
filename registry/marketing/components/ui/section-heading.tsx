@@ -6,7 +6,7 @@ import {
   ReactNode,
   RefAttributes,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Button, type ButtonProps } from "@/components/ui/button";
 
 /**
@@ -57,13 +57,13 @@ const SectionHeading: ForwardRefExoticComponent<
     return (
       <div
         ref={ref}
-        className={clx("flex flex-col gap-3", className)}
+        className={cn("flex flex-col gap-3", className)}
         {...props}
       >
         {title && (
           <Heading
             id={titleId}
-            className={clx(
+            className={cn(
               "text-txt-black-900 font-semibold text-balance",
               responsive
                 ? "text-heading-xs md:text-heading-sm tracking-[-0.015em]"

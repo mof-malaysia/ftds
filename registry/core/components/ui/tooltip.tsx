@@ -6,7 +6,7 @@ import {
   RefAttributes,
 } from "react";
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { cva } from "class-variance-authority";
 
 interface TooltipProps extends Omit<TooltipPrimitive.Root.Props, "children"> {
@@ -103,7 +103,7 @@ const TooltipContent: ForwardRefExoticComponent<
       >
         <TooltipPrimitive.Popup
           ref={ref}
-          className={clx(tooltip_content_cva(), className)}
+          className={cn(tooltip_content_cva(), className)}
           {...props}
         >
           {children}
@@ -123,7 +123,7 @@ const TooltipArrow: ForwardRefExoticComponent<
 > = forwardRef(({ className, ...props }, ref) => (
   <TooltipPrimitive.Arrow
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-black-900 size-2.5 rotate-45",
       "data-[side=bottom]:-top-[5px] data-[side=top]:-bottom-[5px]",
       "data-[side=left]:-right-[5px] data-[side=right]:-left-[5px]",

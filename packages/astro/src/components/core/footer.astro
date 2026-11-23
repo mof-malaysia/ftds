@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import type { VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import { footer_cva, footer_link_class } from "@mof-malaysia/ftds-style/variants/footer";
 import Link from "@/components/ui/link.astro";
@@ -82,9 +82,9 @@ const copyrightText =
 const hasLinks = links.length > 0 || slots.has("links");
 ---
 
-<Tag class={clx(footer_cva({ tone }), className)} {...props}>
+<Tag class={cn(footer_cva({ tone }), className)} {...props}>
   <div
-    class={clx(
+    class={cn(
       "gap-stack-sm py-surface mx-auto flex w-full max-w-[1280px] flex-col px-4 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:px-6",
       "md:in-data-[density=compact]:gap-x-4",
       containerClass,

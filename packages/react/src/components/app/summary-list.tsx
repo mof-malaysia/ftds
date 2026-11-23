@@ -1,12 +1,12 @@
 import { ComponentProps, FunctionComponent } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 const SummaryList: FunctionComponent<ComponentProps<"div">> = ({
   children,
   className,
   ...props
 }) => (
-  <div className={clx("space-y-6", className)} {...props}>
+  <div className={cn("space-y-6", className)} {...props}>
     {children}
   </div>
 );
@@ -18,7 +18,7 @@ const SummaryListHeader: FunctionComponent<
   }
 > = ({ children, className, as: Heading = "h2", ...props }) => (
   <Heading
-    className={clx("text-title text-txt-black-900 font-semibold", className)}
+    className={cn("text-title text-txt-black-900 font-semibold", className)}
     {...props}
   >
     {children}
@@ -31,12 +31,7 @@ const SummaryListBody: FunctionComponent<ComponentProps<"table">> = ({
   ...props
 }) => (
   <table
-    className={clx(
-      "text-content w-full",
-      "min-h-[40px]",
-      "relative",
-      className,
-    )}
+    className={cn("text-content w-full", "min-h-[40px]", "relative", className)}
     {...props}
   >
     <tbody>{children}</tbody>
@@ -48,7 +43,7 @@ const SummaryListRow: FunctionComponent<ComponentProps<"tr">> = ({
   className,
   ...props
 }) => (
-  <tr className={clx("border-otl-gray-200 border-b", className)} {...props}>
+  <tr className={cn("border-otl-gray-200 border-b", className)} {...props}>
     {children}
   </tr>
 );
@@ -61,7 +56,7 @@ const SummaryListTerm: FunctionComponent<ComponentProps<"td">> = ({
   <th
     // scope equals row here to indicate the header relates to all the row it belongs to
     scope="row"
-    className={clx(
+    className={cn(
       // Ink Secondary: people read the term (DESIGN.md, the Dark-Enough Rule)
       "text-txt-black-700 min-w-[190px] py-3 pr-3 text-left align-top font-medium",
       className,
@@ -78,7 +73,7 @@ const SummaryListDetail: FunctionComponent<ComponentProps<"td">> = ({
   ...props
 }) => (
   <td
-    className={clx("text-txt-black-900 w-full py-3 pr-3 align-top", className)}
+    className={cn("text-txt-black-900 w-full py-3 pr-3 align-top", className)}
     {...props}
   >
     {children}
@@ -91,7 +86,7 @@ const SummaryListAction: FunctionComponent<ComponentProps<"td">> = ({
   ...props
 }) => (
   <td
-    className={clx(
+    className={cn(
       "py-1.5 pr-3 text-right align-top whitespace-nowrap",
       className,
     )}
@@ -107,7 +102,7 @@ const SummaryListAddition: FunctionComponent<ComponentProps<"td">> = ({
   ...props
 }) => (
   <td
-    className={clx("text-txt-black-900 min-w-36 py-2 pr-3", className)}
+    className={cn("text-txt-black-900 min-w-36 py-2 pr-3", className)}
     {...props}
   >
     {children}

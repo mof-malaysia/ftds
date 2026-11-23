@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import type { VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { card_cva } from "@/components/ui/card.variants";
 
 /**
@@ -47,7 +47,7 @@ const hasHeader =
   hasTitle || hasDescription || slots.has("action") || slots.has("header");
 ---
 
-<div class={clx(card_cva({ tone }), className)} {...props}>
+<div class={cn(card_cva({ tone }), className)} {...props}>
   {
     hasHeader && (
       <slot name="header">

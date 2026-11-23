@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import Sun from "@/components/ui/icons/sun.astro";
@@ -63,7 +63,7 @@ const dark = darkLabel ?? label(lang, "themeDark");
   data-ftds-requires-js
   data-ftds-theme-switch
   data-storage-key={storageKey}
-  class={clx("aspect-square shrink-0 rounded-md", className)}
+  class={cn("aspect-square shrink-0 rounded-md", className)}
   {...props}
 >
   {/* Name and icon follow the <html> class, so they are right from the first paint */}

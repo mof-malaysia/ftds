@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import ChevronDown from "@/components/ui/icons/chevron-down.astro";
 
 /**
@@ -72,19 +72,19 @@ const slotted = await Promise.all(
 );
 ---
 
-<div class={clx("font-body w-full", className)} {...props}>
+<div class={cn("font-body w-full", className)} {...props}>
   {
     items.map((item, i) => (
       <details
         name={name}
         open={open.has(values[i]!)}
-        class={clx(
+        class={cn(
           "border-otl-gray-200 bg-bg-white group/accordion mt-px overflow-hidden border-b first:mt-0",
           itemClass,
         )}
       >
         <summary
-          class={clx(
+          class={cn(
             "text-txt-black-700 font-body bg-bg-white hover:text-txt-black-900 group-open/accordion:text-txt-black-900 flex cursor-pointer list-none items-center justify-between py-4 text-base leading-none font-medium hover:underline [&::-webkit-details-marker]:hidden",
             "focus-ring rounded-xs outline-none focus-visible:underline",
             triggerClass,
@@ -97,7 +97,7 @@ const slotted = await Promise.all(
           />
         </summary>
         <div
-          class={clx(
+          class={cn(
             "text-txt-black-700 font-body text-content overflow-hidden pr-9 pb-4 font-normal",
             contentClass,
           )}

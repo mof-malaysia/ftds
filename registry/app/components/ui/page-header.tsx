@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * PageHeader opens a service or officer page: an optional breadcrumb or back link,
@@ -32,7 +32,7 @@ const PageHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "font-body flex w-full flex-wrap items-start",
         "gap-x-stack-lg gap-y-stack-md",
         className,
@@ -46,7 +46,7 @@ PageHeader.displayName = "PageHeader";
 /** Slot above the title for a Breadcrumb or a back link. Takes the full row. */
 const PageHeaderNav = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={clx("basis-full", className)} {...props} />
+    <div ref={ref} className={cn("basis-full", className)} {...props} />
   ),
 );
 PageHeaderNav.displayName = "PageHeaderNav";
@@ -56,7 +56,7 @@ const PageHeaderContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx("flex min-w-0 flex-[1_1_20rem] flex-col gap-2", className)}
+      className={cn("flex min-w-0 flex-[1_1_20rem] flex-col gap-2", className)}
       {...props}
     />
   ),
@@ -92,7 +92,7 @@ const PageHeaderTitle = forwardRef<HTMLHeadingElement, PageHeaderTitleProps>(
   ({ className, size, as: Comp = "h1", ...props }, ref) => (
     <Comp
       ref={ref}
-      className={clx(page_header_title_cva({ size }), className)}
+      className={cn(page_header_title_cva({ size }), className)}
       {...props}
     />
   ),
@@ -106,7 +106,7 @@ const PageHeaderDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx("text-content text-txt-black-700 max-w-[70ch]", className)}
+    className={cn("text-content text-txt-black-700 max-w-[70ch]", className)}
     {...props}
   />
 ));
@@ -117,7 +117,7 @@ const PageHeaderActions = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "gap-stack-sm flex shrink-0 flex-wrap items-center",
         className,
       )}
@@ -132,7 +132,7 @@ const PageHeaderMeta = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "text-content text-txt-black-700 flex basis-full flex-wrap items-center gap-x-4 gap-y-2",
         className,
       )}

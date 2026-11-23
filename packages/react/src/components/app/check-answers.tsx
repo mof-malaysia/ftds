@@ -13,7 +13,7 @@ import { Checkbox } from "../core/checkbox";
 import { Field, FieldError, FieldLabel } from "../core/field";
 import { Link } from "../core/link";
 import { ErrorSummary } from "./error-summary";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * CheckAnswers is the last page before submitting an application: every answer,
@@ -123,7 +123,7 @@ const CheckAnswers = forwardRef<HTMLFormElement, CheckAnswersProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={onSubmit}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex w-full max-w-3xl flex-col gap-10",
           className,
         )}

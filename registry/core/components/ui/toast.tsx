@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Toast as ToastPrimitives } from "@base-ui/react/toast";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { cva, VariantProps } from "class-variance-authority";
 import { FunctionComponent, ReactNode, useEffect } from "react";
 import { CheckCircleIcon } from "@/components/ui/icons/check-circle";
@@ -58,7 +58,7 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
     <ToastPrimitives.Portal>
       <ToastPrimitives.Viewport
         ref={ref}
-        className={clx(toast_viewport_cva({ className }))}
+        className={cn(toast_viewport_cva({ className }))}
         {...props}
       />
     </ToastPrimitives.Portal>
@@ -133,7 +133,7 @@ ToastRoot.displayName = "ToastRoot";
 // >(({ className, ...props }, ref) => (
 //   <ToastPrimitives.Action
 //     ref={ref}
-//     className={clx(toast_action_cva({ className }))}
+//     className={cn(toast_action_cva({ className }))}
 //     {...props}
 //   />
 // ));
@@ -152,7 +152,7 @@ const ToastClose = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Close
     ref={ref}
-    className={clx(toast_close_cva({ className }))}
+    className={cn(toast_close_cva({ className }))}
     toast-close=""
     // Pass aria-label to translate it
     aria-label="Close"
@@ -185,7 +185,7 @@ const ToastTitle = React.forwardRef<
   return (
     <ToastPrimitives.Title
       ref={ref}
-      className={clx(toast_title_cva({ variant, className }))}
+      className={cn(toast_title_cva({ variant, className }))}
       {...props}
     />
   );
@@ -203,7 +203,7 @@ const ToastDescription = React.forwardRef<
   return (
     <ToastPrimitives.Description
       ref={ref}
-      className={clx("text-txt-black-700 text-body-sm", className)}
+      className={cn("text-txt-black-700 text-body-sm", className)}
       {...props}
     />
   );

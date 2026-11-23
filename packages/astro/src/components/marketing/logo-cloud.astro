@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 
 /**
  * LogoCloud lists the agencies or partners that use a service, as a quiet
@@ -45,7 +45,7 @@ const {
 } = Astro.props;
 
 const hasTitle = Boolean(title) || Astro.slots.has("title");
-const imgClass = clx(
+const imgClass = cn(
   "h-10 w-auto max-w-[160px] object-contain select-none md:h-12",
   muted &&
     "opacity-70 grayscale transition-[opacity,filter] duration-200 ease-standard group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0 motion-reduce:transition-none",
@@ -54,7 +54,7 @@ const imgClass = clx(
 
 <section
   aria-labelledby={hasTitle ? titleId : undefined}
-  class={clx("bg-bg-gray-50 font-body w-full", className)}
+  class={cn("bg-bg-gray-50 font-body w-full", className)}
   {...props}
 >
   <div

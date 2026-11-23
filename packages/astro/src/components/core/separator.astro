@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Separator draws a single Hairline between two groups of content, horizontal
@@ -35,7 +35,7 @@ const {
 <div
   role={decorative ? "none" : "separator"}
   aria-orientation={decorative ? undefined : orientation}
-  class={clx(
+  class={cn(
     "bg-otl-gray-200 shrink-0",
     orientation === "vertical" ? "w-px self-stretch" : "h-px w-full",
     className,

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Accordion as AccordionBase } from "@base-ui/react/accordion";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { ChevronDownIcon } from "@/components/ui/icons/chevron-down";
 
 /**
@@ -104,7 +104,7 @@ const AccordionItem = React.forwardRef<
   Omit<AccordionBase.Item.Props, "className"> & { className?: string }
 >(({ children, className, ...props }, forwardedRef) => (
   <AccordionBase.Item
-    className={clx(
+    className={cn(
       "border-otl-gray-200 bg-bg-white group mt-px overflow-hidden border-b first:mt-0",
       "outline-none",
       className,
@@ -123,7 +123,7 @@ const AccordionTrigger = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <AccordionBase.Header className="flex">
     <AccordionBase.Trigger
-      className={clx(
+      className={cn(
         "text-txt-black-700 font-body bg-bg-white hover:text-txt-black-900 data-[panel-open]:text-txt-black-900 group flex flex-1 cursor-pointer items-center justify-between py-4 text-base leading-none font-medium hover:underline",
         "focus-ring rounded-xs outline-none focus-visible:underline",
         "data-[disabled]:text-txt-black-disabled data-[disabled]:cursor-not-allowed data-[disabled]:hover:no-underline",
@@ -147,7 +147,7 @@ const AccordionContent = React.forwardRef<
   Omit<AccordionBase.Panel.Props, "className"> & { className?: string }
 >(({ children, className, ...props }, forwardedRef) => (
   <AccordionBase.Panel
-    className={clx(
+    className={cn(
       "text-txt-black-700 font-body text-content relative overflow-hidden font-normal",
       "h-[var(--accordion-panel-height)] transition-[height,opacity] duration-300 ease-out",
       "data-[ending-style]:h-0 data-[starting-style]:h-0",
@@ -156,9 +156,7 @@ const AccordionContent = React.forwardRef<
     {...props}
     ref={forwardedRef}
   >
-    <div className={clx("overflow-hidden pr-9 pb-4", className)}>
-      {children}
-    </div>
+    <div className={cn("overflow-hidden pr-9 pb-4", className)}>{children}</div>
   </AccordionBase.Panel>
 ));
 AccordionContent.displayName = "AccordionContent";

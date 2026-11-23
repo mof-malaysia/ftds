@@ -3,7 +3,7 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { CheckIcon } from "@/components/ui/icons/check";
 import { MinusIcon } from "@/components/ui/icons/minus";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, ForwardRefExoticComponent, useState } from "react";
 
@@ -113,7 +113,7 @@ const Checkbox: ForwardRefExoticComponent<CheckboxProps> = forwardRef<
     return (
       <CheckboxPrimitive.Root
         ref={ref}
-        className={clx(checkbox_cva({ size }), className)}
+        className={cn(checkbox_cva({ size }), className)}
         checked={checked === undefined ? undefined : checked === true}
         defaultChecked={defaultChecked === true}
         indeterminate={isIndeterminate}

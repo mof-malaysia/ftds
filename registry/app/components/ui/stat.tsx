@@ -2,7 +2,7 @@ import React, { ComponentProps, ReactNode, forwardRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ArrowUpIcon } from "@/components/ui/icons/arrow-up";
 import { ArrowDownIcon } from "@/components/ui/icons/arrow-down";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Stat is a KPI tile for officer dashboards: a label, one big figure in tabular
@@ -55,7 +55,7 @@ const Stat = forwardRef<HTMLDivElement, StatProps>(
   ({ className, surface, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(stat_cva({ surface }), className)}
+      className={cn(stat_cva({ surface }), className)}
       {...props}
     />
   ),
@@ -67,7 +67,7 @@ const StatLabel = forwardRef<HTMLParagraphElement, ComponentProps<"p">>(
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={clx("text-label-md text-txt-black-700 font-medium", className)}
+      className={cn("text-label-md text-txt-black-700 font-medium", className)}
       {...props}
     />
   ),
@@ -86,7 +86,7 @@ const StatValue = forwardRef<HTMLParagraphElement, StatValueProps>(
   ({ className, prefix, suffix, children, ...props }, ref) => (
     <p
       ref={ref}
-      className={clx(
+      className={cn(
         "text-headline text-txt-black-900 flex flex-wrap items-baseline gap-x-1.5 font-semibold tabular-nums",
         className,
       )}
@@ -161,7 +161,7 @@ const StatDelta = forwardRef<HTMLParagraphElement, StatDeltaProps>(
     return (
       <p
         ref={ref}
-        className={clx(stat_delta_cva({ tone }), className)}
+        className={cn(stat_delta_cva({ tone }), className)}
         {...props}
       >
         {Icon && <Icon className="size-4 shrink-0" aria-hidden />}
@@ -178,7 +178,7 @@ const StatDescription = forwardRef<HTMLParagraphElement, ComponentProps<"p">>(
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={clx("text-content text-txt-black-700", className)}
+      className={cn("text-content text-txt-black-700", className)}
       {...props}
     />
   ),
@@ -196,7 +196,7 @@ const StatGroup = forwardRef<HTMLDivElement, StatGroupProps>(
     <div
       ref={ref}
       style={{ "--stat-min": minItemWidth, ...style } as React.CSSProperties}
-      className={clx(
+      className={cn(
         "grid grid-cols-[repeat(auto-fit,minmax(min(100%,var(--stat-min)),1fr))]",
         "gap-stack-md",
         className,

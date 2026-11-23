@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * SectionHeading is the title and intro shared by the marketing blocks: an h2
@@ -53,11 +53,11 @@ const hasChildren = Astro.slots.has("default");
 
 {
   (hasTitle || hasDescription || hasChildren) && (
-    <div class={clx("flex flex-col gap-3", className)} {...props}>
+    <div class={cn("flex flex-col gap-3", className)} {...props}>
       {hasTitle && (
         <Heading
           id={titleId}
-          class={clx(
+          class={cn(
             "text-txt-black-900 font-semibold text-balance",
             responsive
               ? "text-heading-xs md:text-heading-sm tracking-[-0.015em]"

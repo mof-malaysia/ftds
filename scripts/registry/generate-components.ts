@@ -116,7 +116,7 @@ function generateUtilsItem(): RegistryComponent {
     $schema: REGISTRY_ITEM_SCHEMA,
     name: "utils",
     type: "registry:lib",
-    dependencies: withVersions(["tailwind-merge"]),
+    dependencies: withVersions(["clsx", "tailwind-merge"]),
     registryDependencies: [],
     files: [
       {

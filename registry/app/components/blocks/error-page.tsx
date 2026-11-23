@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CheckIcon } from "@/components/ui/icons/check";
 import { CopyIcon } from "@/components/ui/icons/copy";
 import { useCopy } from "@/lib/ftds/hooks";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * ErrorPage is the whole-page message for when a service can't show what was
@@ -167,7 +167,7 @@ const ErrorPage = forwardRef<HTMLElement, ErrorPageProps>(
     return (
       <section
         ref={ref}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 px-surface mx-auto flex w-full max-w-xl flex-col py-16",
           "in-data-[density=compact]:py-10",
           className,

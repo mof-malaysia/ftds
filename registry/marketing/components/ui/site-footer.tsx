@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Link } from "@/components/ui/link";
 import { footer_link_class } from "@/components/ui/footer";
 
@@ -46,7 +46,7 @@ const SiteFooter: ForwardRefExoticComponent<SiteFooterProps> = forwardRef(
       ref,
       props: mergeProps<"footer">(
         {
-          className: clx(
+          className: cn(
             "bg-bg-washed font-body text-content text-txt-black-700 flex flex-col print:hidden",
             "gap-8 px-4 py-10 md:px-6 md:py-12 lg:py-16",
             "in-data-[density=compact]:gap-6 in-data-[density=compact]:py-8",
@@ -65,7 +65,7 @@ const SiteFooterSection: ForwardRefExoticComponent<SiteFooterSectionProps> =
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "mx-auto grid w-full max-w-[1280px] grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 lg:grid-cols-12",
           "in-data-[density=compact]:gap-y-6",
           className,
@@ -84,7 +84,7 @@ const SiteFooterInfo: ForwardRefExoticComponent<SiteFooterInfoProps> =
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "gap-stack-md col-span-full flex flex-col lg:col-start-1 lg:col-end-5 lg:pr-8",
           className,
         )}
@@ -120,7 +120,7 @@ const SiteFooterLinkGroup: ForwardRefExoticComponent<SiteFooterLinkGroupProps> =
           if (!isValidElement(child)) return child;
           const childElement = child as ReactElement<{ className?: string }>;
           return cloneElement(childElement, {
-            className: clx("w-fit", childElement.props.className),
+            className: cn("w-fit", childElement.props.className),
             key: index,
           });
         });
@@ -128,7 +128,7 @@ const SiteFooterLinkGroup: ForwardRefExoticComponent<SiteFooterLinkGroupProps> =
       return (
         <div
           ref={ref}
-          className={clx(
+          className={cn(
             "gap-stack-sm col-span-1 flex flex-col md:col-span-1 lg:col-span-2",
             className,
           )}
@@ -161,7 +161,7 @@ const SiteFooterLogo: ForwardRefExoticComponent<SiteFooterLogoProps> =
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "text-txt-black-900 flex items-center gap-x-3",
           className,
         )}
@@ -183,7 +183,7 @@ const SiteFooterLink: ForwardRefExoticComponent<SiteFooterLinkProps> =
         ref={ref}
         href={href}
         underline="hover"
-        className={clx(footer_link_class, className)}
+        className={cn(footer_link_class, className)}
         {...props}
       >
         {children}

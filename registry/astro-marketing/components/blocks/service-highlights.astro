@@ -2,7 +2,7 @@
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Section from "@/components/ui/section.astro";
 import {
   icon_badge_cva,
@@ -83,7 +83,7 @@ const {
   <slot name="title" slot="title" />
   <slot name="description" slot="description" />
   <ul
-    class={clx(
+    class={cn(
       "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6",
       columns === 3 && "lg:grid-cols-3",
     )}
@@ -93,7 +93,7 @@ const {
         const Icon = service.icon;
         return (
           <li
-            class={clx(
+            class={cn(
               linked_item_class,
               "bg-bg-white hover:bg-bg-white-hover p-surface flex flex-col gap-4 rounded-lg transition-colors duration-150 motion-reduce:transition-none",
             )}
@@ -120,7 +120,7 @@ const {
               )}
             </div>
             {service.facts?.length ? (
-              <ul class={clx(meta_row_class, "mt-auto")}>
+              <ul class={cn(meta_row_class, "mt-auto")}>
                 {service.facts.map((fact) => <li>{fact}</li>)}
               </ul>
             ) : null}

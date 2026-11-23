@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { grid_cva } from "@/components/ui/stats-band.variants";
 
@@ -54,7 +54,7 @@ const StatsBand: ForwardRefExoticComponent<
       <section
         ref={ref}
         aria-labelledby={title ? titleId : undefined}
-        className={clx("bg-bg-washed font-body w-full", className)}
+        className={cn("bg-bg-washed font-body w-full", className)}
         {...props}
       >
         <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-4 py-12 md:px-6 md:py-16">

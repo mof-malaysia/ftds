@@ -16,7 +16,7 @@ import {
   input_cva,
   input_icon_cva,
 } from "@mof-malaysia/ftds-style/variants/input";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Input as InputPrimitive } from "@base-ui/react/input";
@@ -61,7 +61,7 @@ const Input: ForwardRefExoticComponent<
     }, [children]);
 
     return (
-      <div className={clx(input_box_class, className)}>
+      <div className={cn(input_box_class, className)}>
         <div className="flex w-full flex-row">
           <InputContext.Provider value={{ size }}>
             {prepend}

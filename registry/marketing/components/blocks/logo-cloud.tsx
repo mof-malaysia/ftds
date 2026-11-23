@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * LogoCloud lists the agencies or partners that use a service, as a quiet
@@ -42,7 +42,7 @@ const LogoCloud: ForwardRefExoticComponent<
   LogoCloudProps & RefAttributes<HTMLElement>
 > = forwardRef(({ title, logos, muted = true, className, ...props }, ref) => {
   const titleId = useId();
-  const imgClass = clx(
+  const imgClass = cn(
     "h-10 w-auto max-w-[160px] object-contain select-none md:h-12",
     muted &&
       "opacity-70 grayscale transition-[opacity,filter] duration-200 ease-standard group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0 motion-reduce:transition-none",
@@ -52,7 +52,7 @@ const LogoCloud: ForwardRefExoticComponent<
     <section
       ref={ref}
       aria-labelledby={title ? titleId : undefined}
-      className={clx("bg-bg-gray-50 font-body w-full", className)}
+      className={cn("bg-bg-gray-50 font-body w-full", className)}
       {...props}
     >
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-8 px-4 py-12 md:px-6 md:py-16">
@@ -81,7 +81,7 @@ const LogoCloud: ForwardRefExoticComponent<
                 {logo.href ? (
                   <a
                     href={logo.href}
-                    className={clx(
+                    className={cn(
                       "group flex items-center rounded-md outline-none",
                       "focus-visible:outline-fr-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-solid",
                     )}

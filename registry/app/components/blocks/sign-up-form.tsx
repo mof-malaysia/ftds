@@ -17,7 +17,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { ErrorSummary } from "@/components/ui/error-summary";
 import { PasswordInput } from "@/components/ui/password-input";
 import { CheckCircleIcon } from "@/components/ui/icons/check-circle";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * SignUpForm creates a citizen or business account: full name, email, an optional
@@ -95,7 +95,7 @@ const PasswordRules = forwardRef<HTMLUListElement, PasswordRulesProps>(
   ) => (
     <ul
       ref={ref}
-      className={clx("m-0 flex list-none flex-col gap-1 p-0", className)}
+      className={cn("m-0 flex list-none flex-col gap-1 p-0", className)}
       {...props}
     >
       {rules.map((rule) => {
@@ -104,7 +104,7 @@ const PasswordRules = forwardRef<HTMLUListElement, PasswordRulesProps>(
           <li
             key={rule.id}
             data-met={met || undefined}
-            className={clx(
+            className={cn(
               "text-content flex items-center gap-2",
               met ? "text-txt-success" : "text-txt-black-700",
             )}
@@ -336,7 +336,7 @@ const SignUpForm = forwardRef<HTMLFormElement, SignUpFormProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={handleSubmit}
-        className={clx("gap-stack-lg flex flex-col", className)}
+        className={cn("gap-stack-lg flex flex-col", className)}
         {...props}
       >
         {summary.length > 0 && (
