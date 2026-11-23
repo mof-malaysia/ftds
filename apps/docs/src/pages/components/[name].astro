@@ -9,10 +9,9 @@ import StoryStage, { preloadStory } from "~/components/StoryStage.tsx";
 import CommandBlock from "~/components/CommandBlock.astro";
 import Toc from "~/components/Toc.astro";
 import { getCatalog, type Entry } from "~/lib/catalog";
-import { astroProps } from "../../../../../scripts/llms/astro";
 import { storyId } from "~/lib/stories";
 import { href } from "~/lib/url";
-import { finishHtml, sectionsOf } from "~/lib/markdown";
+import { finishHtml, pairStackSections, sectionsOf } from "~/lib/markdown";
 import { getRefs } from "~/lib/refs";
 import { firstSentence } from "~/lib/text";
 import { t } from "~/lib/i18n";
@@ -39,25 +38,26 @@ const WIDE_EXAMPLES = new Set(["stepper"]);
 // Bars that span a page: at sheet width they would collapse to their phone layout
 const PAGE_WIDE = new Set(["navbar", "footer", "site-footer", "masthead", "announce-bar", "phase-banner", "carousel"]);
 const NEVER_MEASURE = new Set(["cookie-banner", "masthead", "skiplink", "separator", "scroll-area", "language-switcher"]);
+// Each stack with its own catalogue page links to it
+const bothPages = Boolean(entry.page && entry.astroPage);
 const stacks = [entry.react && "react", entry.astro && "astro"].filter(Boolean) as ("react" | "astro")[];
 const reactStories = entry.react?.stories;
 const astroStories = entry.astro?.stories;
 
 if (reactStories) await preloadStory(reactStories.file);
 
-// Split the catalogue page at each h2: shared guidance reads for both stacks,
-// React's usage and API only when React is showing.
-const page = entry.page ? await getEntry("catalogue", entry.page) : undefined;
+// Split each stack's catalogue page at its h2s and pair them: shared guidance
+// reads for both stacks, the rest only under its own.
 const refs = await getRefs();
-const html = finishHtml(page?.rendered?.html ?? "", refs, entry.name);
-const sections = sectionsOf(html).filter((section) => section.id).map((section) => ({
-  ...section,
-  reactOnly: /^(usage|api|example)/i.test(section.label),
-}));
+const sectionsFor = async (id?: string) => {
+  const page = id ? await getEntry("catalogue", id) : undefined;
+  return sectionsOf(finishHtml(page?.rendered?.html ?? "", refs, entry.name)).filter((s) => s.id);
+};
+const sections = pairStackSections(
+  ...(await Promise.all([sectionsFor(entry.page), sectionsFor(entry.astroPage)])),
+);
 const first = sections.filter((s) => /^when to use/i.test(s.label));
 const rest = sections.filter((s) => !first.includes(s));
-
-const props = astroProps(entry.astro?.source);
 
 const specimenReact = opensOnLoad ? undefined : reactStories?.stories[0];
 const specimenAstro = astroStories?.stories[0];
@@ -81,11 +81,10 @@ const sourceUrl = entry.react
   : `https://github.com/mof-malaysia/ftds/tree/main/packages/astro/src/components/${entry.tier}/${entry.name}.astro`;
 
 const toc = [
-  ...first.map((s) => ({ id: s.id, label: s.label })),
+  ...first.map((s) => ({ id: s.id, label: s.label, only: s.for })),
   { id: "install", label: t("install") },
   ...(specimenReact || specimenAstro ? [{ id: "examples", label: t("examples") }] : []),
-  ...rest.map((s) => ({ id: s.id, label: s.label, only: s.reactOnly && entry.astro ? ("react" as const) : undefined })),
-  ...(props.length ? [{ id: "astro-props", label: "Props", only: "astro" as const }] : []),
+  ...rest.map((s) => ({ id: s.id, label: s.label, only: s.for })),
 ];
 ---
 
@@ -135,7 +134,7 @@ const toc = [
     <article class="prose">
       {stacks.length === 1 && <p class="doc-only">{stacks[0] === "react" ? t("reactOnly") : t("astroOnly")}</p>}
 
-      {first.map((s) => <section set:html={s.html} />)}
+      {first.map((s) => <section data-for={s.for} set:html={s.html} />)}
 
       <h2 id="install">{t("install")}</h2>
       {entry.react && <div data-for="react"><CommandBlock command={entry.react.install} /></div>}
@@ -156,31 +155,12 @@ const toc = [
         )
       }
 
-      {rest.map((s) => <section data-for={s.reactOnly && entry.astro ? "react" : undefined} set:html={s.html} />)}
-
-      {
-        props.length > 0 && (
-          <section data-for="astro">
-            <h2 id="astro-props">Props</h2>
-            <table>
-              <thead><tr><th>Prop</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                {props.map((p) => (
-                  <tr>
-                    <td><code>{p.name}</code>{p.required && " (required)"}</td>
-                    <td><code>{p.type}</code></td>
-                    <td>{p.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-        )
-      }
+      {rest.map((s) => <section data-for={s.for} set:html={s.html} />)}
 
       <ul class="doc-links">
         {storybookUrl && <li><a href={storybookUrl}>{t("storybook")}</a></li>}
-        {entry.page && <li><a href={href(`/components/${entry.name}.md`)}>{t("markdown")}</a></li>}
+        {entry.page && <li data-for={bothPages ? "react" : undefined}><a href={href(`/components/${entry.page}.md`)}>{t("markdown")}</a></li>}
+        {entry.astroPage && <li data-for={bothPages ? "astro" : undefined}><a href={href(`/components/${entry.astroPage}.md`)}>{t("markdown")}</a></li>}
         <li><a href={sourceUrl}>{t("source")}</a></li>
       </ul>
 

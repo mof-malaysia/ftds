@@ -1,8 +1,7 @@
 /**
  * Read the API of an Astro component from its source text: the props its
  * `Props` type declares, their defaults, its slots and the shared cva variants
- * it takes. Plain string parsing with no Node or TypeScript imports, so the
- * docs site can use it too (apps/docs/src/lib/catalog.ts).
+ * it takes. Plain string parsing with no Node or TypeScript imports.
  */
 
 export interface PropRow {

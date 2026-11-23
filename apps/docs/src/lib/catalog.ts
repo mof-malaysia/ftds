@@ -20,9 +20,11 @@ export interface Entry {
   tier: "core" | "app" | "marketing";
   block: boolean;
   react?: { install: string; importLine?: string; stories?: StoryFile };
-  astro?: { install: string; stories?: StoryFile; source?: string };
-  /** The id of this item's page in the `catalogue` collection. */
+  astro?: { install: string; stories?: StoryFile };
+  /** The id of this item's React page in the `catalogue` collection. */
   page?: string;
+  /** The id of this item's Astro page (`astro-<name>`) in the `catalogue` collection. */
+  astroPage?: string;
 }
 
 const CATEGORY_ORDER: string[] = [...CATEGORIES, "Blocks", "Site blocks"];
@@ -42,20 +44,6 @@ const categoryOf = new Map(
     text.match(/^category:\s*(.+)$/m)?.[1]?.trim(),
   ]),
 );
-
-const astroSources = import.meta.glob<string>(
-  "../../../../packages/astro/src/components/*/*.astro",
-  {
-    query: "?raw",
-    import: "default",
-    eager: true,
-  },
-);
-
-const astroSource = (name: string) =>
-  Object.entries(astroSources).find(([path]) =>
-    path.endsWith(`/${name}.astro`),
-  )?.[1];
 
 type Item = (typeof core)["items"][number];
 const isComponent = (item: Item) =>
@@ -114,10 +102,11 @@ async function build(): Promise<Entry[]> {
       const astro = {
         install: `npx shadcn@latest add @ftds/${item.name}`,
         stories: stories.astro.get(name),
-        source: astroSource(name),
       };
+      const astroPage = pages.has(item.name) ? item.name : undefined;
       if (existing) {
         existing.astro = astro;
+        existing.astroPage = astroPage;
       } else {
         entries.set(name, {
           name,
@@ -127,6 +116,7 @@ async function build(): Promise<Entry[]> {
           tier,
           block: item.type === "registry:block",
           astro,
+          astroPage,
         });
       }
     }
