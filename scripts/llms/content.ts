@@ -49,6 +49,8 @@ const REACT_SRC = path.join(ROOT_DIR, "packages/react/src");
 const ASTRO_SRC = path.join(ROOT_DIR, "packages/astro/src");
 export const GUIDES_DIR = path.join(ROOT_DIR, "docs/guides");
 export const INTRO_FILE = path.join(ROOT_DIR, "docs/llms-intro.md");
+/** Agent skills, one folder each, published as `<folder>-skill` registry items. */
+export const SKILLS_DIR = path.join(ROOT_DIR, "skills");
 
 export { CATEGORIES, type Category };
 
@@ -247,6 +249,29 @@ export function readItems(entries = readRegistry()): Item[] {
       },
     ];
   });
+}
+
+/** Every file of every agent skill: its skill, its path under skills/, and its text. */
+export function readSkills(): {
+  skill: string;
+  path: string;
+  file: string;
+  text: string;
+}[] {
+  return fs
+    .readdirSync(SKILLS_DIR, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => {
+      const file = path.join(entry.parentPath, entry.name);
+      const rel = path.relative(SKILLS_DIR, file).split(path.sep).join("/");
+      return {
+        skill: rel.split("/")[0]!,
+        path: rel,
+        file,
+        text: fs.readFileSync(file, "utf-8"),
+      };
+    })
+    .sort((a, b) => a.path.localeCompare(b.path));
 }
 
 export function readGuides(): (Doc & { slug: string })[] {

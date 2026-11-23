@@ -13,7 +13,7 @@ import {
  * Build the registry the shadcn CLI reads straight from GitHub
  * (https://ui.shadcn.com/docs/registry/github):
  *   registry/<name>/registry.json + files   core, app, marketing, icons, style,
- *                                           astro-core, astro-marketing, astro-icons
+ *                                           astro-core, astro-marketing, astro-icons, agent
  *   registry.json                           root, includes all of the above
  * Items install as `mof-malaysia/ftds/<item>`, so names are unique across all
  * of them (Astro items are prefixed `astro-`). scripts/registry/build-json.ts turns the same files into the JSON
@@ -30,6 +30,7 @@ const REGISTRIES: RegistryName[] = [
   "astro-core",
   "astro-marketing",
   "astro-icons",
+  "agent",
 ];
 
 /** Every item name across the registries; throws on a duplicate. */
@@ -73,6 +74,8 @@ function main() {
     "Generating Astro registries (astro-core, astro-marketing, astro-icons)...",
   );
   execSync("tsx scripts/registry/generate-astro.ts", { stdio: "inherit" });
+  console.log("Generating agent registry...");
+  execSync("tsx scripts/registry/generate-agent.ts", { stdio: "inherit" });
   console.log("");
 
   const total = assertUniqueNames();

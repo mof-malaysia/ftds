@@ -1,4 +1,5 @@
 import { transform } from "sucrase";
+import { COLOUR_UTILITY, PALETTE } from "./palette";
 
 /**
  * Checks a screen before it renders. The model never sees the preview, so
@@ -211,12 +212,6 @@ function editDistance(a: string, b: string): number {
   }
   return previous[b.length]!;
 }
-
-/** Tailwind's own colour names. FTDS screens use tokens (bg-bg-*, text-txt-*, border-otl-*) instead. */
-const PALETTE =
-  "red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone|primary|danger|success|warning";
-const COLOUR_UTILITY =
-  "bg|text|border|border-[trblxy]|ring|outline|fill|stroke|divide|from|via|to|decoration|accent|caret|placeholder";
 
 /** Design rules from DESIGN.md that can be checked in code. Each pattern runs per line. */
 const RULES: { rule: string; pattern: RegExp; message: string }[] = [

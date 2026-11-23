@@ -28,6 +28,7 @@ export const startLinks: NavLink[] = [
   { title: "Styling", href: href("/start/styling"), id: "start/styling" },
   { title: "Forms", href: href("/start/forms"), id: "start/forms" },
   { title: "Layouts", href: href("/start/layouts"), id: "start/layouts" },
+  { title: "AI agents", href: href("/start/agents"), id: "start/agents" },
 ];
 
 export const foundationLinks: NavLink[] = [

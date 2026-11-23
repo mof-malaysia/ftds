@@ -1,0 +1,56 @@
+import { useState, type ReactNode } from "react";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup } from "@/components/ui/toggle-group";
+
+/**
+ * The prototype picker for React: shows one variant at a time, full size,
+ * with a floating bar to switch. The chosen variant is kept in the URL
+ * (?variant=stepped), so a shared link opens it. ToggleGroup handles the
+ * keyboard: arrow keys move between variants, Space or Enter shows one.
+ * Copy this file into the prototype folder unchanged.
+ */
+
+export interface Variant {
+  /** Used in the URL, e.g. "stepped". */
+  id: string;
+  /** The direction's name, e.g. "Stepped". */
+  name: string;
+  render: () => ReactNode;
+}
+
+function variantFromUrl(): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("variant");
+}
+
+export function PrototypePicker({ variants }: { variants: Variant[] }) {
+  const [current, setCurrent] = useState(() => variantFromUrl());
+  const variant = variants.find((v) => v.id === current) ?? variants[0];
+  if (!variant) return null;
+
+  return (
+    <>
+      {variant.render()}
+      <div className="bg-bg-dialog shadow-context-menu fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-lg p-2">
+        <ToggleGroup
+          aria-label="Prototype variant"
+          value={[variant.id]}
+          onValueChange={(value) => {
+            const next = value[0] as string | undefined;
+            if (!next) return;
+            setCurrent(next);
+            const url = new URL(window.location.href);
+            url.searchParams.set("variant", next);
+            window.history.replaceState(null, "", url);
+          }}
+        >
+          {variants.map((v) => (
+            <Toggle key={v.id} value={v.id}>
+              {v.name}
+            </Toggle>
+          ))}
+        </ToggleGroup>
+      </div>
+    </>
+  );
+}

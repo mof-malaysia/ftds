@@ -1,0 +1,38 @@
+---
+/**
+ * The prototype picker for Astro: a floating bar of links, one per variant.
+ * Each variant has its own page (`<base>/<id>`), so it works on a static site
+ * and a shared link opens the variant it names. Copy this file into the
+ * prototype folder unchanged.
+ */
+import Button from "@/components/ui/button.astro";
+
+interface Props {
+  variants: { id: string; name: string }[];
+  /** The id of the variant on this page. */
+  current: string;
+  /** The prototype's path, e.g. "/prototypes/apply". */
+  base: string;
+}
+
+const { variants, current, base } = Astro.props;
+---
+
+<nav
+  aria-label="Prototype variant"
+  class="bg-bg-dialog shadow-context-menu fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-1 rounded-lg p-2"
+>
+  {
+    variants.map((v) => (
+      <Button
+        href={`${base}/${v.id}`}
+        variant="default-ghost"
+        size="medium"
+        aria-current={v.id === current ? "page" : undefined}
+        class="aria-[current=page]:bg-bg-washed-active aria-[current=page]:text-txt-black-900"
+      >
+        {v.name}
+      </Button>
+    ))
+  }
+</nav>
