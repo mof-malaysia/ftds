@@ -36,7 +36,7 @@
       "type": "registry:file",
       "dependencies": [],
       "registryDependencies": [
-        "mof-malaysia/ftds/ftds-skill"
+        "mof-malaysia/ftds/ftds-skill#v0.3.0"
       ],
       "files": [
         {
