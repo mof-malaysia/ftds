@@ -56,6 +56,7 @@ Then check the result the way FTDS does, in the browser if you can:
 
 - Light and dark mode (if the project has dark mode), and phone width.
 - Keyboard: every control is reachable with Tab, in order, with a visible focus ring.
+- Read every description, hint and callout, and delete each one the screen works without.
 - Squint at it. If you still see a grid of grey rectangles, there are too many lines and boxes.
 
 In your summary, list any project component you added and any FTDS block you edited, so a reviewer can look at them first.
