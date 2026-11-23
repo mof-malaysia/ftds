@@ -1,8 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": [
-    "//"
-  ],
+  "extends": ["//"],
   "tasks": {
     "build": {
       "inputs": [
@@ -10,6 +8,7 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
+        "$TURBO_ROOT$/skills/**",
         "$TURBO_ROOT$/registry/**",
         "$TURBO_ROOT$/packages/astro/src/**",
         "$TURBO_ROOT$/packages/astro/paths.mjs",
@@ -23,6 +22,7 @@
         "$TURBO_ROOT$/scripts/llms/**",
         "$TURBO_ROOT$/scripts/registry/**",
         "$TURBO_ROOT$/docs/**",
+        "$TURBO_ROOT$/skills/**",
         "$TURBO_ROOT$/registry/**",
         "$TURBO_ROOT$/packages/astro/src/**",
         "$TURBO_ROOT$/packages/astro/paths.mjs",

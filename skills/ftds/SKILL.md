@@ -13,6 +13,8 @@ FTDS is a design system for Malaysian government services, installed with the sh
 2. **Read the index.** [llms.txt](https://mof-malaysia.github.io/ftds/llms.txt) lists every guide and component with a one-line summary. Use only the parts and props a component's page lists; don't guess names from shadcn or Radix.
 3. **Check what is installed.** Look in `components/ui`, `components/blocks` and `lib/ftds` before installing. If a file there has a comment saying it was changed from FTDS, keep the change. Install missing items at the version `components.json` already pins.
 
+If the user isn't sure what the screen should look like, suggest `/ftds-explore` (the `ftds-explore` skill, when installed) to build versions to choose from before you build one.
+
 ## Choose the smallest step that works
 
 Go down this list and stop at the first step that does the job:

@@ -1,55 +1,85 @@
 import { COLOUR_UTILITY, PALETTE } from "../../apps/mcp/src/shared/palette";
-import { INTRO_FILE, SKILL, readDoc, readSkill } from "../llms/content";
-import { describeItem, writeRegistry, REGISTRY_ITEM_SCHEMA } from "./utils";
+import { INTRO_FILE, readDoc, readSkills } from "../llms/content";
+import {
+  describeItem,
+  registryItemRef,
+  writeRegistry,
+  REGISTRY_ITEM_SCHEMA,
+} from "./utils";
 
 /**
- * Generate the agent registry: the `ftds-skill` item, the agent skill in
- * skills/ftds/, installed to .claude/skills/ftds/ in a project. Two
- * placeholders in SKILL.md are filled so the skill can't drift from the rest
- * of FTDS:
- *   {{rules}}    the body of docs/llms-intro.md, the rules at the top of llms.txt
- *   {{palette}}  a grep -E pattern for raw colours, from the playground's checks
+ * Generate the agent registry: one `<folder>-skill` item per agent skill in
+ * skills/, installed to .claude/skills/<folder>/ in a project. Placeholders in
+ * the files are filled so the skills can't drift from the rest of FTDS.
  */
 
-/**
- * Raw palette colours (`bg-blue-600`, `hover:text-gray-500`), as POSIX ERE.
- * grep has no lookbehind, so the utility must start a word: `bg-bg-primary-600`
- * is a token, not `bg-primary-600`.
- */
-const palette = `(^|[^[:alnum:]_-])(${COLOUR_UTILITY})-(${PALETTE})-[0-9]{2,3}`;
+/** Registry metadata per skill folder; `requires` lists other skill folders. */
+const SKILLS: Record<
+  string,
+  { title: string; description: string; requires?: string[] }
+> = {
+  ftds: {
+    title: "FTDS agent skill",
+    description:
+      "Teaches coding agents to build with FTDS: which docs to read, the smallest step that does the job, the design rules, and how to extend FTDS in a project without breaking its look.",
+  },
+  "ftds-explore": {
+    title: "FTDS explore skill",
+    description:
+      "Adds /ftds-explore, which builds structurally different working versions of a screen from FTDS behind a picker, to compare, choose from or iterate on.",
+    requires: ["ftds"],
+  },
+};
 
-function fill(text: string): string {
-  const placeholders: Record<string, string> = {
-    rules: readDoc(INTRO_FILE).body.trim(),
-    palette,
-  };
+const PLACEHOLDERS: Record<string, string> = {
+  /** The rules at the top of llms.txt. */
+  rules: readDoc(INTRO_FILE).body.trim(),
+  /**
+   * Raw palette colours (`bg-blue-600`, `hover:text-gray-500`) as POSIX ERE,
+   * from the playground's checks. grep has no lookbehind, so the utility must
+   * start a word: `bg-bg-primary-600` is a token, not `bg-primary-600`.
+   */
+  palette: `(^|[^[:alnum:]_-])(${COLOUR_UTILITY})-(${PALETTE})-[0-9]{2,3}`,
+};
+
+function fill(text: string, file: string): string {
   return text.replace(/\{\{(\w+)\}\}/g, (match, key: string) => {
-    if (!(key in placeholders)) throw new Error(`Unknown ${match} in ${SKILL}`);
-    return placeholders[key]!;
+    const value = PLACEHOLDERS[key];
+    if (value === undefined) throw new Error(`Unknown ${match} in ${file}`);
+    return value;
   });
 }
 
-writeRegistry("agent", [
-  describeItem(
+const files = readSkills();
+for (const { skill } of files) {
+  if (!SKILLS[skill]) throw new Error(`skills/${skill} has no entry in SKILLS`);
+}
+
+const items = Object.entries(SKILLS).map(([skill, meta]) => {
+  const own = files.filter((f) => f.skill === skill);
+  if (!own.length)
+    throw new Error(`SKILLS lists ${skill}, but skills/${skill} is empty`);
+  return describeItem(
     {
       $schema: REGISTRY_ITEM_SCHEMA,
-      name: "ftds-skill",
+      name: `${skill}-skill`,
       type: "registry:file",
       dependencies: [],
-      registryDependencies: [],
-      files: readSkill().map(({ name, text }) => ({
-        path: `${SKILL}/${name}`,
-        content: name === "SKILL.md" ? fill(text) : text,
+      registryDependencies: (meta.requires ?? []).map((name) =>
+        registryItemRef(`${name}-skill`),
+      ),
+      files: own.map(({ path, text }) => ({
+        path: `skills/${path}`,
+        content: path.endsWith(".md") ? fill(text, path) : text,
         type: "registry:file",
-        target: `~/.claude/${SKILL}/${name}`,
+        target: `~/.claude/skills/${path}`,
       })),
     },
-    {
-      title: "FTDS agent skill",
-      description:
-        "An agent skill, installed to .claude/skills/ftds/, that teaches coding agents to build with FTDS: which docs to read, the smallest step that does the job, the design rules, and how to extend FTDS in a project without breaking its look.",
-      categories: ["agent"],
-    },
-  ),
-]);
-console.log("🤖 Generated agent registry: ftds-skill");
+    { title: meta.title, description: meta.description, categories: ["agent"] },
+  );
+});
+
+writeRegistry("agent", items);
+console.log(
+  `🤖 Generated agent registry: ${items.map((i) => i.name).join(", ")}`,
+);

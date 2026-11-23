@@ -6,7 +6,7 @@
     {
       "name": "ftds-skill",
       "title": "FTDS agent skill",
-      "description": "An agent skill, installed to .claude/skills/ftds/, that teaches coding agents to build with FTDS: which docs to read, the smallest step that does the job, the design rules, and how to extend FTDS in a project without breaking its look.",
+      "description": "Teaches coding agents to build with FTDS: which docs to read, the smallest step that does the job, the design rules, and how to extend FTDS in a project without breaking its look.",
       "categories": [
         "agent"
       ],
@@ -23,6 +23,41 @@
           "path": "skills/ftds/SKILL.md",
           "type": "registry:file",
           "target": "~/.claude/skills/ftds/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ftds-explore-skill",
+      "title": "FTDS explore skill",
+      "description": "Adds /ftds-explore, which builds structurally different working versions of a screen from FTDS behind a picker, to compare, choose from or iterate on.",
+      "categories": [
+        "agent"
+      ],
+      "type": "registry:file",
+      "dependencies": [],
+      "registryDependencies": [
+        "mof-malaysia/ftds/ftds-skill"
+      ],
+      "files": [
+        {
+          "path": "skills/ftds-explore/references/picker.astro.txt",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds-explore/references/picker.astro.txt"
+        },
+        {
+          "path": "skills/ftds-explore/references/picker.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds-explore/references/picker.md"
+        },
+        {
+          "path": "skills/ftds-explore/references/picker.tsx.txt",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds-explore/references/picker.tsx.txt"
+        },
+        {
+          "path": "skills/ftds-explore/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/ftds-explore/SKILL.md"
         }
       ]
     }

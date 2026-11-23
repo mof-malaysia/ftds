@@ -6,7 +6,7 @@ import {
   examples,
   readGuides,
   readItems,
-  readSkill,
+  readSkills,
   rel,
   ROOT_DIR,
   type Doc,
@@ -237,11 +237,18 @@ async function main() {
       doc: guide,
       lang: "tsx" as const,
     })),
-    ...readSkill().map(({ name, file, text }) => ({
-      name: `skill-${name.replace(/\.md$/, "").replaceAll("/", "-")}`,
-      doc: { file, title: name, description: "", body: text },
-      lang: "tsx" as const,
-    })),
+    // Skill docs by their tsx fences; code files (picker.tsx.txt, shipped as
+    // .txt so a project's tooling skips them) as whole files
+    ...readSkills().map(({ path: skillPath, file, text }) => {
+      const ext = path.extname(file.replace(/\.txt$/, "")).slice(1);
+      const lang = ext === "astro" ? ("astro" as const) : ("tsx" as const);
+      const body = ext === "md" ? text : `\`\`\`${lang}\n${text}\`\`\`\n`;
+      return {
+        name: `skill-${skillPath.replace(/(\.\w+)+$/, "").replaceAll("/", "-")}-${ext}`,
+        doc: { file, title: skillPath, description: "", body },
+        lang,
+      };
+    }),
   ].filter(({ name }) => !only || only.has(name));
   // Separate folders, so tsc and astro check run at once
   const [react, astro] = await Promise.all([
