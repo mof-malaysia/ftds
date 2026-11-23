@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { cva } from "class-variance-authority";
-import { clx, splitPositionerProps, type PositionerProps } from "@/lib/ftds/utils";
+import { cn, splitPositionerProps, type PositionerProps } from "@/lib/ftds/utils";
 import {
   menu_group_label_class,
   menu_item_cva,
@@ -379,7 +379,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 
     return (
       // The clear button can't sit inside the trigger button, so both share a frame
-      <div className={clx("relative flex w-full min-w-0", className)}>
+      <div className={cn("relative flex w-full min-w-0", className)}>
         <SelectPrimitive.Trigger
           ref={ref}
           className={select_trigger_cva({ variant, size })}
@@ -402,7 +402,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           <button
             type="button"
             aria-label={clearLabel}
-            className={clx(
+            className={cn(
               "text-txt-black-700 hover:text-txt-black-900 hover:bg-bg-washed focus-ring absolute top-1/2 grid size-6 -translate-y-1/2 cursor-pointer place-content-center rounded-sm",
               size === "small" ? "right-8" : "right-9",
             )}
@@ -476,7 +476,7 @@ const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(
       <SelectPrimitive.Value
         ref={ref}
         placeholder={placeholder}
-        className={clx(
+        className={cn(
           "min-w-0 flex-1 truncate text-inherit",
           "data-[placeholder]:text-txt-black-500",
           className,
@@ -526,7 +526,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             ref={ref}
             className={menu_popup_cva({
               // The Menu panel, at least as wide as the trigger
-              className: clx(
+              className: cn(
                 "font-body relative max-h-[min(20rem,var(--available-height))] min-w-[max(8rem,var(--anchor-width))]",
                 className,
               ),
@@ -560,7 +560,7 @@ const SelectGroupTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.GroupLabel
     ref={ref}
-    className={clx(menu_group_label_class, className)}
+    className={cn(menu_group_label_class, className)}
     {...props}
   />
 ));
@@ -629,7 +629,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         ref={ref}
         value={value}
         disabled={disabled}
-        className={clx(
+        className={cn(
           select_item_cva({ size, hasDescription: !!description }),
           className,
         )}
@@ -669,7 +669,7 @@ const SelectSeparator = React.forwardRef<HTMLDivElement, SelectSeparatorProps>(
   ({ className, ...props }, ref) => (
     <SelectPrimitive.Separator
       ref={ref}
-      className={clx(menu_separator_class, className)}
+      className={cn(menu_separator_class, className)}
       {...props}
     />
   ),
@@ -683,7 +683,7 @@ const SelectHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-dialog sticky -top-1 z-10 -mx-1 -mt-1 px-1 pt-1 pb-1",
       className,
     )}
@@ -699,7 +699,7 @@ const SelectFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-dialog border-otl-gray-200 sticky -bottom-1 z-10 -mx-1 mt-1 -mb-1 border-t p-1",
       className,
     )}

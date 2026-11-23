@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Prose styles long-form content written in Markdown or a CMS (an article, a
@@ -28,7 +28,7 @@ const { as: Tag = "div", class: className, ...props } = Astro.props;
 ---
 
 <Tag
-  class={clx(
+  class={cn(
     "font-body text-txt-black-900 text-body-lg max-w-[70ch]",
     // Flow: space before blocks, more before headings
     "[&>*+*]:mt-5 [&>*+h2]:mt-10 [&>*+h3]:mt-8",

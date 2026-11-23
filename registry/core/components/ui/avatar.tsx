@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * Avatar shows a person's photo, falling back to their initials on a soft FTDS Blue
@@ -60,9 +60,9 @@ const Avatar = forwardRef<
   return (
     <AvatarPrimitive.Root
       ref={ref}
-      className={clx(
+      className={cn(
         avatar_cva({ size: size ?? group?.size }),
-        group && clx("ring-2", group.ringClassName),
+        group && cn("ring-2", group.ringClassName),
         className,
       )}
       {...props}
@@ -77,7 +77,7 @@ const AvatarImage = forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Image
     ref={ref}
-    className={clx("size-full object-cover", className)}
+    className={cn("size-full object-cover", className)}
     {...props}
   />
 ));
@@ -93,7 +93,7 @@ const AvatarFallback = forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Fallback
     ref={ref}
-    className={clx(
+    className={cn(
       "flex size-full items-center justify-center uppercase [&_svg]:size-[60%]",
       className,
     )}
@@ -127,7 +127,7 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
       <AvatarGroupContext.Provider value={context}>
         <div
           ref={ref}
-          className={clx(
+          className={cn(
             "flex items-center",
             size === "small"
               ? "-space-x-1.5"

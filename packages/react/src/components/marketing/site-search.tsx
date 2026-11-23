@@ -13,7 +13,7 @@ import { Button } from "../core/button";
 import { Input, InputIcon } from "../core/input";
 import { Kbd } from "../core/kbd";
 import { SearchIcon } from "../../icons/search";
-import { clx, isEditable } from "../../utils";
+import { cn, isEditable } from "../../utils";
 
 /**
  * SiteSearch is the "search this site" box for agency sites and service landing pages:
@@ -115,12 +115,12 @@ const SiteSearch = forwardRef<HTMLFormElement, SiteSearchProps>(
         ref={ref}
         role="search"
         onSubmit={onSubmit}
-        className={clx("font-body flex w-full flex-col gap-2", className)}
+        className={cn("font-body flex w-full flex-col gap-2", className)}
         {...props}
       >
         <label
           htmlFor={id}
-          className={clx(
+          className={cn(
             "text-txt-black-900 text-label-sm font-medium",
             !showLabel && "sr-only",
           )}

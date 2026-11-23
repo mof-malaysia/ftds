@@ -1,11 +1,11 @@
 import { ClockIcon } from "@mof-malaysia/ftds-react/icon";
-import { clx } from "@mof-malaysia/ftds-react/utils";
+import { cn } from "@mof-malaysia/ftds-react/utils";
 // import exampleImage from "../assets/addon-library.png";
 
 export default function Article() {
   return (
     <div
-      className={clx(
+      className={cn(
         "w-full pt-16 pb-16",
         "grid grid-cols-4 gap-4.5 px-4.5",
         "md:gap-6 md:px-6 md:max-lg:grid-cols-8",
@@ -14,7 +14,7 @@ export default function Article() {
       )}
     >
       <div
-        className={clx(
+        className={cn(
           "col-span-full flex flex-col justify-start",
           "md:mx-auto md:w-[640px]",
         )}

@@ -38,7 +38,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "@/components/ui/icons/calendar";
 import { ChevronLeftIcon } from "@/components/ui/icons/chevron-left";
 import { ChevronRightIcon } from "@/components/ui/icons/chevron-right";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import {
   CalendarChevron,
   calendar_cell_size,
@@ -194,26 +194,26 @@ export type DateRangePickerProps = {
   "aria-describedby"?: string;
 };
 
-const preset_button = clx(
+const preset_button = cn(
   "text-txt-black-700 text-label-sm hover:bg-bg-washed-active hover:text-txt-black-900 flex h-8 shrink-0 cursor-pointer items-center whitespace-nowrap rounded-md px-3 text-left",
   "aria-pressed:bg-bg-primary-50 aria-pressed:text-txt-primary transition-colors duration-150 motion-reduce:transition-none focus-ring",
 );
 
 /** Month name and year in each caption: quiet buttons that open the jump grids. */
-const caption_button = clx(
+const caption_button = cn(
   "text-txt-black-900 text-label-md hover:bg-bg-washed inline-flex h-7 cursor-pointer items-center rounded-md px-1.5 font-semibold",
   "transition-colors duration-150 motion-reduce:transition-none focus-ring",
 );
 
 /** A month or year in the jump grids; the month or year on show takes the Blue Wash. */
-const jump_cell = clx(
+const jump_cell = cn(
   "text-txt-black-900 text-label-sm hover:bg-bg-washed flex min-h-9 cursor-pointer items-center justify-center rounded-md",
   "aria-[current=true]:bg-bg-primary-50 aria-[current=true]:text-txt-primary aria-[current=true]:font-semibold",
   "disabled:text-txt-black-disabled disabled:cursor-not-allowed disabled:bg-transparent",
   "transition-colors duration-150 motion-reduce:transition-none focus-ring",
 );
 
-const jump_nav = clx(calendar_nav_button, "[&>svg]:size-4");
+const jump_nav = cn(calendar_nav_button, "[&>svg]:size-4");
 
 type Jump = {
   view: "month" | "year";
@@ -233,7 +233,7 @@ const range_classnames = {
   nav: "pointer-events-none absolute inset-x-0 top-0 flex justify-between [&>button]:pointer-events-auto",
   selected: "selected",
   // The preview band: Well, rounded at the pointer
-  day: clx(
+  day: cn(
     calendar_day_classnames.day,
     "[&.preview:not(.selected)]:bg-bg-washed [&.preview-end]:rounded-r-md",
   ),
@@ -454,7 +454,7 @@ const DateRangePicker = ({
             aria-labelledby={ariaLabelledby}
             aria-describedby={ariaDescribedby}
             aria-invalid={invalid || undefined}
-            className={clx(
+            className={cn(
               "whitespace-nowrap",
               invalid && "ring-fr-danger ring",
               className,
@@ -481,7 +481,7 @@ const DateRangePicker = ({
       >
         {/* On phones the column is one month wide; the presets row scrolls inside it */}
         <div
-          className={clx(
+          className={cn(
             calendar_cell_size,
             "flex w-[calc(var(--cal-cell)*7+1.5rem)] max-w-full flex-col sm:w-auto sm:flex-row",
           )}
@@ -514,7 +514,7 @@ const DateRangePicker = ({
             <div className="relative">
               <div
                 inert={jump ? true : undefined}
-                className={clx(jump && "invisible")}
+                className={cn(jump && "invisible")}
               >
                 <CaptionContext.Provider value={captionContext}>
                   <DayPicker

@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { card_cva } from "@/components/ui/card.variants";
 
 /**
@@ -29,7 +29,7 @@ interface CardProps
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, tone, ...props }, ref) => (
-    <div ref={ref} className={clx(card_cva({ tone }), className)} {...props} />
+    <div ref={ref} className={cn(card_cva({ tone }), className)} {...props} />
   ),
 );
 Card.displayName = "Card";
@@ -39,7 +39,7 @@ const CardHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "grid auto-rows-min grid-cols-[1fr_auto] items-start gap-x-4 gap-y-1",
         "[&>:not([data-slot=card-action])]:col-start-1",
         className,
@@ -60,7 +60,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, as: Comp = "h3", ...props }, ref) => (
     <Comp
       ref={ref}
-      className={clx("text-title text-txt-black-900 font-semibold", className)}
+      className={cn("text-title text-txt-black-900 font-semibold", className)}
       {...props}
     />
   ),
@@ -72,7 +72,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, ComponentProps<"p">>(
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={clx("text-content text-txt-black-700", className)}
+      className={cn("text-content text-txt-black-700", className)}
       {...props}
     />
   ),
@@ -85,7 +85,7 @@ const CardAction = forwardRef<HTMLDivElement, ComponentProps<"div">>(
     <div
       ref={ref}
       data-slot="card-action"
-      className={clx(
+      className={cn(
         "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
         className,
       )}
@@ -97,7 +97,7 @@ CardAction.displayName = "CardAction";
 
 const CardContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={clx("text-content", className)} {...props} />
+    <div ref={ref} className={cn("text-content", className)} {...props} />
   ),
 );
 CardContent.displayName = "CardContent";
@@ -107,7 +107,7 @@ const CardFooter = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx("gap-stack-sm flex flex-wrap items-center", className)}
+      className={cn("gap-stack-sm flex flex-wrap items-center", className)}
       {...props}
     />
   ),

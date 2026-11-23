@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -16,7 +16,7 @@ const SheetOverlay = React.forwardRef<
   Omit<SheetPrimitive.Backdrop.Props, "className"> & { className?: string }
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Backdrop
-    className={clx(
+    className={cn(
       "data-[open]:animate-in data-[closed]:animate-out data-[closed]:fill-mode-forwards data-[closed]:fade-out-0 data-[open]:fade-in-0 bg-scrim/40 z-overlay fixed inset-0",
       // Match the panel (300ms close, 500ms open) so the overlay never finishes first
       "data-[closed]:duration-300 data-[open]:duration-500",
@@ -65,7 +65,7 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
       {overlay && <SheetOverlay />}
       <SheetPrimitive.Popup
         ref={ref}
-        className={clx(sheetVariants({ side }), className)}
+        className={cn(sheetVariants({ side }), className)}
         {...props}
       >
         {children}
@@ -80,7 +80,7 @@ const SheetHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={clx(
+    className={cn(
       "flex flex-col space-y-2 text-center sm:text-left",
       className,
     )}
@@ -94,7 +94,7 @@ const SheetFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={clx(
+    className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className,
     )}
@@ -109,7 +109,7 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Title
     ref={ref}
-    className={clx("text-title text-txt-black-900 font-semibold", className)}
+    className={cn("text-title text-txt-black-900 font-semibold", className)}
     {...props}
   />
 ));
@@ -121,7 +121,7 @@ const SheetDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Description
     ref={ref}
-    className={clx("text-txt-black-700 text-content", className)}
+    className={cn("text-txt-black-700 text-content", className)}
     {...props}
   />
 ));

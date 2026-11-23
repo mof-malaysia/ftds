@@ -1,7 +1,7 @@
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { ComponentProps, ForwardRefExoticComponent, forwardRef } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { ChevronRightIcon } from "../../icons/chevron-right";
 import { EllipsisIcon } from "../../icons/ellipsis";
 
@@ -33,7 +33,7 @@ const Breadcrumb: ForwardRefExoticComponent<ComponentProps<"nav">> = forwardRef(
   ({ className, children, "aria-label": ariaLabel, ...props }, ref) => (
     <nav ref={ref} aria-label={ariaLabel ?? "Breadcrumb"} {...props}>
       <ol
-        className={clx(
+        className={cn(
           "font-body text-label-sm flex min-w-0 flex-wrap items-center gap-1",
           className,
         )}
@@ -49,7 +49,7 @@ const BreadcrumbItem: ForwardRefExoticComponent<ComponentProps<"li">> =
   forwardRef(({ className, ...props }, ref) => (
     <li
       ref={ref}
-      className={clx(
+      className={cn(
         "inline-flex max-w-[200px] min-w-0 items-center",
         className,
       )}
@@ -67,7 +67,7 @@ const BreadcrumbLink: ForwardRefExoticComponent<useRender.ComponentProps<"a">> =
       ref,
       props: mergeProps<"a">(
         {
-          className: clx(
+          className: cn(
             "text-txt-black-700 hover:text-txt-black-900 truncate rounded-sm font-medium",
             "underline-offset-4 decoration-from-font hover:underline",
             "transition-colors duration-150 motion-reduce:transition-none focus-ring",
@@ -88,7 +88,7 @@ const BreadcrumbPage: ForwardRefExoticComponent<ComponentProps<"span">> =
       ref={ref}
       aria-current="page"
       title={titleOf(title, props.children)}
-      className={clx("text-txt-black-900 truncate font-medium", className)}
+      className={cn("text-txt-black-900 truncate font-medium", className)}
       {...props}
     />
   ));
@@ -102,7 +102,7 @@ const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={clx(
+    className={cn(
       "text-txt-black-500 inline-flex shrink-0 items-center [&>svg]:size-4",
       className,
     )}
@@ -124,7 +124,7 @@ const BreadcrumbEllipsis = ({
   <span
     role="presentation"
     aria-hidden="true"
-    className={clx(
+    className={cn(
       "text-txt-black-700 inline-flex size-6 items-center justify-center [&>svg]:size-4",
       className,
     )}

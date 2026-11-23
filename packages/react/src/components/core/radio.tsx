@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 type RadioSize = "small" | "medium" | "large";
 const DEFAULT_SIZE = "medium";
@@ -47,7 +47,7 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(
     return (
       <RadioContext.Provider value={{ size, disabled }}>
         <RadioGroupPrimitive
-          className={clx("grid gap-3", className)}
+          className={cn("grid gap-3", className)}
           disabled={disabled}
           ref={ref}
           {...props}
@@ -65,7 +65,7 @@ const RadioItem: FunctionComponent<
   return (
     // `disabled` reaches the RadioButton through context; a div has no disabled state
     <RadioItemContext.Provider value={{ disabled: itemDisabled ?? disabled }}>
-      <div className={clx("flex items-center gap-3", className)} {...props}>
+      <div className={cn("flex items-center gap-3", className)} {...props}>
         {children}
       </div>
     </RadioItemContext.Provider>
@@ -86,7 +86,7 @@ const RadioButton = React.forwardRef<
   return (
     <RadioPrimitive.Root
       ref={ref}
-      className={clx(
+      className={cn(
         // DESIGN.md, Inputs: 1.5px Control Edge stroke; checked fills FTDS Blue with an
         // On FTDS Blue dot (theme tokens, so dark mode follows); disabled is a Well circle with a Hairline
         "bg-bg-white border-otl-control hover:border-otl-control-hover inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border-[1.5px]",
@@ -123,7 +123,7 @@ const RadioLabel = ({
   const { disabled } = useContext(RadioItemContext);
   return (
     <label
-      className={clx(
+      className={cn(
         // An option reads as content: Ink, regular weight, density-aware at medium
         "text-txt-black-900 cursor-pointer",
         size === "small" && "text-label-sm",
@@ -148,7 +148,7 @@ const RadioHintText = ({
   const { size } = useContext(RadioContext);
   return (
     <p
-      className={clx(
+      className={cn(
         // Hints are Ink Secondary (DESIGN.md: never lighter for text the user
         // reads), even on a disabled option: it often says why it's disabled
         "text-txt-black-700",

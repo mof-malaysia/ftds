@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 const spinnerVariants = cva(
   [
@@ -63,7 +63,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
         ? { "aria-hidden": true }
         : { role: "status", "aria-label": label })}
       {...props}
-      className={clx("relative flex items-center justify-center", className)}
+      className={cn("relative flex items-center justify-center", className)}
     >
       <div className={spinnerVariants({ size, color })}></div>
     </div>

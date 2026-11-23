@@ -18,7 +18,7 @@ import {
   MenuSubmenuTrigger,
 } from "@/components/ui/menu";
 import {
-  clx,
+  cn,
   splitPositionerProps,
   type PositionerProps,
   type WithClassName,
@@ -53,7 +53,7 @@ const ContextMenuTrigger = forwardRef<HTMLDivElement, ContextMenuTriggerProps>(
   ({ className, ...props }, ref) => (
     <ContextMenuPrimitive.Trigger
       ref={ref}
-      className={clx("select-none", className)}
+      className={cn("select-none", className)}
       {...props}
     />
   ),

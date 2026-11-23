@@ -2,7 +2,7 @@
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Button from "@/components/ui/button.astro";
 import Section from "@/components/ui/section.astro";
 import { icon_badge_cva } from "@/components/ui/section.variants";
@@ -75,7 +75,7 @@ const shown = options.slice(0, 3);
   <slot name="title" slot="title" />
   <slot name="description" slot="description" />
   <ul
-    class={clx(
+    class={cn(
       "grid grid-cols-1 gap-4 md:gap-6",
       shown.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2",
     )}

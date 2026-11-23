@@ -1,5 +1,5 @@
 import { ComponentProps, forwardRef } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { tag_cva } from "@/components/ui/tag.variants";
 
 /**
@@ -41,13 +41,13 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
   ) => (
     <span
       ref={ref}
-      className={clx(tag_cva({ variant, size }), className)}
+      className={cn(tag_cva({ variant, size }), className)}
       {...props}
     >
       {dot && (
         <span
           aria-hidden
-          className={clx(
+          className={cn(
             "inline-block shrink-0 rounded-full bg-current",
             size === "large" ? "size-2" : "size-1.5",
           )}

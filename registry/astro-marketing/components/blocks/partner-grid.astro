@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Section from "@/components/ui/section.astro";
 import { linked_item_class, stretched_link_class } from "@/components/ui/section.variants";
@@ -80,14 +80,14 @@ const opensNewTab = label(resolveLang(langProp, Astro.currentLocale), "opensInNe
   <slot name="title" slot="title" />
   <slot name="description" slot="description" />
   <ul
-    class={clx(
+    class={cn(
       "grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6",
       columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3",
     )}
   >
     {
       partners.map((partner) => (
-        <li class={clx(linked_item_class, "bg-bg-white p-surface flex flex-col gap-4 rounded-lg")}>
+        <li class={cn(linked_item_class, "bg-bg-white p-surface flex flex-col gap-4 rounded-lg")}>
           {partner.logo && (
             <img
               src={partner.logo}

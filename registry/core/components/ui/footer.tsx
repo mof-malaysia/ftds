@@ -7,7 +7,7 @@ import {
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Link } from "@/components/ui/link";
 import {
   footer_cva,
@@ -53,10 +53,10 @@ const Footer: ForwardRefExoticComponent<FooterProps> = forwardRef(
       ref,
       props: mergeProps<"footer">(
         {
-          className: clx(footer_cva({ tone }), className),
+          className: cn(footer_cva({ tone }), className),
           children: (
             <div
-              className={clx(
+              className={cn(
                 "gap-stack-sm py-surface mx-auto flex w-full max-w-[1280px] flex-col px-4 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:px-6",
                 "md:in-data-[density=compact]:gap-x-4",
                 containerClassName,
@@ -80,7 +80,7 @@ const FooterCopyright: ForwardRefExoticComponent<
 > = forwardRef(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx("text-txt-black-900 font-medium", className)}
+    className={cn("text-txt-black-900 font-medium", className)}
     {...props}
   />
 ));
@@ -93,7 +93,7 @@ const FooterMeta: ForwardRefExoticComponent<
 > = forwardRef(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx("text-txt-black-700 tabular-nums", className)}
+    className={cn("text-txt-black-700 tabular-nums", className)}
     {...props}
   />
 ));
@@ -111,7 +111,7 @@ const FooterLinks: ForwardRefExoticComponent<
   <nav
     ref={ref}
     aria-label="Footer"
-    className={clx("md:last:ml-auto", className)}
+    className={cn("md:last:ml-auto", className)}
     {...props}
   >
     <ul className="flex flex-wrap gap-x-6 gap-y-2 in-data-[density=compact]:gap-x-4">
@@ -129,7 +129,7 @@ const FooterLink: ForwardRefExoticComponent<FooterLinkProps> = forwardRef(
       <Link
         ref={ref}
         underline="hover"
-        className={clx(footer_link_class, className)}
+        className={cn(footer_link_class, className)}
         {...props}
       />
     </li>

@@ -3,7 +3,7 @@ import { Matcher } from "react-day-picker";
 import { enGB, ms } from "date-fns/locale";
 import { format } from "date-fns";
 import { useControllableState, useMediaQuery } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { CalendarIcon } from "../../icons/calendar";
 import { Button, button_cva, ButtonIcon } from "../core/button";
 import { Calendar } from "./calendar";
@@ -98,7 +98,7 @@ const DatePicker: FC<DatePickerProps> = ({
       aria-labelledby={ariaLabelledby}
       aria-describedby={ariaDescribedby}
       aria-invalid={invalid || undefined}
-      className={clx(invalid && "ring-fr-danger ring", className)}
+      className={cn(invalid && "ring-fr-danger ring", className)}
     />
   );
   const triggerContent = (

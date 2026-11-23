@@ -42,7 +42,7 @@ import { DownloadIcon } from "../../icons/download";
 import { SearchIcon } from "../../icons/search";
 import { UserIcon } from "../../icons/user";
 import { useControllableState } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * WorkQueue is an officer's list of cases to work through: search, a status and an
@@ -315,7 +315,7 @@ const WorkQueueInner = <T,>(
     // table inside carries the queue's name
     <div
       ref={ref}
-      className={clx("font-body flex min-w-0 flex-col gap-3", className)}
+      className={cn("font-body flex min-w-0 flex-col gap-3", className)}
       {...props}
     >
       {/* Filters (with none, e.g. a dashboard preview, the row is left out) */}
@@ -476,7 +476,7 @@ const WorkQueueInner = <T,>(
             {columns.map((column, i) => (
               <TableHead
                 key={column.id}
-                className={clx(
+                className={cn(
                   !selectable && i === 0 && "pl-3",
                   column.className,
                 )}
@@ -520,7 +520,7 @@ const WorkQueueInner = <T,>(
                   data-selected={isSelected || undefined}
                   data-active={isActive || undefined}
                   aria-selected={isSelected}
-                  className={clx(
+                  className={cn(
                     "hover:bg-bg-washed transition-colors duration-100 motion-reduce:transition-none",
                     // DESIGN.md: selection fills the row with the Blue Wash
                     "data-[selected]:bg-bg-primary-50",
@@ -545,7 +545,7 @@ const WorkQueueInner = <T,>(
                   {columns.map((column, i) => (
                     <TableCell
                       key={column.id}
-                      className={clx(
+                      className={cn(
                         !selectable && i === 0 && "pl-3",
                         column.className,
                       )}

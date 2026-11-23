@@ -8,7 +8,7 @@ import {
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible";
 import { ChevronDownIcon } from "../../icons/chevron-down";
 import { MalaysiaFlagIcon } from "../../icons/malaysia-flag";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 
@@ -47,7 +47,7 @@ const Masthead: FunctionComponent<ComponentProps<"div">> = ({
     <CollapsiblePrimitive.Root>
       <div
         id="masthead"
-        className={clx("bg-bg-washed print:hidden", className)}
+        className={cn("bg-bg-washed print:hidden", className)}
         data-nosnippet
         {...props}
       >
@@ -86,7 +86,7 @@ const MastheadTitle: FunctionComponent<ComponentProps<"p">> = ({
 }) => {
   return (
     <p
-      className={clx(
+      className={cn(
         "text-txt-black-700 text-body-sm truncate sm:max-w-full sm:flex-grow-0",
         className,
       )}
@@ -132,7 +132,7 @@ const MastheadContent: FunctionComponent<
 > = ({ children, className, ...props }) => {
   return (
     <CollapsiblePrimitive.Panel
-      className={clx(
+      className={cn(
         "h-[var(--collapsible-panel-height)] overflow-hidden transition-[height] duration-300 ease-out",
         "data-[ending-style]:h-0 data-[starting-style]:h-0",
         "motion-reduce:transition-none",
@@ -173,7 +173,7 @@ const MastheadSection: FunctionComponent<MastheadSectionProps> = ({
   });
 
   return (
-    <div className={clx("flex w-full gap-3", className)} {...props}>
+    <div className={cn("flex w-full gap-3", className)} {...props}>
       {iconElement}
       <div className="space-y-1.5">
         <p className="text-txt-black-900 text-body-sm sm:text-body-md font-medium">

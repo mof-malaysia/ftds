@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { format, label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 
@@ -73,10 +73,10 @@ const hasActions = Boolean(homeHref || supportHref) || slots.has("actions");
 
 <section
   aria-labelledby={titleId}
-  class={clx(band_cva(), className)}
+  class={cn(band_cva(), className)}
   {...props}
 >
-  <div class={clx(container_cva(), "gap-0 py-16 md:py-24")}>
+  <div class={cn(container_cva(), "gap-0 py-16 md:py-24")}>
     <div class="flex max-w-xl flex-col items-start">
       {slots.has("media") && <div class="mb-8"><slot name="media" /></div>}
       {

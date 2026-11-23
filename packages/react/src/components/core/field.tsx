@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { Field as FieldPrimitive } from "@base-ui/react/field";
 import { WarningCircleIcon } from "../../icons/warning-circle";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * Field groups one control with its label, hint and error, and wires them up for
@@ -35,7 +35,7 @@ const Field = forwardRef<
   <FieldInvalidContext.Provider value={!!props.invalid}>
     <FieldPrimitive.Root
       ref={ref}
-      className={clx("flex w-full flex-col gap-1.5", className)}
+      className={cn("flex w-full flex-col gap-1.5", className)}
       {...props}
     />
   </FieldInvalidContext.Provider>
@@ -48,7 +48,7 @@ const FieldLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <FieldPrimitive.Label
     ref={ref}
-    className={clx(
+    className={cn(
       "font-body text-label-md text-txt-black-900 inline-flex items-center gap-1 font-medium",
       "data-[disabled]:text-txt-black-disabled data-[disabled]:cursor-not-allowed",
       className,
@@ -65,7 +65,7 @@ const FieldDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <FieldPrimitive.Description
     ref={ref}
-    className={clx("font-body text-content text-txt-black-700", className)}
+    className={cn("font-body text-content text-txt-black-700", className)}
     {...props}
   />
 ));
@@ -85,7 +85,7 @@ const FieldError = forwardRef<
     <FieldPrimitive.Error
       ref={ref}
       match={match ?? (invalid || undefined)}
-      className={clx(
+      className={cn(
         "font-body text-content text-txt-danger flex items-start gap-1.5 font-medium",
         className,
       )}
@@ -112,7 +112,7 @@ const FieldItem = forwardRef<
 >(({ className, ...props }, ref) => (
   <FieldPrimitive.Item
     ref={ref}
-    className={clx("flex items-center gap-2", className)}
+    className={cn("flex items-center gap-2", className)}
     {...props}
   />
 ));

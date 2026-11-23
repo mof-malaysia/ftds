@@ -14,7 +14,7 @@ import { Link } from "../core/link";
 import { Spinner } from "../core/spinner";
 import { OTPField, OTPFieldSlot } from "./otp-field";
 import { useCountdown } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * OtpVerify asks for the one-time code just sent by SMS or email. It names where
@@ -205,7 +205,7 @@ const OtpVerify = forwardRef<HTMLFormElement, OtpVerifyProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={handleSubmit}
-        className={clx("gap-stack-lg flex flex-col", className)}
+        className={cn("gap-stack-lg flex flex-col", className)}
         {...props}
       >
         <p className="text-content text-txt-black-700">

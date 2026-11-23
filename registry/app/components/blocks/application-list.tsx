@@ -18,7 +18,7 @@ import {
   EmptyStateTitle,
 } from "@/components/ui/empty-state";
 import { DocumentIcon } from "@/components/ui/icons/document";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * ApplicationList shows a citizen's applications on their dashboard: what each one
@@ -193,7 +193,7 @@ const ApplicationList = forwardRef<HTMLElement, ApplicationListProps>(
       <section
         ref={ref}
         aria-labelledby={heading ? titleId : undefined}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex flex-col gap-3",
           className,
         )}
@@ -268,7 +268,7 @@ const ApplicationList = forwardRef<HTMLElement, ApplicationListProps>(
                       href={item.href}
                       render={item.render}
                       underline="none"
-                      className={clx(
+                      className={cn(
                         button_cva({
                           variant:
                             // A wash, not a fill: the list can hold several (DESIGN.md, One Blue Rule)

@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { link_cva } from "@/components/ui/link.variants";
 import ChevronRight from "@/components/ui/icons/chevron-right.astro";
 
@@ -31,9 +31,9 @@ type Props = Omit<HTMLAttributes<"details">, "class"> & {
 const { summary, open = false, contentClass, class: className, ...props } = Astro.props;
 ---
 
-<details class={clx("group font-body flex w-full flex-col", className)} open={open} {...props}>
+<details class={cn("group font-body flex w-full flex-col", className)} open={open} {...props}>
   <summary
-    class={clx(
+    class={cn(
       "text-txt-primary inline-flex w-fit cursor-pointer list-none items-start gap-1.5 rounded-xs text-left font-medium",
       "text-content outline-none [&::-webkit-details-marker]:hidden",
       "focus-ring",
@@ -41,7 +41,7 @@ const { summary, open = false, contentClass, class: className, ...props } = Astr
   >
     <ChevronRight
       aria-hidden="true"
-      class={clx(
+      class={cn(
         // Optical alignment with the first line of text
         "ease-standard mt-[0.2em] size-4 shrink-0 transition-transform duration-200",
         "group-open:rotate-90 motion-reduce:transition-none",
@@ -52,7 +52,7 @@ const { summary, open = false, contentClass, class: className, ...props } = Astr
     </span>
   </summary>
   <div
-    class={clx(
+    class={cn(
       "bg-bg-washed text-txt-black-700 text-content mt-3 max-w-[70ch] rounded-lg p-4",
       "in-data-[density=compact]:mt-2 in-data-[density=compact]:p-3",
       contentClass,

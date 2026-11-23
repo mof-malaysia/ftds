@@ -3,7 +3,7 @@
 import React, { ComponentRef, ReactNode, forwardRef } from "react";
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * Progress shows how far a task has got: an upload, a multi-step submission, a
@@ -47,7 +47,7 @@ const Progress = forwardRef<
     <ProgressPrimitive.Root
       ref={ref}
       data-success-on-complete={successOnComplete ? "" : undefined}
-      className={clx(
+      className={cn(
         "group/progress font-body grid w-full grid-cols-[1fr_auto] items-center gap-x-4 gap-y-2",
         className,
       )}
@@ -87,7 +87,7 @@ interface ProgressTrackProps
     VariantProps<typeof progress_track_cva> {}
 
 /** Shared with Meter. */
-const progress_indicator_base_class = clx(
+const progress_indicator_base_class = cn(
   "block h-full rounded-full",
   "transition-[width,background-color] duration-200 ease-standard motion-reduce:transition-none",
 );
@@ -103,7 +103,7 @@ const ProgressTrack = forwardRef<
 >(({ className, size, children, ...props }, ref) => (
   <ProgressPrimitive.Track
     ref={ref}
-    className={clx(progress_track_cva({ size }), className)}
+    className={cn(progress_track_cva({ size }), className)}
     {...props}
   >
     {children ?? <ProgressIndicator />}
@@ -117,7 +117,7 @@ const ProgressIndicator = forwardRef<
 >(({ className, ...props }, ref) => (
   <ProgressPrimitive.Indicator
     ref={ref}
-    className={clx(
+    className={cn(
       progress_indicator_base_class,
       "bg-bg-primary-600",
       "group-data-[success-on-complete]/progress:data-[complete]:bg-bg-success-600",
@@ -139,7 +139,7 @@ const ProgressLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <ProgressPrimitive.Label
     ref={ref}
-    className={clx(progress_label_class, className)}
+    className={cn(progress_label_class, className)}
     {...props}
   />
 ));
@@ -155,7 +155,7 @@ const ProgressValue = forwardRef<
 >(({ className, ...props }, ref) => (
   <ProgressPrimitive.Value
     ref={ref}
-    className={clx(progress_value_class, "text-txt-black-700", className)}
+    className={cn(progress_value_class, "text-txt-black-700", className)}
     {...props}
   />
 ));

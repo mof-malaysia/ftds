@@ -10,7 +10,7 @@ import React, {
 import { Button } from "../core/button";
 import { CheckCircleIcon } from "../../icons/check-circle";
 import { WarningCircleIcon } from "../../icons/warning-circle";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * SettingsLayout is the frame of an account or settings area: a list of
@@ -88,7 +88,7 @@ const SettingsLayout = forwardRef<HTMLDivElement, SettingsLayoutProps>(
     return (
       <div
         ref={ref}
-        className={clx("font-body text-txt-black-900 w-full", className)}
+        className={cn("font-body text-txt-black-900 w-full", className)}
         {...props}
       >
         {(title || description) && (
@@ -108,7 +108,7 @@ const SettingsLayout = forwardRef<HTMLDivElement, SettingsLayoutProps>(
         <div className="gap-stack-lg flex flex-col md:flex-row md:items-start">
           <nav
             aria-label={labels.nav}
-            className={clx(
+            className={cn(
               // Narrow: a row of links that scrolls sideways to the screen edge, without a scrollbar
               "-mx-surface px-surface overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
               "md:sticky md:top-4 md:mx-0 md:w-56 md:shrink-0 md:overflow-visible md:px-0",
@@ -123,7 +123,7 @@ const SettingsLayout = forwardRef<HTMLDivElement, SettingsLayoutProps>(
                       href={item.href ?? `#${item.id}`}
                       aria-current={active ? "page" : undefined}
                       onClick={(event) => onNavigate?.(item.id, event)}
-                      className={clx(
+                      className={cn(
                         "flex h-[var(--ctl-h-sm)] items-center gap-3 rounded-md px-3 whitespace-nowrap no-underline",
                         "text-label-md text-txt-black-700 font-medium outline-none",
                         "hover:bg-bg-washed hover:text-txt-black-900 focus-ring transition-colors duration-150 motion-reduce:transition-none",
@@ -257,7 +257,7 @@ const SettingsSection = forwardRef<HTMLElement, SettingsSectionProps>(
       <section
         ref={ref}
         aria-labelledby={titleId}
-        className={clx(
+        className={cn(
           // A Well card: no border, no shadow (DESIGN.md: Cards)
           "bg-bg-washed p-surface rounded-lg",
           className,
@@ -320,7 +320,7 @@ interface SettingsRowProps extends Omit<ComponentProps<"label">, "title"> {
  */
 const SettingsRow = forwardRef<HTMLLabelElement, SettingsRowProps>(
   ({ title, description, control, as = "label", className, ...props }, ref) => {
-    const rowClass = clx(
+    const rowClass = cn(
       // Wraps the control under the text when both don't fit
       "border-otl-gray-200 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b py-3 first:pt-0 last:border-b-0 last:pb-0",
       as === "label" && "cursor-pointer",

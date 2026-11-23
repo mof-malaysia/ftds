@@ -1,6 +1,6 @@
 // eslint-disable-next-line  @typescript-eslint/no-unused-vars
 import React, { ComponentProps, forwardRef, ReactNode } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { Button } from "./button";
 
 /**
@@ -27,7 +27,7 @@ const Skiplink = forwardRef<HTMLAnchorElement, SkiplinkProps>(
           // eslint-disable-next-line jsx-a11y/anchor-has-content
           <a
             ref={ref}
-            className={clx(
+            className={cn(
               // to hide the element
               "shadow-context-menu",
               "z-skiplink absolute size-[1px]",

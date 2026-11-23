@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useContext,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { EllipsisIcon } from "@/components/ui/icons/ellipsis";
 import { Button, ButtonIcon } from "@/components/ui/button";
 import { ChevronLeftIcon } from "@/components/ui/icons/chevron-left";
@@ -108,7 +108,7 @@ const Pagination: ForwardRefExoticComponent<PaginationProps> = forwardRef(
         <nav
           ref={ref}
           aria-label={labels.navigation}
-          className={clx("text-body-md flex w-full justify-center", className)}
+          className={cn("text-body-md flex w-full justify-center", className)}
           {...props}
         >
           {children}
@@ -124,7 +124,7 @@ const PaginationContent: ForwardRefExoticComponent<ComponentProps<"ul">> =
   forwardRef(({ className, ...props }, ref) => (
     <ul
       ref={ref}
-      className={clx("flex flex-row items-center gap-4", className)}
+      className={cn("flex flex-row items-center gap-4", className)}
       {...props}
     />
   ));
@@ -132,7 +132,7 @@ PaginationContent.displayName = "PaginationContent";
 
 const PaginationItem: ForwardRefExoticComponent<ComponentProps<"li">> =
   forwardRef(({ className, ...props }, ref) => (
-    <li ref={ref} className={clx("rounded-md", className)} {...props} />
+    <li ref={ref} className={cn("rounded-md", className)} {...props} />
   ));
 PaginationItem.displayName = "PaginationItem";
 
@@ -162,7 +162,7 @@ const PaginationPrevious: ForwardRefExoticComponent<
       variant={"default-outline"}
       size={"medium"}
       disabled={disabled}
-      className={clx(disabled && "shadow-transparent")}
+      className={cn(disabled && "shadow-transparent")}
       onClick={handlePreviousPage}
       // Visible text names the button; an icon-only one needs a name
       aria-label={children ? undefined : labels.previousPage}
@@ -204,7 +204,7 @@ const PaginationNext: ForwardRefExoticComponent<
       variant={"default-outline"}
       size={"medium"}
       disabled={disabled}
-      className={clx(disabled && "shadow-transparent")}
+      className={cn(disabled && "shadow-transparent")}
       onClick={handleNextPage}
       aria-label={children ? undefined : labels.nextPage}
       {...props}
@@ -233,7 +233,7 @@ const PaginationNumber: ForwardRefExoticComponent<
       onClick={handleClickPage}
       variant={"default-ghost"}
       size={"medium"}
-      className={clx(
+      className={cn(
         isActive && "bg-bg-washed-active",
         "control-square-md w-(--ctl-h-md) items-center justify-center px-0",
       )}
@@ -253,7 +253,7 @@ const PaginationLabel: ForwardRefExoticComponent<
 > = forwardRef(({ className, content, ...props }, ref) => {
   const { page, totalPages, labels } = useContext(PaginationContext);
   return (
-    <p ref={ref} className={clx("text-txt-black-700", className)} {...props}>
+    <p ref={ref} className={cn("text-txt-black-700", className)} {...props}>
       {content ??
         labels.pageOf
           .replace("{page}", String(page))
@@ -271,7 +271,7 @@ const PaginationEllipsis = ({
   const { labels } = useContext(PaginationContext);
   return (
     <span
-      className={clx("flex size-8 items-center justify-center", className)}
+      className={cn("flex size-8 items-center justify-center", className)}
       {...props}
     >
       <EllipsisIcon className="text-txt-black-700 size-4" aria-hidden />

@@ -34,7 +34,7 @@ import {
   useMediaQuery,
   useMergedRefs,
 } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * DeskShell is the dense, keyboard-first frame of an officer workstation: a 48px
@@ -190,7 +190,7 @@ const DeskShell = forwardRef<HTMLDivElement, DeskShellProps>(
           <div
             ref={ref}
             data-density="compact"
-            className={clx(
+            className={cn(
               // Rail spans all three rows of column 1; top bar, page and status bar stack in column 2.
               // On narrow screens the rail is a drawer, so column 1 collapses to nothing.
               "bg-bg-white text-txt-black-900 font-body grid h-dvh w-full overflow-hidden",
@@ -236,7 +236,7 @@ const DeskRail = forwardRef<HTMLElement, DeskRailProps>(
         id={railId}
         aria-label={label}
         data-layout={layout}
-        className={clx(desk_rail_cva({ layout }), className)}
+        className={cn(desk_rail_cva({ layout }), className)}
         {...props}
       >
         <RailLayoutContext.Provider value={layout}>
@@ -277,7 +277,7 @@ const DeskRailBrand = forwardRef<HTMLDivElement, DeskRailBrandProps>(
       ref,
       props: mergeProps<"div">(
         {
-          className: clx(
+          className: cn(
             "bg-bg-primary-600 text-txt-white mb-2 grid size-7 shrink-0 place-content-center overflow-hidden rounded-md",
             "text-label-md font-semibold no-underline focus-ring",
             "[&>img]:size-full [&>img]:object-contain",
@@ -426,7 +426,7 @@ const DeskRailItem = forwardRef<HTMLButtonElement, DeskRailItemProps>(
       ref,
       props: mergeProps<"button">(
         {
-          className: clx(desk_rail_item_cva({ layout }), className),
+          className: cn(desk_rail_item_cva({ layout }), className),
           ...(render ? {} : { type: "button" as const }),
           ...(layout === "rail" && { "aria-label": label }),
           ...(isActive && {
@@ -474,7 +474,7 @@ const DeskSpacer = forwardRef<HTMLDivElement, ComponentProps<"div">>(
       <div
         ref={ref}
         aria-hidden
-        className={clx(
+        className={cn(
           // In the drawer, a gap with a Hairline instead of empty height
           layout === "drawer"
             ? "border-otl-gray-200 my-2 border-t"
@@ -540,7 +540,7 @@ const DeskTopBar = forwardRef<HTMLElement, ComponentProps<"header">>(
   ({ className, ...props }, ref) => (
     <header
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-gray-50 border-otl-gray-200 col-start-2 row-start-1 flex h-10 min-w-0 shrink-0 items-center gap-3 border-b px-3",
         className,
       )}
@@ -558,7 +558,7 @@ const DeskTabs = forwardRef<HTMLElement, ComponentProps<"nav">>(
       <nav
         ref={ref}
         aria-label={labels.tabs}
-        className={clx(
+        className={cn(
           "-mb-px flex min-w-0 gap-1 self-stretch overflow-x-auto",
           className,
         )}
@@ -620,7 +620,7 @@ const DeskTab = forwardRef<HTMLAnchorElement, DeskTabProps>(
       ref,
       props: mergeProps<"a">(
         {
-          className: clx(
+          className: cn(
             "flex shrink-0 items-center px-2 no-underline",
             "text-txt-black-700 text-label-md font-medium whitespace-nowrap",
             "hover:text-txt-black-900 transition-colors duration-150 motion-reduce:transition-none focus-ring",
@@ -688,7 +688,7 @@ const DeskSearchTrigger = forwardRef<HTMLButtonElement, DeskSearchTriggerProps>(
         ref={ref}
         type="button"
         aria-keyshortcuts="Meta+K Control+K"
-        className={clx(
+        className={cn(
           "border-otl-gray-200 bg-bg-white text-txt-black-500 flex h-7 shrink-0 cursor-pointer items-center gap-2 rounded-md border px-2",
           "text-label-md hover:border-otl-gray-300 hover:text-txt-black-700 focus-ring transition-colors duration-150 motion-reduce:transition-none",
           "[&>svg]:size-4 [&>svg]:shrink-0",
@@ -719,7 +719,7 @@ const DeskPage = forwardRef<HTMLElement, ComponentProps<"main">>(
   ({ className, ...props }, ref) => (
     <main
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-white p-surface col-start-2 row-start-2 min-h-0 min-w-0 overflow-y-auto",
         className,
       )}
@@ -734,7 +734,7 @@ const DeskStatusBar = forwardRef<HTMLElement, ComponentProps<"footer">>(
   ({ className, ...props }, ref) => (
     <footer
       ref={ref}
-      className={clx(
+      className={cn(
         "bg-bg-washed border-otl-gray-200 text-txt-black-700 col-start-2 row-start-3 flex h-7 min-w-0 shrink-0 items-center gap-1 overflow-x-auto border-t px-1.5",
         "text-label-compact",
         className,
@@ -771,7 +771,7 @@ const DeskStatusItem = forwardRef<HTMLSpanElement, DeskStatusItemProps>(
       ref,
       props: mergeProps<"span">(
         {
-          className: clx(
+          className: cn(
             "inline-flex h-6 shrink-0 items-center gap-1.5 rounded-sm px-1.5 whitespace-nowrap",
             "[&:is(button,a)]:cursor-pointer [&:is(button,a)]:hover:bg-bg-washed-active [&:is(button,a)]:hover:text-txt-black-900 focus-ring",
             tone === "warning" && "text-txt-warning",
@@ -783,7 +783,7 @@ const DeskStatusItem = forwardRef<HTMLSpanElement, DeskStatusItemProps>(
               {tone && (
                 <span
                   aria-hidden
-                  className={clx(
+                  className={cn(
                     "size-2 shrink-0 rounded-full",
                     status_dot_class[tone],
                   )}

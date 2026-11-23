@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { Link } from "@/components/ui/link";
 import { ArrowForwardIcon } from "@/components/ui/icons/arrow-forward";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -74,7 +74,7 @@ const FeatureGrid: ForwardRefExoticComponent<
       <section
         ref={ref}
         aria-labelledby={title ? titleId : undefined}
-        className={clx("bg-bg-gray-50 font-body w-full", className)}
+        className={cn("bg-bg-gray-50 font-body w-full", className)}
         {...props}
       >
         <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-4 py-12 md:px-6 md:py-16 lg:gap-12 lg:py-24">

@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import Cross from "@/components/ui/icons/cross.astro";
@@ -68,7 +68,7 @@ const id = uniqueId("cookie-banner");
   hidden
   data-ftds-cookie-banner
   data-storage-key={storageKey}
-  class={clx(cookie_content_cva(), "font-body", className)}
+  class={cn(cookie_content_cva(), "font-body", className)}
   {...props}
 >
   <Button

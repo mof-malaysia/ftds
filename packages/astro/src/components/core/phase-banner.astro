@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Tag from "@/components/ui/tag.astro";
 
@@ -41,11 +41,11 @@ const lang = resolveLang(langProp, Astro.currentLocale);
 ---
 
 <div
-  class={clx("bg-bg-gray-50 border-otl-gray-200 font-body w-full border-b", className)}
+  class={cn("bg-bg-gray-50 border-otl-gray-200 font-body w-full border-b", className)}
   {...props}
 >
   <div
-    class={clx(
+    class={cn(
       "gap-stack-sm mx-auto flex w-full max-w-[1280px] items-start px-[18px] py-3 md:items-center md:px-6",
       "in-data-[density=compact]:py-2",
       containerClass,

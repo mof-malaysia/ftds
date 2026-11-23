@@ -24,7 +24,7 @@ import { InfoIcon } from "../../icons/info";
 import { MoneyIcon } from "../../icons/money";
 import { WarningCircleIcon } from "../../icons/warning-circle";
 import { useControllableState } from "../../hooks";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * NotificationList is an inbox of updates: grouped by day (Today, Yesterday,
@@ -233,7 +233,7 @@ const NotificationList = forwardRef<HTMLDivElement, NotificationListProps>(
     return (
       <div
         ref={ref}
-        className={clx("font-body text-txt-black-900 w-full", className)}
+        className={cn("font-body text-txt-black-900 w-full", className)}
         {...props}
       >
         {!hideToolbar && (
@@ -301,7 +301,7 @@ const NotificationList = forwardRef<HTMLDivElement, NotificationListProps>(
                     return (
                       <li
                         key={item.id}
-                        className={clx(
+                        className={cn(
                           "group/notification relative flex gap-3 rounded-md px-3 py-3",
                           "hover:bg-bg-washed transition-colors duration-150 motion-reduce:transition-none",
                           "has-[[data-notification-title]:focus-visible]:bg-bg-washed",
@@ -309,7 +309,7 @@ const NotificationList = forwardRef<HTMLDivElement, NotificationListProps>(
                       >
                         <span
                           aria-hidden
-                          className={clx(
+                          className={cn(
                             "bg-bg-washed group-hover/notification:bg-bg-white mt-0.5 grid size-8 shrink-0 place-content-center rounded-full",
                             "[&>svg]:size-4",
                             KIND_TONE[kind],
@@ -325,7 +325,7 @@ const NotificationList = forwardRef<HTMLDivElement, NotificationListProps>(
                                 ? { href: item.href }
                                 : { type: "button" as const })}
                               onClick={() => onSelect?.(item.id)}
-                              className={clx(
+                              className={cn(
                                 "text-content text-txt-black-900 min-w-0 cursor-pointer bg-transparent p-0 text-left no-underline outline-none",
                                 // The whole row is the target; the stretched pseudo-element keeps one tab stop
                                 "after:absolute after:inset-0 after:rounded-md after:content-['']",

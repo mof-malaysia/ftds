@@ -18,7 +18,7 @@ import { CheckCircleIcon } from "@/components/ui/icons/check-circle";
 import { DocumentIcon } from "@/components/ui/icons/document";
 import { SwapIcon } from "@/components/ui/icons/swap";
 import { UserIcon } from "@/components/ui/icons/user";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * ActivityTimeline is the history of a case, one event per line: who did what and
@@ -276,7 +276,7 @@ const ActivityTimeline = forwardRef<HTMLDivElement, ActivityTimelineProps>(
     return (
       <div
         ref={ref}
-        className={clx("font-body flex flex-col gap-4", className)}
+        className={cn("font-body flex flex-col gap-4", className)}
         {...props}
       >
         {composer === "top" && noteForm}
@@ -314,7 +314,7 @@ const ActivityTimeline = forwardRef<HTMLDivElement, ActivityTimelineProps>(
                     <span
                       role="img"
                       aria-label={labels.kinds[event.kind]}
-                      className={clx(
+                      className={cn(
                         "bg-bg-white text-txt-black-700 ring-bg-white absolute -right-1.5 -bottom-1.5 grid size-4 place-content-center rounded-full ring-2",
                         "[&>svg]:size-2.5",
                         event.kind === "decision" && "text-txt-success",
@@ -351,7 +351,7 @@ const ActivityTimeline = forwardRef<HTMLDivElement, ActivityTimelineProps>(
                     {event.attachment && (
                       <a
                         href={event.attachment.href}
-                        className={clx(
+                        className={cn(
                           "bg-bg-washed text-txt-black-900 text-label-md mt-2 flex w-fit max-w-full items-center gap-2 rounded-md px-2.5 py-1.5 no-underline",
                           event.attachment.href &&
                             "hover:bg-bg-washed-active focus-ring",

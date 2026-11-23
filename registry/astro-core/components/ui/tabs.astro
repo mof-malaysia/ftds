@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import {
   tabs_indicator_cva,
   tabs_list_cva,
@@ -67,7 +67,7 @@ const panels = await Promise.all(
 ---
 
 <div
-  class={clx("font-body group/tabs flex flex-col", className)}
+  class={cn("font-body group/tabs flex flex-col", className)}
   data-ftds-tabs
   data-activation={activationMode}
   {...props}

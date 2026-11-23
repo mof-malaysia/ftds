@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { formatDate, isoDate, label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Link from "@/components/ui/link.astro";
 import Section from "@/components/ui/section.astro";
@@ -85,7 +85,7 @@ const Item = hasTitle ? "h3" : "h2";
 const compact = layout === "compact";
 const shown = layout === "grid" ? items.slice(0, 3) : items;
 
-const itemClass = clx(
+const itemClass = cn(
   linked_item_class,
   "flex flex-col",
   {
@@ -134,13 +134,13 @@ const itemClass = clx(
               alt=""
               loading="lazy"
               decoding="async"
-              class={clx(
+              class={cn(
                 "bg-bg-washed aspect-[16/9] w-full object-cover",
                 layout === "list" && "rounded-lg sm:w-56 sm:shrink-0",
               )}
             />
           )}
-          <div class={clx("flex min-w-0 flex-col gap-2", layout === "grid" && "p-surface")}>
+          <div class={cn("flex min-w-0 flex-col gap-2", layout === "grid" && "p-surface")}>
             <p class={meta_row_class}>
               {item.category && !compact && (
                 <Tag variant={item.categoryVariant ?? "default"} size="small">
@@ -151,7 +151,7 @@ const itemClass = clx(
               {item.category && compact && <span>{item.category}</span>}
             </p>
             <Item
-              class={clx(
+              class={cn(
                 "text-txt-black-900 font-semibold text-pretty",
                 compact ? "text-body-md" : "text-title",
               )}

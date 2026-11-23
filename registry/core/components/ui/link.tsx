@@ -2,7 +2,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { forwardRef, ForwardRefExoticComponent } from "react";
 import { type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { link_cva } from "@/components/ui/link.variants";
 
 interface LinkProps
@@ -35,7 +35,7 @@ const Link: ForwardRefExoticComponent<LinkProps> = forwardRef(
       props: mergeProps<"a">(
         {
           href,
-          className: clx(link_cva({ primary, underline }), className),
+          className: cn(link_cva({ primary, underline }), className),
           target: newTab ? "_blank" : "_self",
           rel: newTab ? "noopener noreferrer" : undefined,
         },

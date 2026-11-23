@@ -7,7 +7,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import {
   renderAction,
   SectionHeading,
@@ -63,7 +63,7 @@ const CtaBand: ForwardRefExoticComponent<
       <section
         ref={ref}
         aria-labelledby={titleId}
-        className={clx(band_cva({ tone }), className)}
+        className={cn(band_cva({ tone }), className)}
         {...props}
       >
         <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-4 py-12 md:px-6 md:py-16 lg:flex-row lg:items-center lg:justify-between lg:gap-12">

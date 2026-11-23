@@ -1,5 +1,5 @@
 import { QuestionCircleIcon } from "@/components/ui/icons/question-circle";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { forwardRef, ForwardRefExoticComponent, ComponentProps } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,10 +38,10 @@ interface TableProps extends ComponentProps<"table"> {
 
 const Table: ForwardRefExoticComponent<TableProps> = forwardRef(
   ({ className, containerClassName, ...props }, ref) => (
-    <div className={clx("relative w-full overflow-auto", containerClassName)}>
+    <div className={cn("relative w-full overflow-auto", containerClassName)}>
       <table
         ref={ref}
-        className={clx(
+        className={cn(
           "font-body w-full caption-bottom border-separate border-spacing-0",
           className,
         )}
@@ -56,7 +56,7 @@ const TableHeader: ForwardRefExoticComponent<ComponentProps<"thead">> =
   forwardRef(({ className, ...props }, ref) => (
     <thead
       ref={ref}
-      className={clx("sticky top-0 z-10", className)}
+      className={cn("sticky top-0 z-10", className)}
       {...props}
     />
   ));
@@ -72,7 +72,7 @@ const TableFooter: ForwardRefExoticComponent<ComponentProps<"tfoot">> =
   forwardRef(({ className, ...props }, ref) => (
     <tfoot
       ref={ref}
-      className={clx("[&_td]:text-txt-black-900 [&_td]:font-medium", className)}
+      className={cn("[&_td]:text-txt-black-900 [&_td]:font-medium", className)}
       {...props}
     />
   ));
@@ -82,7 +82,7 @@ const TableRow: ForwardRefExoticComponent<ComponentProps<"tr">> = forwardRef(
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}
-      className={clx(
+      className={cn(
         // One Hairline per row, header included (DESIGN.md, Data Table)
         "*:border-otl-gray-200 *:border-b",
         "data-[selected]:bg-bg-primary-50",
@@ -108,7 +108,7 @@ const TableHead: ForwardRefExoticComponent<
 > = forwardRef(({ className, numeric, ...props }, ref) => (
   <th
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-gray-50 text-txt-black-700 text-label-compact h-10 px-3 py-1.5 text-left align-middle font-medium",
       numeric && "text-right tabular-nums",
       selection_cell,
@@ -124,7 +124,7 @@ const TableCell: ForwardRefExoticComponent<
 > = forwardRef(({ className, numeric, ...props }, ref) => (
   <td
     ref={ref}
-    className={clx(
+    className={cn(
       // Row height follows data-density: 48px comfortable, 40px compact. Tags and
       // wrapped text fit inside; a row of buttons is 52px comfortable, 40px compact
       // (4px above the button, 3px below plus the Hairline).
@@ -143,7 +143,7 @@ const TableCaption: ForwardRefExoticComponent<ComponentProps<"caption">> =
   forwardRef(({ className, ...props }, ref) => (
     <caption
       ref={ref}
-      className={clx(
+      className={cn(
         "text-txt-black-700 text-label-sm mt-(--space-stack-sm) text-left",
         className,
       )}
@@ -182,7 +182,7 @@ const TableSkeleton: ForwardRefExoticComponent<ComponentProps<"div">> =
   forwardRef(({ className, ...props }, ref) => (
     <Skeleton
       ref={ref}
-      className={clx("h-3 max-w-40 rounded-full", className)}
+      className={cn("h-3 max-w-40 rounded-full", className)}
       {...props}
     />
   ));
@@ -194,7 +194,7 @@ const TableEmpty: ForwardRefExoticComponent<ComponentProps<"td">> = forwardRef(
       <TableCell
         ref={ref}
         colSpan={colSpan}
-        className={clx("text-txt-black-700 py-12 text-center", className)}
+        className={cn("text-txt-black-700 py-12 text-center", className)}
         {...props}
       >
         {children || "No data available"}

@@ -1,4 +1,5 @@
-import { ClassNameValue, extendTailwindMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";
+import { extendTailwindMerge } from "tailwind-merge";
 
 const twMergeConfig = extendTailwindMerge<"control">({
   extend: {
@@ -54,13 +55,13 @@ const twMergeConfig = extendTailwindMerge<"control">({
 export type WithClassName<P> = Omit<P, "className"> & { className?: string };
 
 /**
- * Conditional class joiner.
- * @param args classNames
- * @returns string
+ * shadcn's `cn`: joins class names with clsx, then resolves Tailwind conflicts
+ * with a tailwind-merge that knows FTDS's own utilities.
+ * @example cn("p-surface", isActive && "bg-bg-washed", className)
  */
-export const clx = (...args: ClassNameValue[]): string => {
-  return twMergeConfig(args);
-};
+export function cn(...inputs: ClassValue[]): string {
+  return twMergeConfig(clsx(inputs));
+}
 
 /**
  * Pick into key-pairs from array of objects.

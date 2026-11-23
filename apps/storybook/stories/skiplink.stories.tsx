@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { createStory } from "../utils";
 import { Skiplink } from "@mof-malaysia/ftds-react/skiplink";
-import { clx } from "@mof-malaysia/ftds-react/utils";
+import { cn } from "@mof-malaysia/ftds-react/utils";
 
 /**
  * ### Overview
@@ -30,7 +30,7 @@ const meta = {
 
       return (
         <div
-          className={clx(
+          className={cn(
             "min-h-[60px]",
             contentId == "main-dark-content" && "text-white",
           )}

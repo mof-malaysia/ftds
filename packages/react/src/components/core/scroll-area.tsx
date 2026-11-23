@@ -2,7 +2,7 @@
 
 import React, { ComponentRef, forwardRef } from "react";
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
-import { clx, type WithClassName } from "../../utils";
+import { cn, type WithClassName } from "../../utils";
 
 /**
  * ScrollArea gives a fixed-size region a native scroll with a thin, quiet scrollbar
@@ -28,7 +28,7 @@ const ScrollAreaRoot = forwardRef<
 >(({ className, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
     ref={ref}
-    className={clx("relative overflow-hidden", className)}
+    className={cn("relative overflow-hidden", className)}
     {...props}
   />
 ));
@@ -40,7 +40,7 @@ const ScrollAreaViewport = forwardRef<
 >(({ className, ...props }, ref) => (
   <ScrollAreaPrimitive.Viewport
     ref={ref}
-    className={clx(
+    className={cn(
       "size-full rounded-[inherit] outline-none",
       "focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-fr-primary",
       className,
@@ -56,7 +56,7 @@ const ScrollAreaThumb = forwardRef<
 >(({ className, ...props }, ref) => (
   <ScrollAreaPrimitive.Thumb
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-bg-black-300 hover:bg-bg-black-400 rounded-full",
       "data-[orientation=vertical]:w-full data-[orientation=horizontal]:h-full",
       className,
@@ -77,7 +77,7 @@ const ScrollBar = forwardRef<
   <ScrollAreaPrimitive.Scrollbar
     ref={ref}
     orientation={orientation}
-    className={clx(
+    className={cn(
       "flex touch-none select-none p-0.5",
       "opacity-0 transition-opacity duration-150 ease-standard",
       "data-[hovering]:opacity-100 data-[scrolling]:opacity-100 data-[scrolling]:duration-0",
@@ -98,7 +98,7 @@ const ScrollAreaCorner = forwardRef<
 >(({ className, ...props }, ref) => (
   <ScrollAreaPrimitive.Corner
     ref={ref}
-    className={clx("bg-transparent", className)}
+    className={cn("bg-transparent", className)}
     {...props}
   />
 ));

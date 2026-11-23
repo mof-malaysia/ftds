@@ -8,7 +8,7 @@ import { CheckCircleIcon } from "@/components/ui/icons/check-circle";
 import { InfoIcon } from "@/components/ui/icons/info";
 import { WarningCircleIcon } from "@/components/ui/icons/warning-circle";
 import { CrossCircleIcon } from "@/components/ui/icons/cross-circle";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Panel is the first thing on a confirmation or result page: "Payment received",
@@ -81,14 +81,14 @@ const Panel: ForwardRefExoticComponent<PanelProps> = forwardRef(
       state: { variant },
       props: mergeProps<"div">(
         {
-          className: clx(panel_cva({ variant }), className),
+          className: cn(panel_cva({ variant }), className),
           children: (
             <>
               {icon !== false &&
                 (icon ?? (
                   <Icon
                     aria-hidden
-                    className={clx(
+                    className={cn(
                       "size-10 shrink-0 in-data-[density=compact]:size-8",
                       accent[variant],
                     )}
@@ -116,7 +116,7 @@ const PanelTitle: ForwardRefExoticComponent<PanelTitleProps> = forwardRef(
       ref,
       props: mergeProps<"h1">(
         {
-          className: clx(
+          className: cn(
             // Headline type: the consequence, in plain words (DESIGN.md: Typography)
             "text-headline md:text-display md:in-data-[density=compact]:text-headline m-0 font-semibold",
             // Outcome colour from the Panel's variant
@@ -141,7 +141,7 @@ const PanelBody: ForwardRefExoticComponent<PanelBodyProps> = forwardRef(
       ref,
       props: mergeProps<"div">(
         {
-          className: clx(
+          className: cn(
             "text-txt-black-900 text-content flex max-w-[70ch] flex-col gap-2",
             className,
           ),
@@ -179,12 +179,12 @@ const PanelReference: ForwardRefExoticComponent<PanelReferenceProps> =
         ref,
         props: mergeProps<"div">(
           {
-            className: clx("flex flex-col gap-1", className),
+            className: cn("flex flex-col gap-1", className),
             children: (
               <>
                 <span className="text-txt-black-700 text-content">{label}</span>
                 <span
-                  className={clx(
+                  className={cn(
                     "text-txt-black-900 font-semibold tabular-nums select-all [font-feature-settings:'tnum'_1,'cv11'_1]",
                     "text-[1.75rem] leading-[1.25] tracking-[-0.01em] break-all md:text-[2.25rem]",
                     "in-data-[density=compact]:text-[1.5rem]",

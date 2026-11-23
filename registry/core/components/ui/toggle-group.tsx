@@ -3,7 +3,7 @@
 import React, { forwardRef } from "react";
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group";
 import { ToggleGroupContext, type ToggleSize } from "@/components/ui/toggle";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * ToggleGroup is a segmented control: a short set of Toggles where one (or, with
@@ -31,7 +31,7 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
     <ToggleGroupContext.Provider value={size}>
       <ToggleGroupPrimitive
         ref={ref}
-        className={clx(
+        className={cn(
           // Well track, no outline (DESIGN.md: tone, not lines)
           "bg-bg-washed inline-flex w-fit gap-1 rounded-md p-1",
           "data-[orientation=vertical]:flex-col",

@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Globe from "@/components/ui/icons/globe.astro";
 
@@ -64,7 +64,7 @@ const names: Record<Lang, { short: string; full: string }> = {
 
 <nav
   aria-label={label(lang, "languageSwitcher")}
-  class={clx("font-body flex items-center gap-1", className)}
+  class={cn("font-body flex items-center gap-1", className)}
   {...props}
 >
   {!hideIcon && <Globe class="text-txt-black-500 size-4 shrink-0" aria-hidden="true" />}
@@ -80,7 +80,7 @@ const names: Record<Lang, { short: string; full: string }> = {
               lang={locale.code}
               title={names[locale.code].full}
               aria-current={active ? "true" : undefined}
-              class={clx(
+              class={cn(
                 "control-sm text-label-sm focus-ring inline-flex items-center rounded-md px-2 font-medium",
                 "transition-colors motion-reduce:transition-none",
                 active

@@ -12,7 +12,7 @@ import { Field as FieldPrimitive } from "@base-ui/react/field";
 import { TextArea } from "@/components/ui/textarea";
 import { WarningCircleIcon } from "@/components/ui/icons/warning-circle";
 import { useControllableState, useMergedRefs } from "@/lib/ftds/hooks";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * CharacterCount adds a live limit to a TextArea: "You have 12 characters
@@ -171,7 +171,7 @@ const CharacterCount = forwardRef<HTMLTextAreaElement, CharacterCountProps>(
     }, [value, announceDelay]);
 
     return (
-      <div className={clx("flex w-full flex-col gap-1.5", wrapperClassName)}>
+      <div className={cn("flex w-full flex-col gap-1.5", wrapperClassName)}>
         <TextArea
           ref={setRefs}
           value={value}
@@ -187,12 +187,12 @@ const CharacterCount = forwardRef<HTMLTextAreaElement, CharacterCountProps>(
             onChange?.(event);
           }}
           data-over-limit={status === "over" ? "" : undefined}
-          className={clx("data-[over-limit]:border-bg-danger-600", className)}
+          className={cn("data-[over-limit]:border-bg-danger-600", className)}
           {...props}
         />
         {/* Joins the field's aria-describedby, so the count is read on focus */}
         <FieldPrimitive.Description
-          className={clx(
+          className={cn(
             "font-body text-content flex items-start gap-1.5",
             status === "default" && "text-txt-black-700",
             status === "warning" && "text-txt-warning font-medium",

@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 import Cross from "@/components/ui/icons/cross.astro";
@@ -108,7 +108,7 @@ const maxChars = brand.maxChars ?? 19;
 
 <header
   id={id}
-  class={clx(navbar_header_class, "group/navbar font-body", className)}
+  class={cn(navbar_header_class, "group/navbar font-body", className)}
   style={`anchor-name: --${id}`}
   data-nosnippet
   data-ftds-navbar
@@ -118,7 +118,7 @@ const maxChars = brand.maxChars ?? 19;
     {/* min-w-0: on a narrow bar the title wraps instead of pushing the menu button off-screen */}
     <a
       href={brand.href ?? "/"}
-      class={clx(navbar_brand_class, "focus-ring min-w-0 rounded-xs py-3 max-md:py-2.5")}
+      class={cn(navbar_brand_class, "focus-ring min-w-0 rounded-xs py-3 max-md:py-2.5")}
     >
       {
         hasLogo && (
@@ -127,7 +127,7 @@ const maxChars = brand.maxChars ?? 19;
               src={brand.logo?.src}
               width="40"
               height="32"
-              class={clx(navbar_brand_image_class, "shrink-0")}
+              class={cn(navbar_brand_image_class, "shrink-0")}
               alt={brand.logo?.alt}
             />
           </slot>

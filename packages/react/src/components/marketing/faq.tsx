@@ -9,7 +9,7 @@ import {
   RefAttributes,
   useId,
 } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import {
   Accordion,
   AccordionContent,
@@ -85,7 +85,7 @@ const Faq: ForwardRefExoticComponent<FaqProps & RefAttributes<HTMLElement>> =
         <section
           ref={ref}
           aria-labelledby={titleId}
-          className={clx("bg-bg-gray-50 font-body w-full", className)}
+          className={cn("bg-bg-gray-50 font-body w-full", className)}
           {...props}
         >
           <div className="mx-auto grid w-full max-w-[1280px] gap-8 px-4 py-12 md:px-6 md:py-16 lg:grid-cols-12 lg:gap-12 lg:py-24">

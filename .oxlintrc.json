@@ -28,6 +28,19 @@
     "react/purity": "off",
     "react/refs": "off",
     "react/set-state-in-effect": "off",
+    // shadcn's cn has the same name and signature but its tailwind-merge doesn't know FTDS tokens
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@/lib/utils",
+            "importNames": ["cn"],
+            "message": "Use cn from @/lib/ftds/utils; shadcn's mis-merges FTDS tokens."
+          }
+        ]
+      }
+    ],
     "no-unused-vars": [
       "error",
       {

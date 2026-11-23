@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { format, label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import ChevronLeftIcon from "@/components/ui/icons/chevron-left.astro";
 import ChevronRightIcon from "@/components/ui/icons/chevron-right.astro";
@@ -82,13 +82,13 @@ for (const n of nearby) {
 const pageLabel = label(lang, "page");
 const itemClass =
   "text-label-md focus-ring inline-flex h-10 min-w-10 items-center justify-center gap-1 rounded-md px-3 font-medium transition-colors duration-150 motion-reduce:transition-none";
-const linkClass = clx(itemClass, "text-txt-black-700 hover:bg-bg-washed hover:text-txt-black-900");
-const currentClass = clx(itemClass, "bg-bg-primary-50 text-txt-primary");
+const linkClass = cn(itemClass, "text-txt-black-700 hover:bg-bg-washed hover:text-txt-black-900");
+const currentClass = cn(itemClass, "bg-bg-primary-50 text-txt-primary");
 ---
 
 {
   total > 1 && (
-    <nav {...props} aria-label={ariaLabel} class={clx("font-body", className)}>
+    <nav {...props} aria-label={ariaLabel} class={cn("font-body", className)}>
       <ul class="flex flex-wrap items-center gap-1">
         {current > 1 && (
           <li>

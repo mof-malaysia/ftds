@@ -13,7 +13,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { CheckIcon } from "@/components/ui/icons/check";
 import { ChevronRightIcon } from "@/components/ui/icons/chevron-right";
 import {
-  clx,
+  cn,
   splitPositionerProps,
   type PositionerProps,
   type WithClassName,
@@ -96,7 +96,7 @@ MenuContent.displayName = "MenuContent";
 /*========================================================================================================================*/
 
 /** Item box and type without state styles; shared with CommandItem (cmdk's data attributes differ). */
-const menu_item_layout_class = clx(
+const menu_item_layout_class = cn(
   "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2.5 py-2 outline-none",
   "font-body text-label-md font-medium transition-colors duration-150",
   "[&>svg]:size-4 [&>svg]:shrink-0",
@@ -206,7 +206,7 @@ const MenuSubmenuTrigger = forwardRef<
     ref={ref}
     className={menu_item_cva({
       inset,
-      className: clx("data-[popup-open]:bg-bg-washed", className),
+      className: cn("data-[popup-open]:bg-bg-washed", className),
     })}
     {...props}
   >
@@ -230,7 +230,7 @@ const MenuGroupLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <MenuPrimitive.GroupLabel
     ref={ref}
-    className={clx(menu_group_label_class, className)}
+    className={cn(menu_group_label_class, className)}
     {...props}
   />
 ));
@@ -245,7 +245,7 @@ const MenuSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <MenuPrimitive.Separator
     ref={ref}
-    className={clx(menu_separator_class, className)}
+    className={cn(menu_separator_class, className)}
     {...props}
   />
 ));
@@ -254,7 +254,7 @@ MenuSeparator.displayName = "MenuSeparator";
 /** Keyboard shortcut hint at the end of an item. Decorative: the shortcut must work on its own. */
 const MenuShortcut = ({ className, ...props }: ComponentProps<"span">) => (
   <span
-    className={clx(
+    className={cn(
       "text-txt-black-500 text-label-compact ml-auto pl-4 font-normal tracking-wide",
       className,
     )}
@@ -279,7 +279,7 @@ const MenuItemIcon = forwardRef<HTMLDivElement, MenuItemIconProps>(
       render: children,
       ref,
       props: mergeProps<"div">(
-        { className: clx(menu_item_icon_class, className) },
+        { className: cn(menu_item_icon_class, className) },
         props,
       ),
     }),

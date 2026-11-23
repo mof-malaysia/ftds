@@ -13,7 +13,7 @@ import { Link } from "../core/link";
 import { ErrorSummary, type ErrorSummaryError } from "./error-summary";
 import { Stepper, StepperItem } from "./stepper";
 import { ChevronLeftIcon } from "../../icons/chevron-left";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * FormStep is one page of a multi-step application: a back link, progress, the
@@ -125,7 +125,7 @@ const FormStep = forwardRef<HTMLFormElement, FormStepProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={onContinue}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 gap-stack-lg flex w-full max-w-2xl flex-col",
           className,
         )}

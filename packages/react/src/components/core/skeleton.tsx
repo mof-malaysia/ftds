@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * Skeleton holds the place of content that is still loading, in the shape it will
@@ -28,7 +28,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     <div
       ref={ref}
       aria-hidden="true"
-      className={clx(
+      className={cn(
         "bg-bg-washed block h-4 w-full rounded-md",
         "from-bg-washed via-bg-washed-active to-bg-washed animate-shimmer bg-gradient-to-r bg-[length:200%_100%]",
         "motion-reduce:animate-none",

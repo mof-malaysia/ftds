@@ -28,7 +28,7 @@ import {
 } from "react-day-picker";
 import { ChevronLeftIcon } from "../../icons/chevron-left";
 import { ChevronRightIcon } from "../../icons/chevron-right";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { Button } from "../core/button";
 
 type CalendarProps = DayPickerProps & {
@@ -54,7 +54,7 @@ const dateIn = (year: number, monthIndex: number, day: number) =>
   );
 
 /** Month navigation: quiet Well squares sized to the calendar, not to the density's controls. */
-const calendar_nav_button = clx(
+const calendar_nav_button = cn(
   "bg-bg-washed text-txt-black-900 hover:bg-bg-washed-active inline-flex size-8 cursor-pointer items-center justify-center rounded-md",
   "transition-colors duration-150 motion-reduce:transition-none focus-ring",
   "disabled:bg-bg-white-disabled disabled:text-txt-black-disabled disabled:cursor-not-allowed",
@@ -91,7 +91,7 @@ const calendar_day_classnames = {
     "text-txt-black-700 text-label-compact w-(--cal-cell) py-2 font-normal",
   week: "w-full mt-1.5",
   day: "aspect-square p-0",
-  day_button: clx(
+  day_button: cn(
     "text-txt-black-900 text-label-sm inline-flex size-(--cal-cell) cursor-pointer items-center justify-center rounded-md",
     "hover:bg-bg-washed transition-colors duration-150 motion-reduce:transition-none focus-ring",
     "disabled:text-txt-black-disabled disabled:cursor-not-allowed disabled:bg-transparent",
@@ -101,10 +101,10 @@ const calendar_day_classnames = {
   today: "today",
   outside: "text-txt-black-900 opacity-50",
   disabled: "",
-  range_start: clx("rounded-l-md", range_cap),
+  range_start: cn("rounded-l-md", range_cap),
   range_middle:
     "in-range bg-bg-primary-50 *:hover:bg-bg-primary-100 *:focus:bg-bg-primary-100",
-  range_end: clx("rounded-r-md", range_cap),
+  range_end: cn("rounded-r-md", range_cap),
   hidden: "invisible",
 };
 
@@ -154,7 +154,7 @@ const Calendar: FC<CalendarProps> = ({
       showOutsideDays={showOutsideDays}
       month={month}
       onMonthChange={setMonth}
-      className={clx(
+      className={cn(
         // The calendar owns its size: one cell is 40px comfortable, 32px compact, and
         // the width is seven cells plus padding, so popovers can wrap it with w-fit
         calendar_cell_size,
@@ -169,7 +169,7 @@ const Calendar: FC<CalendarProps> = ({
         caption_label: "text-label-sm font-medium",
         nav: "absolute right-0 flex gap-2 items-center",
         ...calendar_day_classnames,
-        selected: clx(
+        selected: cn(
           "selected",
           props.mode === "single"
             ? "*:bg-bg-primary-600 *:text-txt-white *:hover:bg-bg-primary-600 *:hover:text-txt-white *:focus:bg-bg-primary-600 *:focus:text-txt-white"
@@ -183,7 +183,7 @@ const Calendar: FC<CalendarProps> = ({
           const toggle = (monthOrYear: "month" | "year", formatStr: string) => (
             <Button
               variant={view === monthOrYear ? "unset" : "default-ghost"}
-              className={clx(
+              className={cn(
                 "text-body-md px-1.5 py-1 font-semibold",
                 view === monthOrYear
                   ? "text-txt-primary bg-bg-primary-50 ring-fr-primary focus-visible:ring"

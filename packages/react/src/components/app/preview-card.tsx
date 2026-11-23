@@ -4,7 +4,7 @@ import React, { forwardRef } from "react";
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 import { floating_popup_class } from "../core/popover";
 import {
-  clx,
+  cn,
   splitPositionerProps,
   type PositionerProps,
   type WithClassName,
@@ -38,7 +38,7 @@ const PreviewCardTrigger = forwardRef<
 >(({ className, ...props }, ref) => (
   <PreviewCardPrimitive.Trigger
     ref={ref}
-    className={clx(
+    className={cn(
       "text-txt-primary rounded-xs font-medium underline decoration-1 underline-offset-2",
       "hover:text-bg-primary-700 data-[popup-open]:text-bg-primary-700",
       "focus-ring outline-none",
@@ -75,7 +75,7 @@ const PreviewCardContent = forwardRef<HTMLDivElement, PreviewCardContentProps>(
         >
           <PreviewCardPrimitive.Popup
             ref={ref}
-            className={clx(
+            className={cn(
               floating_popup_class,
               "text-txt-black-900 font-body text-content w-72 p-4",
               className,

@@ -1,7 +1,7 @@
 import { forwardRef, ForwardRefExoticComponent } from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * InsetText sets a passage apart from the text around it: a deadline, a
@@ -30,7 +30,7 @@ const InsetText: ForwardRefExoticComponent<InsetTextProps> = forwardRef(
       ref,
       props: mergeProps<"div">(
         {
-          className: clx(
+          className: cn(
             "bg-bg-washed text-txt-black-900 font-body text-content flex max-w-[70ch] flex-col gap-stack-sm rounded-lg p-surface",
             className,
           ),
@@ -52,7 +52,7 @@ const InsetTextAuthor: ForwardRefExoticComponent<InsetTextAuthorProps> =
       ref,
       props: mergeProps<"figcaption">(
         {
-          className: clx(
+          className: cn(
             "text-txt-black-700 text-label-md font-medium",
             className,
           ),

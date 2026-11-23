@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 
 /**
  * EmptyState fills the space where a table, list or search would show results but
@@ -23,7 +23,7 @@ const EmptyState = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "font-body mx-auto flex w-full flex-col items-center text-center",
         "px-surface gap-2 py-12 in-data-[density=compact]:py-8",
         className,
@@ -43,7 +43,7 @@ const EmptyStateIcon = forwardRef<HTMLDivElement, ComponentProps<"div">>(
     <div
       ref={ref}
       aria-hidden="true"
-      className={clx(
+      className={cn(
         "bg-bg-washed text-txt-black-700 mb-2 flex size-12 items-center justify-center rounded-full",
         "[&_svg]:size-6 [&_svg]:shrink-0",
         className,
@@ -64,7 +64,7 @@ const EmptyStateTitle = forwardRef<HTMLHeadingElement, EmptyStateTitleProps>(
   ({ className, as: Comp = "h3", ...props }, ref) => (
     <Comp
       ref={ref}
-      className={clx("text-title text-txt-black-900 font-semibold", className)}
+      className={cn("text-title text-txt-black-900 font-semibold", className)}
       {...props}
     />
   ),
@@ -78,7 +78,7 @@ const EmptyStateDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clx("text-content text-txt-black-700 max-w-[50ch]", className)}
+    className={cn("text-content text-txt-black-700 max-w-[50ch]", className)}
     {...props}
   />
 ));
@@ -89,7 +89,7 @@ const EmptyStateActions = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "gap-stack-sm mt-4 flex flex-wrap items-center justify-center in-data-[density=compact]:mt-3",
         className,
       )}

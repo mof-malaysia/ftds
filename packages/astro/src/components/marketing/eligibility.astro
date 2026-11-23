@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Section from "@/components/ui/section.astro";
 import CheckCircleIcon from "@/components/ui/icons/check-circle.astro";
@@ -90,7 +90,7 @@ const hasNote = Boolean(note) || Astro.slots.has("note");
 >
   <slot name="title" slot="title" />
   <slot name="description" slot="description" />
-  <div class={clx("grid grid-cols-1 gap-4 md:gap-6", lists.length > 1 && "lg:grid-cols-2")}>
+  <div class={cn("grid grid-cols-1 gap-4 md:gap-6", lists.length > 1 && "lg:grid-cols-2")}>
     {
       lists.map(({ title, items, Icon, iconClass }) => (
         <div class="bg-bg-white flex flex-col gap-4 rounded-lg p-surface">
@@ -98,7 +98,7 @@ const hasNote = Boolean(note) || Astro.slots.has("note");
           <ul class="flex flex-col gap-3">
             {items.map((item) => (
               <li class="text-txt-black-900 text-content flex gap-3">
-                <Icon aria-hidden="true" class={clx("mt-0.5 size-5 shrink-0", iconClass)} />
+                <Icon aria-hidden="true" class={cn("mt-0.5 size-5 shrink-0", iconClass)} />
                 <span>{item}</span>
               </li>
             ))}

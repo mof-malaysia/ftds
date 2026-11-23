@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import Button from "@/components/ui/button.astro";
 
@@ -32,7 +32,7 @@ const lang = resolveLang(langProp, Astro.currentLocale);
   href={href}
   variant="primary-outline"
   size="small"
-  class={clx(
+  class={cn(
     // Visually hidden until focused
     "shadow-context-menu",
     "z-skiplink absolute size-[1px]",

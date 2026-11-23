@@ -57,11 +57,11 @@ Adjust the relative path to wherever `styles/ftds.css` was written.
 | Components                              | `components/ui/<name>.tsx`       | `@/components/ui/<name>`       |
 | Blocks (service screens, page sections) | `components/blocks/<name>.tsx`   | `@/components/blocks/<name>`   |
 | Icons                                   | `components/ui/icons/<name>.tsx` | `@/components/ui/icons/<name>` |
-| `utils` (`clx` and helpers)             | `lib/ftds/utils/`                | `@/lib/ftds/utils`             |
+| `utils` (`cn` and helpers)              | `lib/ftds/utils/`                | `@/lib/ftds/utils`             |
 | `hooks`                                 | `lib/ftds/hooks/`                | `@/lib/ftds/hooks`             |
 | Styles                                  | `styles/ftds.css`                | your global CSS                |
 
-FTDS leaves shadcn's own `lib/utils.ts` (`cn`) alone; FTDS components use `clx` from `@/lib/ftds/utils`.
+FTDS leaves shadcn's own `lib/utils.ts` alone. FTDS components use their own `cn` from `@/lib/ftds/utils`: same signature as shadcn's, but its tailwind-merge knows FTDS tokens. Use that one wherever you merge classes onto FTDS components.
 
 ## 5. Dark mode
 

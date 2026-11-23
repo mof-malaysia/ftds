@@ -10,7 +10,7 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { cva } from "class-variance-authority";
 import { CrossIcon } from "@/components/ui/icons/cross";
 import { Button } from "@/components/ui/button";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * Drawer is a panel that slides in from an edge of the screen and can be
@@ -159,7 +159,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
     return (
       <DrawerPrimitive.Portal container={container} keepMounted={keepMounted}>
         <DrawerPrimitive.Backdrop
-          className={clx(
+          className={cn(
             "bg-scrim z-overlay fixed inset-0 min-h-dvh",
             "opacity-[calc(0.4*(1-var(--drawer-swipe-progress,0)))]",
             "ease-standard transition-opacity duration-200 motion-reduce:transition-none",
@@ -170,7 +170,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
         <DrawerPrimitive.Viewport className={drawer_viewport_cva({ side })}>
           <DrawerPrimitive.Popup
             ref={ref}
-            className={clx(drawer_popup_cva({ side }), className)}
+            className={cn(drawer_popup_cva({ side }), className)}
             {...props}
           >
             {showHandle && (
@@ -184,7 +184,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
             </DrawerPrimitive.Content>
             {!hideClose && (
               <DrawerPrimitive.Close
-                className={clx(
+                className={cn(
                   "absolute right-4 grid place-content-center",
                   showHandle ? "top-5" : "top-4",
                 )}
@@ -210,7 +210,7 @@ const DrawerHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         // Right padding leaves room for the close button
         "px-surface pt-surface flex shrink-0 flex-col gap-1 pr-14 pb-2",
         className,
@@ -227,7 +227,7 @@ const DrawerTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
-    className={clx("text-txt-black-900 text-title font-semibold", className)}
+    className={cn("text-txt-black-900 text-title font-semibold", className)}
     {...props}
   />
 ));
@@ -239,7 +239,7 @@ const DrawerDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={clx("text-txt-black-700 text-content", className)}
+    className={cn("text-txt-black-700 text-content", className)}
     {...props}
   />
 ));
@@ -250,7 +250,7 @@ const DrawerBody = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "text-content text-txt-black-900 px-surface min-h-0 flex-1 overflow-y-auto overscroll-contain py-4",
         "in-data-[density=compact]:py-3",
         className,
@@ -266,7 +266,7 @@ const DrawerFooter = forwardRef<HTMLDivElement, ComponentProps<"div">>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         "gap-stack-sm px-surface flex shrink-0 flex-col-reverse pt-2 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]",
         "sm:flex-row sm:justify-end [&>*]:w-full [&>*]:justify-center sm:[&>*]:w-auto",
         "in-data-[density=compact]:pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",

@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import SectionHeading from "@/components/ui/section-heading.astro";
 
 /**
@@ -54,13 +54,13 @@ const avatarClass =
 
 <section
   aria-labelledby={hasTitle ? titleId : undefined}
-  class={clx("bg-bg-gray-50 font-body w-full", className)}
+  class={cn("bg-bg-gray-50 font-body w-full", className)}
   {...props}
 >
   <div
     class="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-4 py-12 md:px-6 md:py-16 lg:py-24"
   >
-    <SectionHeading titleId={titleId} title={title} class={clx(single && "text-center")}>
+    <SectionHeading titleId={titleId} title={title} class={cn(single && "text-center")}>
       <slot name="title" slot="title" />
     </SectionHeading>
     {
@@ -90,7 +90,7 @@ const avatarClass =
         </figure>
       ) : (
         <ul
-          class={clx(
+          class={cn(
             "grid grid-cols-1 gap-6 md:grid-cols-2",
             shown.length === 3 && "lg:grid-cols-3",
           )}

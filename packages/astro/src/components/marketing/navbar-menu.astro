@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, type Lang } from "@/lib/ftds/i18n";
 import ArrowForward from "@/components/ui/icons/arrow-forward.astro";
 import ChevronDown from "@/components/ui/icons/chevron-down.astro";
@@ -124,7 +124,7 @@ const panelProps = mobile
       id: dropdownId,
       popover: "auto",
       style: `position-anchor: --${item.key}`,
-      class: clx(
+      class: cn(
         "bg-bg-dialog border-otl-gray-200 shadow-context-menu text-txt-black-900 rounded-lg border",
         // Top layer: drop the UA's centred popover box, anchor under the trigger
         "inset-auto m-0 mt-2 p-0 [position-area:bottom_span-right] [position-try-fallbacks:flip-inline]",
@@ -134,7 +134,7 @@ const panelProps = mobile
       ),
       "data-ftds-navbar-dropdown": "",
     };
-const trigger_class = clx(
+const trigger_class = cn(
   navbar_menu_item_cva({ is_from_dropdown: false }),
   navbar_trigger_class,
   item.inSection && navbar_current_class,
@@ -143,19 +143,19 @@ const trigger_class = clx(
 
 {
   item.hasDropdown ? (
-    <li class={clx("relative list-none", !mobile && "group/menu")}>
+    <li class={cn("relative list-none", !mobile && "group/menu")}>
       {mobile ? null : (
         <button
           type="button"
           popovertarget={dropdownId}
           aria-controls={dropdownId}
-          class={clx(trigger_class, "focus-ring group-has-[:popover-open]/menu:bg-bg-washed-active")}
+          class={cn(trigger_class, "focus-ring group-has-[:popover-open]/menu:bg-bg-washed-active")}
           style={`anchor-name: --${item.key}`}
           data-ftds-navbar-trigger
         >
           {item.label}
           <ChevronDown
-            class={clx(navbar_chevron_class, "group-has-[:popover-open]/menu:rotate-180")}
+            class={cn(navbar_chevron_class, "group-has-[:popover-open]/menu:rotate-180")}
             aria-hidden="true"
           />
         </button>
@@ -163,13 +163,13 @@ const trigger_class = clx(
       <Panel {...panelProps}>
         {mobile && (
           <summary
-            class={clx(
+            class={cn(
               trigger_class,
               "focus-ring-inset group-open/details:bg-bg-washed-active list-none [&::-webkit-details-marker]:hidden",
             )}
           >
             {item.label}
-            <ChevronDown class={clx(navbar_chevron_class, "group-open/details:rotate-180")} aria-hidden="true" />
+            <ChevronDown class={cn(navbar_chevron_class, "group-open/details:rotate-180")} aria-hidden="true" />
           </summary>
         )}
         {/*
@@ -183,7 +183,7 @@ const trigger_class = clx(
               class={
                 mobile
                   ? "flex flex-col"
-                  : clx(
+                  : cn(
                       navbar_dropdown_list_class,
                       item.grouped
                         ? "auto-cols-[minmax(0,15rem)] grid-flow-col gap-x-4"
@@ -198,12 +198,12 @@ const trigger_class = clx(
                     <li class="list-none">
                       <a
                         href={link.href}
-                        class={clx(navbar_menu_rich_link_class, ring)}
+                        class={cn(navbar_menu_rich_link_class, ring)}
                         aria-current={link.current ? "page" : undefined}
                         {...linkData}
                       >
                         {Icon && (
-                          <span class={clx(navbar_menu_icon_tile_class)} aria-hidden="true">
+                          <span class={cn(navbar_menu_icon_tile_class)} aria-hidden="true">
                             <Icon />
                           </span>
                         )}
@@ -229,7 +229,7 @@ const trigger_class = clx(
                   );
                 });
                 return section.title ? (
-                  <li class={clx(navbar_group_class)}>
+                  <li class={cn(navbar_group_class)}>
                     <span id={headingId(section.title)} class={navbar_group_heading_class}>
                       {section.title}
                     </span>
@@ -239,7 +239,7 @@ const trigger_class = clx(
                   </li>
                 ) : item.grouped ? (
                   // Beside titled groups the list lays out in columns: keep the untitled links in one column.
-                  <li class={clx(navbar_group_class)}>
+                  <li class={cn(navbar_group_class)}>
                     <ul class="flex flex-col">{links}</ul>
                   </li>
                 ) : (
@@ -249,7 +249,7 @@ const trigger_class = clx(
             </ul>
             {item.feature && (
               <div class={mobile ? navbar_mobile_feature_class : navbar_dropdown_feature_class}>
-                <a href={item.feature.href} class={clx(navbar_feature_class, "focus-ring")} {...linkData}>
+                <a href={item.feature.href} class={cn(navbar_feature_class, "focus-ring")} {...linkData}>
                   {item.feature.eyebrow && <span class={navbar_feature_eyebrow_class}>{item.feature.eyebrow}</span>}
                   <span class={navbar_feature_title_class}>{item.feature.title}</span>
                   {item.feature.description && (
@@ -267,7 +267,7 @@ const trigger_class = clx(
             <div class={mobile ? navbar_mobile_footer_class : navbar_dropdown_footer_class}>
               <a
                 href={item.footer.href}
-                class={clx(navbar_footer_link_class, "focus-ring rounded-xs hover:underline")}
+                class={cn(navbar_footer_link_class, "focus-ring rounded-xs hover:underline")}
                 {...linkData}
               >
                 {item.footer.label}
@@ -279,8 +279,8 @@ const trigger_class = clx(
       </Panel>
     </li>
   ) : (
-    <li class={clx(navbar_menu_item_cva({ is_from_dropdown: false }), item.current && navbar_current_class)}>
-      <a href={item.href} class={clx(ring, "w-full rounded-xs")} aria-current={item.current ? "page" : undefined}>
+    <li class={cn(navbar_menu_item_cva({ is_from_dropdown: false }), item.current && navbar_current_class)}>
+      <a href={item.href} class={cn(ring, "w-full rounded-xs")} aria-current={item.current ? "page" : undefined}>
         {item.label}
       </a>
     </li>

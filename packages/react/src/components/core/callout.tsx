@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { type VariantProps } from "class-variance-authority";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { CheckCircleIcon } from "../../icons/check-circle";
 import {
   CrossIcon,
@@ -69,7 +69,7 @@ const Callout: ForwardRefExoticComponent<CalloutProps> = forwardRef(
             ref={ref}
             // Danger interrupts; the rest are announced politely when they appear
             role={variant === "danger" ? "alert" : "status"}
-            className={clx(calloutVariants({ variant }), className)}
+            className={cn(calloutVariants({ variant }), className)}
             {...props}
           >
             {variant && iconMap[variant]}
@@ -104,7 +104,7 @@ const CalloutTitle: ForwardRefExoticComponent<ComponentProps<"p">> = forwardRef(
       <p
         ref={ref}
         role="term"
-        className={clx("text-content font-semibold text-inherit", className)}
+        className={cn("text-content font-semibold text-inherit", className)}
         {...props}
       >
         {children}
@@ -120,7 +120,7 @@ const CalloutContent: ForwardRefExoticComponent<ComponentProps<"p">> =
       <p
         ref={ref}
         role="definition"
-        className={clx(
+        className={cn(
           "text-txt-black-900 peer text-content font-normal",
           className,
         )}
@@ -139,7 +139,7 @@ const CalloutAction: ForwardRefExoticComponent<CalloutActionProps> = forwardRef(
     return (
       <div
         ref={ref}
-        className={clx(
+        className={cn(
           "flex gap-1",
           "peer-[&[role=definition]]:pt-2",
           className,

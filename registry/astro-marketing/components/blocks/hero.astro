@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Button from "@/components/ui/button.astro";
 import Tag from "@/components/ui/tag.astro";
 
@@ -102,7 +102,7 @@ const secondary = secondary_action(tone, layout);
 
 <section
   aria-labelledby={titleId}
-  class={clx(band_cva({ tone }), band_class, className)}
+  class={cn(band_cva({ tone }), band_class, className)}
   {...props}
 >
   <div class={container_cva({ layout })}>

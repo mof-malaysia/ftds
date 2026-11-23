@@ -1,7 +1,7 @@
 ---
 // registry:block — composed page section, installs to components/blocks
 import type { HTMLAttributes } from "astro/types";
-import { clx, uniqueId } from "@/lib/ftds/utils";
+import { cn, uniqueId } from "@/lib/ftds/utils";
 import Button from "@/components/ui/button.astro";
 import SectionHeading from "@/components/ui/section-heading.astro";
 import CheckCircleIcon from "@/components/ui/icons/check-circle.astro";
@@ -69,18 +69,18 @@ const hasMedia = slots.has("media");
 
 <section
   aria-labelledby={hasTitle ? titleId : undefined}
-  class={clx(band_cva({ tone }), className)}
+  class={cn(band_cva({ tone }), className)}
   {...props}
 >
   <div class={container_cva()}>
     <div
-      class={clx(
+      class={cn(
         "bg-bg-white grid items-center gap-8 overflow-hidden rounded-lg",
         hasMedia && "lg:grid-cols-2 lg:gap-0",
       )}
     >
       <div
-        class={clx(
+        class={cn(
           "p-surface flex flex-col items-start gap-6 md:p-10 lg:p-12",
           hasMedia && mediaPosition === "left" && "lg:order-2",
         )}

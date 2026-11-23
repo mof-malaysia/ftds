@@ -17,7 +17,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { useMergedRefs } from "@/lib/ftds/hooks";
 import { Button, ButtonProps } from "@/components/ui/button";
 import { ChevronLeftIcon } from "@/components/ui/icons/chevron-left";
@@ -278,7 +278,7 @@ const Carousel: ForwardRefExoticComponent<
           ref={ref}
           role="region"
           aria-roledescription="carousel"
-          className={clx("relative flex flex-col gap-4", className)}
+          className={cn("relative flex flex-col gap-4", className)}
           onKeyDown={handleKeyDown}
           onPointerEnter={(e) => {
             onPointerEnter?.(e);
@@ -347,7 +347,7 @@ const CarouselContent: ForwardRefExoticComponent<
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       aria-live={autoplay && playing ? "off" : "polite"}
-      className={clx(
+      className={cn(
         "gap-stack-md relative flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth",
         "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         "focus-ring rounded-lg outline-none",
@@ -395,10 +395,7 @@ const CarouselItem: ForwardRefExoticComponent<
       aria-roledescription="slide"
       aria-label={labels.slide(index, count)}
       data-carousel-item=""
-      className={clx(
-        "min-w-0 shrink-0 grow-0 basis-full snap-start",
-        className,
-      )}
+      className={cn("min-w-0 shrink-0 grow-0 basis-full snap-start", className)}
       {...props}
     />
   );
@@ -506,7 +503,7 @@ const CarouselDots: ForwardRefExoticComponent<
   return (
     <div
       ref={ref}
-      className={clx("flex items-center gap-0.5", className)}
+      className={cn("flex items-center gap-0.5", className)}
       {...props}
     >
       {Array.from({ length: count }, (_, i) => {
@@ -518,14 +515,14 @@ const CarouselDots: ForwardRefExoticComponent<
             aria-label={labels.goTo(i)}
             aria-current={current ? "true" : undefined}
             onClick={() => scrollTo(i)}
-            className={clx(
+            className={cn(
               "group flex h-6 min-w-6 cursor-pointer items-center justify-center rounded-full outline-none",
               "focus-visible:outline-fr-primary focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-solid",
             )}
           >
             <span
               aria-hidden
-              className={clx(
+              className={cn(
                 "ease-standard block h-2 rounded-full transition-[width,background-color] duration-200 motion-reduce:transition-none",
                 current
                   ? "bg-bg-primary-600 w-5"

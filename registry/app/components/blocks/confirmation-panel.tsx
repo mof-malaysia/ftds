@@ -14,7 +14,7 @@ import { CopyIcon } from "@/components/ui/icons/copy";
 import { CheckIcon } from "@/components/ui/icons/check";
 import { PrinterIcon } from "@/components/ui/icons/printer";
 import { useCopy } from "@/lib/ftds/hooks";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * ConfirmationPanel ends a submission: a calm success panel with the reference
@@ -108,7 +108,7 @@ const ConfirmationPanel = forwardRef<HTMLElement, ConfirmationPanelProps>(
     return (
       <section
         ref={ref}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex w-full max-w-2xl flex-col gap-8",
           className,
         )}

@@ -2,7 +2,7 @@
 
 import React, { ReactNode, forwardRef } from "react";
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Slider picks a value, or a range with two thumbs, by dragging along a track.
@@ -47,7 +47,7 @@ interface SliderProps<
   children?: ReactNode;
 }
 
-const thumb_class = clx(
+const thumb_class = cn(
   // 20px visual, 28px hit area via the pseudo-element (≥ 24px target)
   "relative block size-5 rounded-full border border-otl-control bg-bg-white outline-none",
   "after:absolute after:-inset-1 after:rounded-full after:content-['']",
@@ -69,7 +69,7 @@ function SliderInner<Value extends number | readonly number[]>(
   return (
     <SliderPrimitive.Root
       ref={ref}
-      className={clx(
+      className={cn(
         "flex w-full touch-none flex-col gap-2 select-none",
         className,
       )}
@@ -117,7 +117,7 @@ const SliderValue = forwardRef<
 >(({ className, ...props }, ref) => (
   <SliderPrimitive.Value
     ref={ref}
-    className={clx(
+    className={cn(
       "font-body text-content text-txt-black-900 font-medium tabular-nums",
       className,
     )}

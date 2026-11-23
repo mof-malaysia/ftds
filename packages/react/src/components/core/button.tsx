@@ -7,7 +7,7 @@ import React, {
   useContext,
   LegacyRef,
 } from "react";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { type VariantProps } from "class-variance-authority";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
@@ -50,7 +50,7 @@ const Button: ForwardRefExoticComponent<ButtonProps> = forwardRef(
       render,
       ref,
       props: mergeProps<"button">(
-        { className: clx(button_cva({ variant, size, className, iconOnly })) },
+        { className: cn(button_cva({ variant, size, className, iconOnly })) },
         props,
       ),
     });
@@ -93,7 +93,7 @@ const ButtonCounter: ForwardRefExoticComponent<ButtonCounterProps> = forwardRef(
     const { variant, size } = useContext(ButtonContext);
 
     return (
-      <span ref={ref} className={clx(button_counter_cva({ variant, size }))}>
+      <span ref={ref} className={cn(button_counter_cva({ variant, size }))}>
         {children}
       </span>
     );

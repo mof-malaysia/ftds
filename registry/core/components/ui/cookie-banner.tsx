@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { cva } from "class-variance-authority";
 import { CrossIcon } from "@/components/ui/icons/cross";
 import { cookie_content_cva } from "@/components/ui/cookie-banner.variants";
@@ -77,7 +77,7 @@ const CookieBanner: FunctionComponent<CookieBannerProps> = ({
       >
         <DialogPrimitive.Portal>
           <DialogPrimitive.Popup
-            className={clx(
+            className={cn(
               cookie_content_cva(),
               cookie_content_animation,
               className,
@@ -128,7 +128,7 @@ const CookieBannerTitle: ForwardRefExoticComponent<CookieBannerTitleProps> =
     return (
       <DialogPrimitive.Title
         ref={ref}
-        className={clx(
+        className={cn(
           "text-body-md font-body text-txt-black-900 font-semibold",
           className,
         )}
@@ -141,7 +141,7 @@ const CookieBannerDescription: ForwardRefExoticComponent<CookieBannerDescription
     return (
       <DialogPrimitive.Description
         ref={ref}
-        className={clx(
+        className={cn(
           "text-body-sm font-body text-txt-black-900 font-normal",
           className,
         )}
@@ -161,7 +161,7 @@ const CookieBannerAction: ForwardRefExoticComponent<
   return (
     <div
       ref={ref}
-      className={clx(
+      className={cn(
         cookie_action_cva({
           showPreferences: context.showPreferences === preferences,
         }),
@@ -185,7 +185,7 @@ const CookieBannerPreferences: ForwardRefExoticComponent<CookieBannerDescription
     return (
       <DialogPrimitive.Description
         ref={ref}
-        className={clx("flex flex-col gap-2 px-0 py-3", className)}
+        className={cn("flex flex-col gap-2 px-0 py-3", className)}
         {...props}
       >
         {children}
@@ -218,7 +218,7 @@ const CookieBannerPreferencesTrigger: ForwardRefExoticComponent<
       ref,
       props: mergeProps<"button">(
         {
-          className: clx("w-full justify-center sm:w-auto", className),
+          className: cn("w-full justify-center sm:w-auto", className),
           onClick: togglePreferences,
         },
         props,

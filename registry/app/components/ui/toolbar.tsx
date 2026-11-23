@@ -14,7 +14,7 @@ import {
   type ToggleSize,
 } from "@/components/ui/toggle";
 import { combobox_field_box_class } from "@/components/ui/combobox";
-import { clx, type WithClassName } from "@/lib/ftds/utils";
+import { cn, type WithClassName } from "@/lib/ftds/utils";
 
 /**
  * Toolbar groups the controls that act on one thing: formatting buttons above
@@ -73,7 +73,7 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
       <ToolbarPrimitive.Root
         ref={ref}
         data-toolbar={variant}
-        className={clx(toolbar_cva({ variant }), className)}
+        className={cn(toolbar_cva({ variant }), className)}
         {...props}
       />
     </ToolbarContext.Provider>
@@ -114,7 +114,7 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         className={
           inGroup
             ? className
-            : clx(
+            : cn(
                 toggle_cva({
                   appearance: "standalone",
                   size: size ?? toolbar.size,
@@ -140,7 +140,7 @@ const ToolbarLink = forwardRef<
   return (
     <ToolbarPrimitive.Link
       ref={ref}
-      className={clx(
+      className={cn(
         toggle_cva({ appearance: "standalone", size: size ?? toolbar.size }),
         toolbar_on_well,
         "no-underline",
@@ -159,7 +159,7 @@ const ToolbarGroup = forwardRef<
 >(({ className, ...props }, ref) => (
   <ToolbarPrimitive.Group
     ref={ref}
-    className={clx(
+    className={cn(
       "flex items-center gap-1 data-[orientation=vertical]:flex-col",
       className,
     )}
@@ -175,7 +175,7 @@ const ToolbarSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <ToolbarPrimitive.Separator
     ref={ref}
-    className={clx(
+    className={cn(
       "bg-otl-gray-200 shrink-0",
       "data-[orientation=vertical]:mx-1 data-[orientation=vertical]:h-5 data-[orientation=vertical]:w-px",
       "data-[orientation=horizontal]:my-1 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full",
@@ -201,7 +201,7 @@ const ToolbarInput = forwardRef<
   return (
     <ToolbarPrimitive.Input
       ref={ref}
-      className={clx(
+      className={cn(
         combobox_field_box_class,
         "placeholder:text-txt-black-500 box-border min-w-0 px-3",
         toolbar_input_size[size ?? toolbar.size],

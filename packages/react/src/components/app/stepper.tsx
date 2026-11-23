@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { cva } from "class-variance-authority";
 import { CheckIcon } from "../../icons/check";
-import { clx } from "../../utils";
+import { cn } from "../../utils";
 import { progress_indicator_base_class, progress_track_cva } from "./progress";
 
 /**
@@ -89,7 +89,7 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
       <nav
         ref={ref}
         aria-label={ariaLabel}
-        className={clx("@container w-full", className)}
+        className={cn("@container w-full", className)}
         {...props}
       >
         {/* Narrow: "Step 2 of 4: Your income" and a progress line */}
@@ -102,12 +102,9 @@ const Stepper = forwardRef<HTMLElement, StepperProps>(
               <>: {currentItem.props.children}</>
             ) : null}
           </p>
-          <div aria-hidden className={clx(progress_track_cva(), "h-1")}>
+          <div aria-hidden className={cn(progress_track_cva(), "h-1")}>
             <div
-              className={clx(
-                progress_indicator_base_class,
-                "bg-bg-primary-600",
-              )}
+              className={cn(progress_indicator_base_class, "bg-bg-primary-600")}
               style={{
                 width: total ? `${((summaryIndex + 1) / total) * 100}%` : 0,
               }}
@@ -184,7 +181,7 @@ const StepperItem = forwardRef<HTMLLIElement, StepperItemProps>(
           {state === "complete" ? <CheckIcon className="size-4" /> : index + 1}
         </span>
         <span
-          className={clx(
+          className={cn(
             "font-body text-label-md min-w-0",
             state === "current"
               ? "text-txt-black-900 font-medium"
@@ -203,7 +200,7 @@ const StepperItem = forwardRef<HTMLLIElement, StepperItemProps>(
       <li
         ref={ref}
         aria-current={state === "current" ? "step" : undefined}
-        className={clx(
+        className={cn(
           // The last step has no connector, so it takes only its own width
           "group/step flex min-w-0 flex-1 items-center gap-3 last:flex-initial",
           className,
@@ -214,7 +211,7 @@ const StepperItem = forwardRef<HTMLLIElement, StepperItemProps>(
           <a
             href={href}
             onClick={onLinkClick}
-            className={clx(
+            className={cn(
               "flex min-w-0 items-center gap-2 rounded-md outline-none",
               "hover:[&>span:last-child]:text-txt-black-900 [&>span:last-child]:underline-offset-[3px] hover:[&>span:last-child]:underline",
               "focus-ring",
@@ -227,7 +224,7 @@ const StepperItem = forwardRef<HTMLLIElement, StepperItemProps>(
         )}
         <span
           aria-hidden
-          className={clx(
+          className={cn(
             "h-0.5 min-w-4 flex-1 rounded-full group-last/step:hidden",
             state === "complete" ? "bg-bg-primary-600" : "bg-bg-track",
           )}

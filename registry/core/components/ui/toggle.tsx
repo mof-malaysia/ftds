@@ -3,7 +3,7 @@
 import React, { createContext, forwardRef, useContext } from "react";
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * Toggle is a button that stays pressed, such as Bold in a toolbar or a
@@ -98,7 +98,7 @@ const Toggle = forwardRef<HTMLButtonElement, ToggleProps>(
     return (
       <TogglePrimitive
         ref={ref}
-        className={clx(
+        className={cn(
           toggle_cva({
             appearance: groupSize ? "segment" : "standalone",
             size: size ?? groupSize ?? "small",

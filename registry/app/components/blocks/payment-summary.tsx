@@ -23,7 +23,7 @@ import { CheckCircleIcon } from "@/components/ui/icons/check-circle";
 import { DownloadIcon } from "@/components/ui/icons/download";
 import { LockFillIcon } from "@/components/ui/icons/lock-fill";
 import { PrinterIcon } from "@/components/ui/icons/printer";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * PaymentSummary is the review step before paying: who is being paid, each line
@@ -199,7 +199,7 @@ const PaymentSummary = forwardRef<HTMLFormElement, PaymentSummaryProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={onPay}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex w-full max-w-2xl flex-col gap-8",
           className,
         )}
@@ -424,7 +424,7 @@ const PaymentReceipt = forwardRef<HTMLElement, PaymentReceiptProps>(
     return (
       <section
         ref={ref}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex w-full max-w-2xl flex-col gap-8",
           className,
         )}

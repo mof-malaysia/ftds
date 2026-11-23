@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { tag_cva } from "@/components/ui/tag.variants";
 
 /**
@@ -28,12 +28,12 @@ const {
 } = Astro.props;
 ---
 
-<span class={clx(tag_cva({ variant, size }), className)} {...props}>
+<span class={cn(tag_cva({ variant, size }), className)} {...props}>
   {
     dot && (
       <span
         aria-hidden="true"
-        class={clx(
+        class={cn(
           "inline-block shrink-0 rounded-full bg-current",
           size === "large" ? "size-2" : "size-1.5",
         )}

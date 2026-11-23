@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 import { label, resolveLang, type Lang } from "@/lib/ftds/i18n";
 import ChevronRight from "@/components/ui/icons/chevron-right.astro";
 
@@ -42,7 +42,7 @@ const ariaLabel = props["aria-label"] ?? label(lang, "breadcrumb");
 
 <nav {...props} aria-label={ariaLabel}>
   <ol
-    class={clx(
+    class={cn(
       "font-body text-label-sm flex min-w-0 flex-wrap items-center gap-1",
       className,
     )}

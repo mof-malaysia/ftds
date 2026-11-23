@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Link } from "@/components/ui/link";
 import { ErrorSummary } from "@/components/ui/error-summary";
-import { clx } from "@/lib/ftds/utils";
+import { cn } from "@/lib/ftds/utils";
 
 /**
  * CheckAnswers is the last page before submitting an application: every answer,
@@ -123,7 +123,7 @@ const CheckAnswers = forwardRef<HTMLFormElement, CheckAnswersProps>(
         noValidate
         aria-busy={pending || undefined}
         onSubmit={onSubmit}
-        className={clx(
+        className={cn(
           "font-body text-txt-black-900 flex w-full max-w-3xl flex-col gap-10",
           className,
         )}
