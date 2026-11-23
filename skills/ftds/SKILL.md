@@ -41,13 +41,13 @@ Don't edit the installed FTDS files (`styles/ftds.css`, `styles/ftds/*`, `*.vari
 
 ## Before you finish
 
-Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then run the FTDS checker on the files you changed, from the folder with `components.json`:
+Run the project's own lint, typecheck and tests (in a monorepo, build the workspace packages first if the typecheck can't find them, as the project's docs say). Then run the FTDS checker on the files you changed, beside `components.json`:
 
 ```bash
 node .claude/skills/ftds/scripts/ftds-check.mjs <files or folders>
 ```
 
-It reports each break of the rules above that shows in code, as `file:line rule message`. Fix every problem. Colours the project defines itself (`--color-*` in its own CSS) aren't problems, and the checker allows them. If one is deliberate, keep it with an `ftds-check-ignore` comment on that line or the line above that says why, and mention it in your summary. It doesn't check files FTDS installed (`components/ui`, `lib/ftds`, `styles/ftds`).
+Fix every problem it lists. It allows the project's own colours and skips FTDS's installed files. To keep a deliberate exception, add an `ftds-check-ignore` comment with the reason on that line or the one above, and mention it in your summary.
 
 Then check the result the way FTDS does, in the browser if you can:
 
