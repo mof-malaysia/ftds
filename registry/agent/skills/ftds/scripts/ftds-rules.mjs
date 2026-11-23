@@ -21,9 +21,11 @@ const COLOUR_UTILITY =
  *   message: string;
  *   imports?: boolean;
  *   stack?: Stack;
+ *   colour?: boolean;
  * }} Rule
  * A line rule. `imports` rules check import lines, which the others skip;
- * `stack` limits a rule to React or Astro files.
+ * `stack` limits a rule to React or Astro files; `colour` rules capture a
+ * colour name, which is allowed if the project defines it.
  * @typedef {{ rule: string; line: number; message: string; found: string }} Problem
  */
 
@@ -32,10 +34,12 @@ const RULES = [
   {
     rule: "tokens",
     pattern: new RegExp(
-      `(?<![\\w-])(?:[\\w-]+:)*(?:${COLOUR_UTILITY})-(?:${PALETTE})-\\d{2,3}(?![\\w-])`,
+      `(?<![\\w-])(?:[\\w-]+:)*(?:${COLOUR_UTILITY})-((?:${PALETTE})-\\d{2,3})(?![\\w-])`,
+      "g",
     ),
+    colour: true,
     message:
-      "Raw palette colour. Use FTDS tokens, which switch with dark mode: bg-bg-*, text-txt-*, border-otl-* (e.g. bg-bg-primary-600, text-txt-black-700, bg-bg-washed).",
+      "Raw palette colour. Use the project's own colour tokens if it has them, else FTDS tokens, which switch with dark mode: bg-bg-*, text-txt-*, border-otl-* (e.g. bg-bg-primary-600, text-txt-black-700, bg-bg-washed).",
   },
   {
     rule: "tokens",
@@ -43,13 +47,15 @@ const RULES = [
       // rgb(var(--token)) refers to a token, so it's allowed
       `(?<![\\w-])(?:${COLOUR_UTILITY})-\\[(?:#|(?:rgb|hsl|oklch)a?\\((?!var\\()|color:(?!var\\())`,
     ),
-    message: "Arbitrary colour value. Use an FTDS token instead.",
+    message:
+      "Arbitrary colour value. Use a colour token (the project's, or FTDS's) instead.",
   },
   {
     rule: "tokens",
     pattern:
       /(?:color|background|backgroundColor|borderColor)\s*:\s*["'`](?:#|rgb|hsl)/,
-    message: "Inline colour style. Use an FTDS token class instead.",
+    message:
+      "Inline colour style. Use a colour token class (the project's, or FTDS's) instead.",
   },
   {
     rule: "no-gradients",
@@ -118,17 +124,32 @@ const RULES = [
 /** Saturated button variants; one per screen (DESIGN.md, the One Blue Rule). */
 const PRIMARY = "primary-fill";
 
+/**
+ * The colour names a stylesheet defines: `primary-600` for
+ * `--color-primary-600: …`, as Tailwind's @theme does.
+ * @param {string} css
+ */
+export const definedColours = (css) =>
+  [...css.matchAll(/--color-([\w-]+)\s*:/g)].map(
+    (m) => /** @type {string} */ (m[1]),
+  );
+
 /** @param {string} file */
 export const stackOf = (file) => (file.endsWith(".astro") ? "astro" : "react");
 
 /**
  * Every problem in one file's text. `imports: false` leaves out the import
- * rules, for a caller that checks imports itself.
+ * rules, for a caller that checks imports itself. `colours` are the colour
+ * names the project defines itself (`primary-600` for `--color-primary-600`),
+ * which take precedence over FTDS's, so they're allowed.
  * @param {string} text
- * @param {{ stack?: Stack; imports?: boolean }} [options]
+ * @param {{ stack?: Stack; imports?: boolean; colours?: Set<string> }} [options]
  * @returns {Problem[]}
  */
-export function checkSource(text, { stack = "react", imports = true } = {}) {
+export function checkSource(
+  text,
+  { stack = "react", imports = true, colours = new Set() } = {},
+) {
   const lines = text.split("\n");
   const marked = text.includes("ftds-check-ignore");
   const ignored = (/** @type {number} */ index) =>
@@ -145,7 +166,9 @@ export function checkSource(text, { stack = "react", imports = true } = {}) {
     for (const rule of RULES) {
       if (rule.imports ? !imports : isImport) continue;
       if (rule.stack && rule.stack !== stack) continue;
-      const match = code.match(rule.pattern);
+      const match = rule.colour
+        ? [...code.matchAll(rule.pattern)].find((m) => !colours.has(m[1] ?? ""))
+        : code.match(rule.pattern);
       if (match) {
         problems.push({
           rule: rule.rule,

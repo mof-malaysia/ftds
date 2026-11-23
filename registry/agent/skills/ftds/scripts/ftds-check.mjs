@@ -12,6 +12,11 @@
  * FTDS's own. Prints `file:line  rule  message` per problem and exits 1 if it
  * found any.
  *
+ * Colours the project defines itself (`--color-*` in its own CSS, outside
+ * FTDS's theme files) take precedence over FTDS's, so their classes are
+ * allowed. Run it from the folder with components.json: that's where it
+ * looks for the project's CSS.
+ *
  * To keep a line it flags, put `ftds-check-ignore` in a comment on that line
  * or the line above, and say why.
  *
@@ -20,7 +25,7 @@
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { extname, join, sep } from "node:path";
-import { checkSource, stackOf } from "./ftds-rules.mjs";
+import { checkSource, definedColours, stackOf } from "./ftds-rules.mjs";
 
 const EXTENSIONS = new Set([
   ".tsx",
@@ -51,15 +56,16 @@ const SKIP_DIRS = new Set([
 const FTDS_OWN = /(?:^|\/)(?:components\/ui|lib\/ftds|styles\/ftds)(?:\/|\.)/;
 
 /**
- * The files to check under each path: folders are walked, files are kept if
- * they're a kind this checks (so a hook can pass every staged file).
+ * The files under each path with one of `extensions`: folders are walked,
+ * files are kept if they match (so a hook can pass every staged file).
  * @param {string[]} paths
+ * @param {Set<string>} extensions
  * @returns {string[]}
  */
-function collect(paths) {
+function collect(paths, extensions) {
   /** @param {string} file */
   const wanted = (file) =>
-    EXTENSIONS.has(extname(file)) &&
+    extensions.has(extname(file)) &&
     !file.endsWith(".d.ts") &&
     !FTDS_OWN.test(file.split(sep).join("/")) &&
     !file.split(sep).some((part) => SKIP_DIRS.has(part));
@@ -95,11 +101,17 @@ function main(args) {
     );
     return 0;
   }
-  const files = collect(args.length ? args : ["."]);
+  const files = collect(args.length ? args : ["."], EXTENSIONS);
+  const colours = new Set(
+    collect(["."], new Set([".css"])).flatMap((css) =>
+      definedColours(readFileSync(css, "utf-8")),
+    ),
+  );
   let count = 0;
   for (const file of files) {
     const problems = checkSource(readFileSync(file, "utf-8"), {
       stack: stackOf(file),
+      colours,
     });
     for (const p of problems) {
       console.log(

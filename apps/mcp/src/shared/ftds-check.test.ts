@@ -62,6 +62,46 @@ test("shadcn and Radix habits", () => {
   );
 });
 
+test("colours the project defines itself are allowed", () => {
+  const colours = new Set(["primary-600"]);
+  assert.deepEqual(
+    checkSource(`<a className="text-primary-600">`, { colours }),
+    [],
+  );
+  // Only the project's own names: other raw colours on the line still count
+  assert.deepEqual(
+    checkSource(`<a className="text-primary-600 bg-danger-600">`, {
+      colours,
+    }).map((p) => p.found),
+    ["bg-danger-600"],
+  );
+});
+
+test("the command reads the project's colours, not FTDS's theme", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "ftds-check-"));
+  fs.mkdirSync(path.join(root, "src/styles/ftds"), { recursive: true });
+  fs.writeFileSync(
+    path.join(root, "src/styles/app.css"),
+    "@theme {\n  --color-primary-600: var(--agency-primary);\n}",
+  );
+  fs.writeFileSync(
+    path.join(root, "src/styles/ftds/theme.css"),
+    "@theme { --color-danger-600: #dc2626; }",
+  );
+  fs.writeFileSync(
+    path.join(root, "src/page.tsx"),
+    `<a className="text-primary-600" />\n<p className="text-danger-600" />`,
+  );
+  const result = spawnSync(process.execPath, [SCRIPT, "src"], {
+    cwd: root,
+    encoding: "utf-8",
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /page\.tsx:2 {2}tokens/);
+  assert.doesNotMatch(result.stdout, /page\.tsx:1 /);
+  fs.rmSync(root, { recursive: true });
+});
+
 test("Astro files keep native inputs, selects and tables", () => {
   assert.deepEqual(rules(`<input type="search" name="q" />`, "astro"), []);
   assert.deepEqual(rules(`<table>`, "astro"), []);
